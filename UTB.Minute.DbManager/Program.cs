@@ -1,87 +1,97 @@
-using UTB.Minute.Db;
 using Microsoft.EntityFrameworkCore;
+using UTB.Minute.Db;
+using UTB.Minute.Db.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
-// Add PostgreSQL database via service discovery
-builder.Services.AddDbContext<MinuteDbContext>((context) =>
+builder.Services.AddDbContext<MinuteDbContext>(options =>
 {
-    var connectionString = builder.Configuration.GetConnectionString("minute-db") 
+    var connectionString = builder.Configuration.GetConnectionString("minute-db")
         ?? throw new InvalidOperationException("Connection string 'minute-db' not found.");
-    context.UseNpgsql(connectionString);
+
+    options.UseNpgsql(connectionString);
 });
 
 var app = builder.Build();
+
+// Ensure database exists and migrations are applied
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<MinuteDbContext>();
+    await dbContext.Database.MigrateAsync();
+}
 
 app.MapDefaultEndpoints();
 
 app.UseHttpsRedirection();
 
-// Http Command: Reset database (delete and recreate)
-app.MapPost("/reset-database", async (MinuteDbContext dbContext) =>
+app.MapPost("/reset-database", ResetDatabase)
+    .WithName("ResetDatabase");
+
+app.Run();
+
+static async Task<IResult> ResetDatabase(MinuteDbContext dbContext)
 {
     try
     {
-        // Delete database
-        await dbContext.Database.EnsureDeletedAsync();
+        // Ensure DB and tables exist
+        await dbContext.Database.MigrateAsync();
 
-        // Create database with migrations
-        await dbContext.Database.EnsureCreatedAsync();
+        // Delete data in correct order because of foreign keys
+        await dbContext.Database.ExecuteSqlRawAsync("""DELETE FROM "Orders";""");
+        await dbContext.Database.ExecuteSqlRawAsync("""DELETE FROM "MenuItems";""");
+        await dbContext.Database.ExecuteSqlRawAsync("""DELETE FROM "Meals";""");
 
-        // Seed test data
         await SeedDatabaseAsync(dbContext);
 
-        return Results.Ok(new { message = "Database reset and seeded successfully" });
+        return Results.Ok(new { message = "Database reset and seeded successfully." });
     }
     catch (Exception ex)
     {
         return Results.BadRequest(new { error = ex.Message });
     }
-})
-.WithName("ResetDatabase");
+}
 
-app.Run();
-
-// Seed test data
-async Task SeedDatabaseAsync(MinuteDbContext dbContext)
+static async Task SeedDatabaseAsync(MinuteDbContext dbContext)
 {
     if (await dbContext.Meals.AnyAsync())
+    {
         return;
+    }
 
-    // Create test meals
     var meals = new[]
     {
-        new UTB.Minute.Db.Entities.Meal
+        new Meal
         {
             Id = Guid.NewGuid(),
-            Name = "Kuřecí řízek",
-            Description = "Křupavý kuřecí řízek s bramborami",
+            Name = "Chicken schnitzel",
+            Description = "Crispy chicken schnitzel with potatoes",
             Price = 120,
             IsActive = true
         },
-        new UTB.Minute.Db.Entities.Meal
+        new Meal
         {
             Id = Guid.NewGuid(),
-            Name = "Vepřové guláš",
-            Description = "Tradičníguláš s bramborovým těstovinou",
+            Name = "Pork goulash",
+            Description = "Traditional goulash with pasta",
             Price = 140,
             IsActive = true
         },
-        new UTB.Minute.Db.Entities.Meal
+        new Meal
         {
             Id = Guid.NewGuid(),
-            Name = "Rybí filé",
-            Description = "Pečené rybí filé se špenátem",
+            Name = "Fish fillet",
+            Description = "Baked fish fillet with spinach",
             Price = 150,
             IsActive = true
         },
-        new UTB.Minute.Db.Entities.Meal
+        new Meal
         {
             Id = Guid.NewGuid(),
-            Name = "Vegetariánský burger",
-            Description = "Domácí burger s bylinkavým sýrem",
+            Name = "Vegetarian burger",
+            Description = "Homemade burger with herb cheese",
             Price = 110,
             IsActive = true
         }
@@ -90,9 +100,9 @@ async Task SeedDatabaseAsync(MinuteDbContext dbContext)
     await dbContext.Meals.AddRangeAsync(meals);
     await dbContext.SaveChangesAsync();
 
-    // Create menu items for today
-    var today = DateOnly.FromDateTime(DateTime.Now);
-    var menuItems = meals.Select((meal, index) => new UTB.Minute.Db.Entities.MenuItem
+    var today = DateOnly.FromDateTime(DateTime.Today);
+
+    var menuItems = meals.Select((meal, index) => new MenuItem
     {
         Id = Guid.NewGuid(),
         MealId = meal.Id,

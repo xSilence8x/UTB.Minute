@@ -3,6 +3,42 @@
   "WorkspaceRootPath": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{21742470-3BF4-0E3B-0732-606D6E29A785}|UTB.Minute.DbManager\\UTB.Minute.DbManager.csproj|c:\\users\\xsile\\source\\repos\\utb.minute\\utb.minute.dbmanager\\utb.minute.dbmanager.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
+      "RelativeMoniker": "D:0:0:{21742470-3BF4-0E3B-0732-606D6E29A785}|UTB.Minute.DbManager\\UTB.Minute.DbManager.csproj|solutionrelative:utb.minute.dbmanager\\utb.minute.dbmanager.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{21742470-3BF4-0E3B-0732-606D6E29A785}|UTB.Minute.DbManager\\UTB.Minute.DbManager.csproj|c:\\users\\xsile\\source\\repos\\utb.minute\\utb.minute.dbmanager\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{21742470-3BF4-0E3B-0732-606D6E29A785}|UTB.Minute.DbManager\\UTB.Minute.DbManager.csproj|solutionrelative:utb.minute.dbmanager\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{511397AE-D3AA-C293-AD1F-7F0314A4111B}|UTB.Minute.WebApi\\UTB.Minute.WebApi.csproj|c:\\users\\xsile\\source\\repos\\utb.minute\\utb.minute.webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{511397AE-D3AA-C293-AD1F-7F0314A4111B}|UTB.Minute.WebApi\\UTB.Minute.WebApi.csproj|solutionrelative:utb.minute.webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{31D23D25-1900-8623-F280-54D3DE3440CE}|UTB.Minute.Web\\UTB.Minute.Web.csproj|c:\\users\\xsile\\source\\repos\\utb.minute\\utb.minute.web\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{31D23D25-1900-8623-F280-54D3DE3440CE}|UTB.Minute.Web\\UTB.Minute.Web.csproj|solutionrelative:utb.minute.web\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F0D3CA16-E083-CD9E-AB30-575DD500C512}|UTB.Minute.Db\\UTB.Minute.Db.csproj|c:\\users\\xsile\\source\\repos\\utb.minute\\utb.minute.db\\minutedbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F0D3CA16-E083-CD9E-AB30-575DD500C512}|UTB.Minute.Db\\UTB.Minute.Db.csproj|solutionrelative:utb.minute.db\\minutedbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F0D3CA16-E083-CD9E-AB30-575DD500C512}|UTB.Minute.Db\\UTB.Minute.Db.csproj|c:\\users\\xsile\\source\\repos\\utb.minute\\utb.minute.db\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F0D3CA16-E083-CD9E-AB30-575DD500C512}|UTB.Minute.Db\\UTB.Minute.Db.csproj|solutionrelative:utb.minute.db\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F0D3CA16-E083-CD9E-AB30-575DD500C512}|UTB.Minute.Db\\UTB.Minute.Db.csproj|c:\\users\\xsile\\source\\repos\\utb.minute\\utb.minute.db\\entities\\meal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F0D3CA16-E083-CD9E-AB30-575DD500C512}|UTB.Minute.Db\\UTB.Minute.Db.csproj|solutionrelative:utb.minute.db\\entities\\meal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F0D3CA16-E083-CD9E-AB30-575DD500C512}|UTB.Minute.Db\\UTB.Minute.Db.csproj|c:\\users\\xsile\\source\\repos\\utb.minute\\utb.minute.db\\utb.minute.db.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{F0D3CA16-E083-CD9E-AB30-575DD500C512}|UTB.Minute.Db\\UTB.Minute.Db.csproj|solutionrelative:utb.minute.db\\utb.minute.db.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{511397AE-D3AA-C293-AD1F-7F0314A4111B}|UTB.Minute.WebApi\\UTB.Minute.WebApi.csproj|c:\\users\\xsile\\source\\repos\\utb.minute\\utb.minute.webapi\\utb.minute.webapi.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{511397AE-D3AA-C293-AD1F-7F0314A4111B}|UTB.Minute.WebApi\\UTB.Minute.WebApi.csproj|solutionrelative:utb.minute.webapi\\utb.minute.webapi.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{AFA8BCA6-BFDD-FF84-5E0E-7BC8E6D77D08}|UTB.Minute.Contracts\\UTB.Minute.Contracts.csproj|c:\\users\\xsile\\source\\repos\\utb.minute\\utb.minute.contracts\\orders\\updateorderstatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AFA8BCA6-BFDD-FF84-5E0E-7BC8E6D77D08}|UTB.Minute.Contracts\\UTB.Minute.Contracts.csproj|solutionrelative:utb.minute.contracts\\orders\\updateorderstatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -13,10 +49,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{6DF0A1F0-AFFB-1F91-B8FD-5C74E5F62E90}|UTB.Minute.AdminClient\\UTB.Minute.AdminClient.csproj|c:\\users\\xsile\\source\\repos\\utb.minute\\utb.minute.adminclient\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6DF0A1F0-AFFB-1F91-B8FD-5C74E5F62E90}|UTB.Minute.AdminClient\\UTB.Minute.AdminClient.csproj|solutionrelative:utb.minute.adminclient\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{511397AE-D3AA-C293-AD1F-7F0314A4111B}|UTB.Minute.WebApi\\UTB.Minute.WebApi.csproj|c:\\users\\xsile\\source\\repos\\utb.minute\\utb.minute.webapi\\utb.minute.webapi.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{511397AE-D3AA-C293-AD1F-7F0314A4111B}|UTB.Minute.WebApi\\UTB.Minute.WebApi.csproj|solutionrelative:utb.minute.webapi\\utb.minute.webapi.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
       "AbsoluteMoniker": "D:0:0:{21742470-3BF4-0E3B-0732-606D6E29A785}|UTB.Minute.DbManager\\UTB.Minute.DbManager.csproj|c:\\users\\xsile\\source\\repos\\utb.minute\\utb.minute.dbmanager\\utb.minute.dbmanager.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
@@ -63,10 +95,6 @@
       "RelativeMoniker": "D:0:0:{AFA8BCA6-BFDD-FF84-5E0E-7BC8E6D77D08}|UTB.Minute.Contracts\\UTB.Minute.Contracts.csproj|solutionrelative:utb.minute.contracts\\utb.minute.contracts.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F0D3CA16-E083-CD9E-AB30-575DD500C512}|UTB.Minute.Db\\UTB.Minute.Db.csproj|c:\\users\\xsile\\source\\repos\\utb.minute\\utb.minute.db\\minutedbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F0D3CA16-E083-CD9E-AB30-575DD500C512}|UTB.Minute.Db\\UTB.Minute.Db.csproj|solutionrelative:utb.minute.db\\minutedbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{F0D3CA16-E083-CD9E-AB30-575DD500C512}|UTB.Minute.Db\\UTB.Minute.Db.csproj|c:\\users\\xsile\\source\\repos\\utb.minute\\utb.minute.db\\entities\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F0D3CA16-E083-CD9E-AB30-575DD500C512}|UTB.Minute.Db\\UTB.Minute.Db.csproj|solutionrelative:utb.minute.db\\entities\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -75,16 +103,8 @@
       "RelativeMoniker": "D:0:0:{F0D3CA16-E083-CD9E-AB30-575DD500C512}|UTB.Minute.Db\\UTB.Minute.Db.csproj|solutionrelative:utb.minute.db\\entities\\menuitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F0D3CA16-E083-CD9E-AB30-575DD500C512}|UTB.Minute.Db\\UTB.Minute.Db.csproj|c:\\users\\xsile\\source\\repos\\utb.minute\\utb.minute.db\\entities\\meal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F0D3CA16-E083-CD9E-AB30-575DD500C512}|UTB.Minute.Db\\UTB.Minute.Db.csproj|solutionrelative:utb.minute.db\\entities\\meal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{F0D3CA16-E083-CD9E-AB30-575DD500C512}|UTB.Minute.Db\\UTB.Minute.Db.csproj|c:\\users\\xsile\\source\\repos\\utb.minute\\utb.minute.db\\entities\\orderstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F0D3CA16-E083-CD9E-AB30-575DD500C512}|UTB.Minute.Db\\UTB.Minute.Db.csproj|solutionrelative:utb.minute.db\\entities\\orderstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F0D3CA16-E083-CD9E-AB30-575DD500C512}|UTB.Minute.Db\\UTB.Minute.Db.csproj|c:\\users\\xsile\\source\\repos\\utb.minute\\utb.minute.db\\utb.minute.db.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{F0D3CA16-E083-CD9E-AB30-575DD500C512}|UTB.Minute.Db\\UTB.Minute.Db.csproj|solutionrelative:utb.minute.db\\utb.minute.db.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
       "AbsoluteMoniker": "D:0:0:{9009C168-931C-6E6C-4509-718CCA9A3F70}|UTB.Minute.WebApi.Tests\\UTB.Minute.WebApi.Tests.csproj|c:\\users\\xsile\\source\\repos\\utb.minute\\utb.minute.webapi.tests\\utb.minute.webapi.tests.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
@@ -99,8 +119,16 @@
       "RelativeMoniker": "D:0:0:{AFA8BCA6-BFDD-FF84-5E0E-7BC8E6D77D08}|UTB.Minute.Contracts\\UTB.Minute.Contracts.csproj|solutionrelative:utb.minute.contracts\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F0D3CA16-E083-CD9E-AB30-575DD500C512}|UTB.Minute.Db\\UTB.Minute.Db.csproj|c:\\users\\xsile\\source\\repos\\utb.minute\\utb.minute.db\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F0D3CA16-E083-CD9E-AB30-575DD500C512}|UTB.Minute.Db\\UTB.Minute.Db.csproj|solutionrelative:utb.minute.db\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F0D3CA16-E083-CD9E-AB30-575DD500C512}|UTB.Minute.Db\\UTB.Minute.Db.csproj|c:\\users\\xsile\\source\\repos\\utb.minute\\utb.minute.db\\migrations\\designtimedbcontextfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F0D3CA16-E083-CD9E-AB30-575DD500C512}|UTB.Minute.Db\\UTB.Minute.Db.csproj|solutionrelative:utb.minute.db\\migrations\\designtimedbcontextfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{511397AE-D3AA-C293-AD1F-7F0314A4111B}|UTB.Minute.WebApi\\UTB.Minute.WebApi.csproj|c:\\users\\xsile\\source\\repos\\utb.minute\\utb.minute.webapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{511397AE-D3AA-C293-AD1F-7F0314A4111B}|UTB.Minute.WebApi\\UTB.Minute.WebApi.csproj|solutionrelative:utb.minute.webapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{21742470-3BF4-0E3B-0732-606D6E29A785}|UTB.Minute.DbManager\\UTB.Minute.DbManager.csproj|c:\\users\\xsile\\source\\repos\\utb.minute\\utb.minute.dbmanager\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{21742470-3BF4-0E3B-0732-606D6E29A785}|UTB.Minute.DbManager\\UTB.Minute.DbManager.csproj|solutionrelative:utb.minute.dbmanager\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -110,94 +138,45 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 2,
           "Children": [
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e1b7d1f8-9b3c-49b1-8f4f-bfc63a88835d}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.AdminClient\\Program.cs",
-              "RelativeDocumentMoniker": "UTB.Minute.AdminClient\\Program.cs",
-              "ToolTip": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.AdminClient\\Program.cs",
-              "RelativeToolTip": "UTB.Minute.AdminClient\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-19T09:20:25.371Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "AppHost.cs",
-              "DocumentMoniker": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.AppHost\\AppHost.cs",
-              "RelativeDocumentMoniker": "UTB.Minute.AppHost\\AppHost.cs",
-              "ToolTip": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.AppHost\\AppHost.cs",
-              "RelativeToolTip": "UTB.Minute.AppHost\\AppHost.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAgAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-19T09:18:21.489Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "UpdateOrderStateDto.cs",
-              "DocumentMoniker": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Contracts\\Orders\\UpdateOrderStateDto.cs",
-              "RelativeDocumentMoniker": "UTB.Minute.Contracts\\Orders\\UpdateOrderStateDto.cs",
-              "ToolTip": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Contracts\\Orders\\UpdateOrderStateDto.cs",
-              "RelativeToolTip": "UTB.Minute.Contracts\\Orders\\UpdateOrderStateDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAZAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-19T09:14:02.206Z",
+              "Title": "UTB.Minute.DbManager.http",
+              "DocumentMoniker": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.DbManager\\UTB.Minute.DbManager.http",
+              "RelativeDocumentMoniker": "UTB.Minute.DbManager\\UTB.Minute.DbManager.http",
+              "ToolTip": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.DbManager\\UTB.Minute.DbManager.http",
+              "RelativeToolTip": "UTB.Minute.DbManager\\UTB.Minute.DbManager.http",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
+              "WhenOpened": "2026-04-19T15:10:39.715Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "CreateOrderDto.cs",
-              "DocumentMoniker": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Contracts\\Orders\\CreateOrderDto.cs",
-              "RelativeDocumentMoniker": "UTB.Minute.Contracts\\Orders\\CreateOrderDto.cs",
-              "ToolTip": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Contracts\\Orders\\CreateOrderDto.cs",
-              "RelativeToolTip": "UTB.Minute.Contracts\\Orders\\CreateOrderDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAYAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-19T09:13:41.726Z"
+              "DocumentIndex": 30,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.WebApi\\appsettings.json",
+              "RelativeDocumentMoniker": "UTB.Minute.WebApi\\appsettings.json",
+              "ToolTip": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.WebApi\\appsettings.json",
+              "RelativeToolTip": "UTB.Minute.WebApi\\appsettings.json",
+              "ViewState": "AgIAAAIAAAAAAAAAAABBwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-04-19T14:57:38.553Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "OrderDto.cs",
-              "DocumentMoniker": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Contracts\\Orders\\OrderDto.cs",
-              "RelativeDocumentMoniker": "UTB.Minute.Contracts\\Orders\\OrderDto.cs",
-              "ToolTip": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Contracts\\Orders\\OrderDto.cs",
-              "RelativeToolTip": "UTB.Minute.Contracts\\Orders\\OrderDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAZAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-19T09:13:24.23Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "OrderStateDto.cs",
-              "DocumentMoniker": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Contracts\\Orders\\OrderStateDto.cs",
-              "RelativeDocumentMoniker": "UTB.Minute.Contracts\\Orders\\OrderStateDto.cs",
-              "ToolTip": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Contracts\\Orders\\OrderStateDto.cs",
-              "RelativeToolTip": "UTB.Minute.Contracts\\Orders\\OrderStateDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-19T09:13:06.851Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 16,
               "Title": "UpdateMenuItemDto.cs",
               "DocumentMoniker": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Contracts\\MenuItems\\UpdateMenuItemDto.cs",
               "RelativeDocumentMoniker": "UTB.Minute.Contracts\\MenuItems\\UpdateMenuItemDto.cs",
@@ -209,7 +188,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 17,
               "Title": "CreateMenuItemDto.cs",
               "DocumentMoniker": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Contracts\\MenuItems\\CreateMenuItemDto.cs",
               "RelativeDocumentMoniker": "UTB.Minute.Contracts\\MenuItems\\CreateMenuItemDto.cs",
@@ -221,19 +200,210 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "MinuteDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Db\\MinuteDbContext.cs",
+              "RelativeDocumentMoniker": "UTB.Minute.Db\\MinuteDbContext.cs",
+              "ToolTip": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Db\\MinuteDbContext.cs",
+              "RelativeToolTip": "UTB.Minute.Db\\MinuteDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-19T09:07:29.947Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.DbManager\\Program.cs",
+              "RelativeDocumentMoniker": "UTB.Minute.DbManager\\Program.cs",
+              "ToolTip": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.DbManager\\Program.cs",
+              "RelativeToolTip": "UTB.Minute.DbManager\\Program.cs",
+              "ViewState": "AgIAAFoAAAAAAAAAAAAqwHIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-19T13:37:51.716Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.DbManager\\appsettings.json",
+              "RelativeDocumentMoniker": "UTB.Minute.DbManager\\appsettings.json",
+              "ToolTip": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.DbManager\\appsettings.json",
+              "RelativeToolTip": "UTB.Minute.DbManager\\appsettings.json",
+              "ViewState": "AgIAAAIAAAAAAAAAAABBwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-04-19T14:57:55.318Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "UTB.Minute.Db.csproj",
+              "DocumentMoniker": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Db\\UTB.Minute.Db.csproj",
+              "RelativeDocumentMoniker": "UTB.Minute.Db\\UTB.Minute.Db.csproj",
+              "ToolTip": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Db\\UTB.Minute.Db.csproj",
+              "RelativeToolTip": "UTB.Minute.Db\\UTB.Minute.Db.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-04-19T08:46:00.606Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 3,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Web\\Program.cs",
+              "RelativeDocumentMoniker": "UTB.Minute.Web\\Program.cs",
+              "ToolTip": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Web\\Program.cs",
+              "RelativeToolTip": "UTB.Minute.Web\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-19T14:25:17.497Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "UTB.Minute.WebApi.csproj",
               "DocumentMoniker": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.WebApi\\UTB.Minute.WebApi.csproj",
               "RelativeDocumentMoniker": "UTB.Minute.WebApi\\UTB.Minute.WebApi.csproj",
               "ToolTip": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.WebApi\\UTB.Minute.WebApi.csproj",
               "RelativeToolTip": "UTB.Minute.WebApi\\UTB.Minute.WebApi.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAgAAAAAAAAAAABBwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-04-19T08:44:01.06Z"
+              "WhenOpened": "2026-04-19T08:44:01.06Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.WebApi\\Program.cs",
+              "RelativeDocumentMoniker": "UTB.Minute.WebApi\\Program.cs",
+              "ToolTip": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.WebApi\\Program.cs",
+              "RelativeToolTip": "UTB.Minute.WebApi\\Program.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAUwNEBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-19T13:38:24.454Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "DesignTimeDbContextFactory.cs",
+              "DocumentMoniker": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Db\\Migrations\\DesignTimeDbContextFactory.cs",
+              "RelativeDocumentMoniker": "UTB.Minute.Db\\Migrations\\DesignTimeDbContextFactory.cs",
+              "ToolTip": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Db\\Migrations\\DesignTimeDbContextFactory.cs",
+              "RelativeToolTip": "UTB.Minute.Db\\Migrations\\DesignTimeDbContextFactory.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-19T14:08:58.03Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Meal.cs",
+              "DocumentMoniker": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Db\\Entities\\Meal.cs",
+              "RelativeDocumentMoniker": "UTB.Minute.Db\\Entities\\Meal.cs",
+              "ToolTip": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Db\\Entities\\Meal.cs",
+              "RelativeToolTip": "UTB.Minute.Db\\Entities\\Meal.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-19T09:04:21.593Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "OrderStateDto.cs",
+              "DocumentMoniker": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Contracts\\Orders\\OrderStateDto.cs",
+              "RelativeDocumentMoniker": "UTB.Minute.Contracts\\Orders\\OrderStateDto.cs",
+              "ToolTip": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Contracts\\Orders\\OrderStateDto.cs",
+              "RelativeToolTip": "UTB.Minute.Contracts\\Orders\\OrderStateDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-19T09:13:06.851Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Class1.cs",
+              "DocumentMoniker": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Db\\Class1.cs",
+              "RelativeDocumentMoniker": "UTB.Minute.Db\\Class1.cs",
+              "ToolTip": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Db\\Class1.cs",
+              "RelativeToolTip": "UTB.Minute.Db\\Class1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-19T08:31:23.871Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "OrderDto.cs",
+              "DocumentMoniker": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Contracts\\Orders\\OrderDto.cs",
+              "RelativeDocumentMoniker": "UTB.Minute.Contracts\\Orders\\OrderDto.cs",
+              "ToolTip": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Contracts\\Orders\\OrderDto.cs",
+              "RelativeToolTip": "UTB.Minute.Contracts\\Orders\\OrderDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-19T09:13:24.23Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "UpdateOrderStateDto.cs",
+              "DocumentMoniker": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Contracts\\Orders\\UpdateOrderStateDto.cs",
+              "RelativeDocumentMoniker": "UTB.Minute.Contracts\\Orders\\UpdateOrderStateDto.cs",
+              "ToolTip": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Contracts\\Orders\\UpdateOrderStateDto.cs",
+              "RelativeToolTip": "UTB.Minute.Contracts\\Orders\\UpdateOrderStateDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-19T09:14:02.206Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "CreateOrderDto.cs",
+              "DocumentMoniker": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Contracts\\Orders\\CreateOrderDto.cs",
+              "RelativeDocumentMoniker": "UTB.Minute.Contracts\\Orders\\CreateOrderDto.cs",
+              "ToolTip": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Contracts\\Orders\\CreateOrderDto.cs",
+              "RelativeToolTip": "UTB.Minute.Contracts\\Orders\\CreateOrderDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-19T09:13:41.726Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 10,
+              "Title": "AppHost.cs",
+              "DocumentMoniker": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.AppHost\\AppHost.cs",
+              "RelativeDocumentMoniker": "UTB.Minute.AppHost\\AppHost.cs",
+              "ToolTip": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.AppHost\\AppHost.cs",
+              "RelativeToolTip": "UTB.Minute.AppHost\\AppHost.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAABBwAkAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-19T09:18:21.489Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.AdminClient\\Program.cs",
+              "RelativeDocumentMoniker": "UTB.Minute.AdminClient\\Program.cs",
+              "ToolTip": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.AdminClient\\Program.cs",
+              "RelativeToolTip": "UTB.Minute.AdminClient\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-19T09:20:25.371Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
               "Title": "MenuItemDto.cs",
               "DocumentMoniker": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Contracts\\MenuItems\\MenuItemDto.cs",
               "RelativeDocumentMoniker": "UTB.Minute.Contracts\\MenuItems\\MenuItemDto.cs",
@@ -245,7 +415,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 19,
               "Title": "UpdateMealDto.cs",
               "DocumentMoniker": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Contracts\\Meals\\UpdateMealDto.cs",
               "RelativeDocumentMoniker": "UTB.Minute.Contracts\\Meals\\UpdateMealDto.cs",
@@ -257,7 +427,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 20,
               "Title": "CreateMealDto.cs",
               "DocumentMoniker": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Contracts\\Meals\\CreateMealDto.cs",
               "RelativeDocumentMoniker": "UTB.Minute.Contracts\\Meals\\CreateMealDto.cs",
@@ -269,7 +439,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 21,
               "Title": "MealDto.cs",
               "DocumentMoniker": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Contracts\\Meals\\MealDto.cs",
               "RelativeDocumentMoniker": "UTB.Minute.Contracts\\Meals\\MealDto.cs",
@@ -281,7 +451,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 22,
               "Title": "UTB.Minute.Contracts.csproj",
               "DocumentMoniker": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Contracts\\UTB.Minute.Contracts.csproj",
               "RelativeDocumentMoniker": "UTB.Minute.Contracts\\UTB.Minute.Contracts.csproj",
@@ -289,23 +459,12 @@
               "RelativeToolTip": "UTB.Minute.Contracts\\UTB.Minute.Contracts.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-04-19T09:08:55.004Z"
+              "WhenOpened": "2026-04-19T09:08:55.004Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "MinuteDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Db\\MinuteDbContext.cs",
-              "RelativeDocumentMoniker": "UTB.Minute.Db\\MinuteDbContext.cs",
-              "ToolTip": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Db\\MinuteDbContext.cs",
-              "RelativeToolTip": "UTB.Minute.Db\\MinuteDbContext.cs",
-              "ViewState": "AgIAABUAAAAAAAAAAAAowC8AAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-19T09:07:29.947Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 23,
               "Title": "Order.cs",
               "DocumentMoniker": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Db\\Entities\\Order.cs",
               "RelativeDocumentMoniker": "UTB.Minute.Db\\Entities\\Order.cs",
@@ -317,7 +476,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 24,
               "Title": "MenuItem.cs",
               "DocumentMoniker": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Db\\Entities\\MenuItem.cs",
               "RelativeDocumentMoniker": "UTB.Minute.Db\\Entities\\MenuItem.cs",
@@ -329,19 +488,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "Meal.cs",
-              "DocumentMoniker": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Db\\Entities\\Meal.cs",
-              "RelativeDocumentMoniker": "UTB.Minute.Db\\Entities\\Meal.cs",
-              "ToolTip": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Db\\Entities\\Meal.cs",
-              "RelativeToolTip": "UTB.Minute.Db\\Entities\\Meal.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAA0AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-19T09:04:21.593Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 25,
               "Title": "OrderState.cs",
               "DocumentMoniker": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Db\\Entities\\OrderState.cs",
               "RelativeDocumentMoniker": "UTB.Minute.Db\\Entities\\OrderState.cs",
@@ -353,19 +500,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "UTB.Minute.Db.csproj",
-              "DocumentMoniker": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Db\\UTB.Minute.Db.csproj",
-              "RelativeDocumentMoniker": "UTB.Minute.Db\\UTB.Minute.Db.csproj",
-              "ToolTip": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Db\\UTB.Minute.Db.csproj",
-              "RelativeToolTip": "UTB.Minute.Db\\UTB.Minute.Db.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-04-19T08:46:00.606Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 26,
               "Title": "UTB.Minute.WebApi.Tests.csproj",
               "DocumentMoniker": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.WebApi.Tests\\UTB.Minute.WebApi.Tests.csproj",
               "RelativeDocumentMoniker": "UTB.Minute.WebApi.Tests\\UTB.Minute.WebApi.Tests.csproj",
@@ -373,23 +508,25 @@
               "RelativeToolTip": "UTB.Minute.WebApi.Tests\\UTB.Minute.WebApi.Tests.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-04-19T08:44:29.705Z"
+              "WhenOpened": "2026-04-19T08:44:29.705Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 12,
               "Title": "UTB.Minute.DbManager.csproj",
               "DocumentMoniker": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.DbManager\\UTB.Minute.DbManager.csproj",
               "RelativeDocumentMoniker": "UTB.Minute.DbManager\\UTB.Minute.DbManager.csproj",
               "ToolTip": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.DbManager\\UTB.Minute.DbManager.csproj",
               "RelativeToolTip": "UTB.Minute.DbManager\\UTB.Minute.DbManager.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAgAAAAAAAAAAABBwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-04-19T08:43:14.903Z"
+              "WhenOpened": "2026-04-19T08:43:14.903Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 27,
               "Title": "UnitTest1.cs",
               "DocumentMoniker": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.WebApi.Tests\\UnitTest1.cs",
               "RelativeDocumentMoniker": "UTB.Minute.WebApi.Tests\\UnitTest1.cs",
@@ -401,7 +538,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 28,
               "Title": "Class1.cs",
               "DocumentMoniker": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Contracts\\Class1.cs",
               "RelativeDocumentMoniker": "UTB.Minute.Contracts\\Class1.cs",
@@ -410,18 +547,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-19T08:32:20.731Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 24,
-              "Title": "Class1.cs",
-              "DocumentMoniker": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Db\\Class1.cs",
-              "RelativeDocumentMoniker": "UTB.Minute.Db\\Class1.cs",
-              "ToolTip": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Db\\Class1.cs",
-              "RelativeToolTip": "UTB.Minute.Db\\Class1.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-19T08:31:23.871Z"
             }
           ]
         }

@@ -1,0 +1,19 @@
+﻿@DbManagerHost = http://localhost:7172
+@WebApiHost = http://localhost:5001
+
+### Reset database
+POST {{DbManagerHost}}/reset-database
+Content-Type: application/json
+
+{}
+
+### Get all meals
+GET {{WebApiHost}}/meals
+
+### Get today menu items
+GET {{WebApiHost}}/menu-items/today
+
+### Get all orders
+GET {{WebApiHost}}/orders
+
+

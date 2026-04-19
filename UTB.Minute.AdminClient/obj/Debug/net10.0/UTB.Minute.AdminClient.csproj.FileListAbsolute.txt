@@ -112,3 +112,4 @@ C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.AdminClient\obj\Debug\net10.0\
 C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.AdminClient\obj\Debug\net10.0\UTB.Minute.AdminClient.pdb
 C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.AdminClient\obj\Debug\net10.0\UTB.Minute.AdminClient.genruntimeconfig.cache
 C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.AdminClient\obj\Debug\net10.0\ref\UTB.Minute.AdminClient.dll
+C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.AdminClient\obj\Debug\net10.0\UTB.Minute.AdminClient.sourcelink.json

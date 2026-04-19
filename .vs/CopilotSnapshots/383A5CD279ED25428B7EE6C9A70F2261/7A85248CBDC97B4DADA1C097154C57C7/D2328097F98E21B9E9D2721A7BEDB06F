@@ -1,0 +1,12 @@
+﻿{
+  "ConnectionStrings": {
+    "minute-db": "Server={postgres_host|localhost};Port={postgres_port|5432};Database=minute;User Id=minute;Password=minute"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*"
+}

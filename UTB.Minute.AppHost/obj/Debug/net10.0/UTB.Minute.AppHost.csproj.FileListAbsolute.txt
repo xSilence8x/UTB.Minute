@@ -104,3 +104,4 @@ C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.AppHost\obj\Debug\net10.0\refi
 C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.AppHost\obj\Debug\net10.0\UTB.Minute.AppHost.pdb
 C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.AppHost\obj\Debug\net10.0\UTB.Minute.AppHost.genruntimeconfig.cache
 C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.AppHost\obj\Debug\net10.0\ref\UTB.Minute.AppHost.dll
+C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.AppHost\obj\Debug\net10.0\UTB.Minute.AppHost.sourcelink.json

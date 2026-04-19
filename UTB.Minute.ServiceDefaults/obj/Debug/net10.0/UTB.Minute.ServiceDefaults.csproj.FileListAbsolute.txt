@@ -10,3 +10,4 @@ C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.ServiceDefaults\obj\Debug\net1
 C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.ServiceDefaults\obj\Debug\net10.0\refint\UTB.Minute.ServiceDefaults.dll
 C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.ServiceDefaults\obj\Debug\net10.0\UTB.Minute.ServiceDefaults.pdb
 C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.ServiceDefaults\obj\Debug\net10.0\ref\UTB.Minute.ServiceDefaults.dll
+C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.ServiceDefaults\obj\Debug\net10.0\UTB.Minute.ServiceDefaults.sourcelink.json

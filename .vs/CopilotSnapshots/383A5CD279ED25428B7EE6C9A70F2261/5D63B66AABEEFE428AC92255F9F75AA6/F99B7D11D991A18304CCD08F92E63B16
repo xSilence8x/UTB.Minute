@@ -1,0 +1,109 @@
+﻿using Microsoft.EntityFrameworkCore;
+using UTB.Minute.Db;
+using UTB.Minute.Db.Entities;
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.AddServiceDefaults();
+
+builder.Services.AddDbContext<MinuteDbContext>(options =>
+{
+    var connectionString = builder.Configuration.GetConnectionString("minute-db")
+        ?? throw new InvalidOperationException("Connection string 'minute-db' not found.");
+
+    Console.WriteLine($"DbManager Connection String: {connectionString}");
+    options.UseNpgsql(connectionString);
+});
+
+var app = builder.Build();
+
+app.MapDefaultEndpoints();
+
+app.UseHttpsRedirection();
+
+app.MapPost("/reset-database", ResetDatabase)
+    .WithName("ResetDatabase");
+
+app.Run();
+
+static async Task<IResult> ResetDatabase(MinuteDbContext dbContext)
+{
+    try
+    {
+        // Nesmažeme EnsureDeletedAsync - to by smazalo i migrační historii!
+        // Místo toho vyprazdníme tabulky v správném pořadí (kvůli cizím klíčům)
+
+        // Smazat všechny objednávky
+        await dbContext.Database.ExecuteSqlAsync($"DELETE FROM \"Orders\"");
+
+        // Smazat všechny položky menu
+        await dbContext.Database.ExecuteSqlAsync($"DELETE FROM \"MenuItems\"");
+
+        // Smazat všechna jídla
+        await dbContext.Database.ExecuteSqlAsync($"DELETE FROM \"Meals\"");
+
+        // Seed testovacích dat
+        await SeedDatabaseAsync(dbContext);
+
+        return Results.Ok(new { message = "Database reset and seeded successfully." });
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
+}
+
+static async Task SeedDatabaseAsync(MinuteDbContext dbContext)
+{
+    var meals = new[]
+    {
+        new Meal
+        {
+            Id = Guid.NewGuid(),
+            Name = "Kuřecí řízek",
+            Description = "Křupavý kuřecí řízek s bramborami",
+            Price = 120,
+            IsActive = true
+        },
+        new Meal
+        {
+            Id = Guid.NewGuid(),
+            Name = "Vepřové guláš",
+            Description = "Tradiční guláš s těstovinou",
+            Price = 140,
+            IsActive = true
+        },
+        new Meal
+        {
+            Id = Guid.NewGuid(),
+            Name = "Rybí filé",
+            Description = "Pečené rybí filé se špenátem",
+            Price = 150,
+            IsActive = true
+        },
+        new Meal
+        {
+            Id = Guid.NewGuid(),
+            Name = "Vegetariánský burger",
+            Description = "Domácí burger s bylinkovým sýrem",
+            Price = 110,
+            IsActive = true
+        }
+    };
+
+    await dbContext.Meals.AddRangeAsync(meals);
+    await dbContext.SaveChangesAsync();
+
+    var today = DateOnly.FromDateTime(DateTime.Today);
+
+    var menuItems = meals.Select((meal, index) => new MenuItem
+    {
+        Id = Guid.NewGuid(),
+        MealId = meal.Id,
+        Date = today,
+        AvailablePortions = 10 + (index * 5)
+    }).ToList();
+
+    await dbContext.MenuItems.AddRangeAsync(menuItems);
+    await dbContext.SaveChangesAsync();
+}

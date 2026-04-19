@@ -1,6 +1,23 @@
-@UTB.Minute.DbManager_HostAddress = http://localhost:5296
+@DbManagerHost = https://localhost:7172
+@WebApiHost = https://localhost:5001
 
-GET {{UTB.Minute.DbManager_HostAddress}}/weatherforecast/
-Accept: application/json
+### Reset database
+POST {{DbManagerHost}}/reset-database
+Content-Type: application/json
 
-###
+{}
+
+### 
+GET {{DbManagerHost}}/health
+Content-Type: application/json
+
+
+### Get all meals
+GET {{WebApiHost}}/meals
+
+### Get today menu items
+GET {{WebApiHost}}/menu-items/today
+
+### Get all orders
+GET {{WebApiHost}}/orders
+

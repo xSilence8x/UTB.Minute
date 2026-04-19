@@ -6,34 +6,25 @@ var builder = DistributedApplication.CreateBuilder(args);
 var postgres = builder.AddPostgres("postgres")
     .AddDatabase("minute-db", "minute");
 
-// Add Keycloak for authentication
-var keycloak = builder.AddKeycloak("keycloak");
-
 // Add WebAPI with PostgreSQL reference
 var webApi = builder.AddProject<Projects.UTB_Minute_WebApi>("webapi")
     .WithHttpHealthCheck("/health")
     .WithReference(postgres)
-    .WithReference(keycloak)
-    .WaitFor(postgres)
-    .WaitFor(keycloak);
+    .WaitFor(postgres);
 
 // Add CanteenClient (for students and cooks)
 builder.AddProject<Projects.UTB_Minute_CanteenClient>("canteenclient")
     .WithExternalHttpEndpoints()
     .WithHttpHealthCheck("/health")
     .WithReference(webApi)
-    .WithReference(keycloak)
-    .WaitFor(webApi)
-    .WaitFor(keycloak);
+    .WaitFor(webApi);
 
 // Add AdminClient (for canteen management)
 builder.AddProject<Projects.UTB_Minute_AdminClient>("adminclient")
     .WithExternalHttpEndpoints()
     .WithHttpHealthCheck("/health")
     .WithReference(webApi)
-    .WithReference(keycloak)
-    .WaitFor(webApi)
-    .WaitFor(keycloak);
+    .WaitFor(webApi);
 
 // Add DbManager for database management
 builder.AddProject<Projects.UTB_Minute_DbManager>("dbmanager")

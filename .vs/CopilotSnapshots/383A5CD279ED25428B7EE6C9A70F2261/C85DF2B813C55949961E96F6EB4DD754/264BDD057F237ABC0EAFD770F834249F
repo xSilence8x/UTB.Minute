@@ -1,0 +1,121 @@
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
+using UTB.Minute.Contracts.Meals;
+using UTB.Minute.Db;
+using UTB.Minute.Db.Entities;
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.AddServiceDefaults();
+
+// Add PostgreSQL database via service discovery
+builder.Services.AddDbContext<MinuteDbContext>(options =>
+{
+    var connectionString = builder.Configuration.GetConnectionString("minute-db")
+        ?? throw new InvalidOperationException("Connection string 'minute-db' not found.");
+
+    options.UseNpgsql(connectionString);
+});
+
+// Add services
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
+var app = builder.Build();
+
+app.MapDefaultEndpoints();
+
+// Configure the HTTP request pipeline
+app.UseCors("AllowAll");
+app.UseHttpsRedirection();
+
+// Meals endpoints
+app.MapGet("/meals", GetMeals);
+app.MapGet("/meals/{id:guid}", GetMealById);
+app.MapPost("/meals", CreateMeal);
+app.MapPut("/meals/{id:guid}", UpdateMeal);
+
+app.Run();
+
+static async Task<Ok<List<MealDto>>> GetMeals(MinuteDbContext db)
+{
+    var meals = await db.Meals
+        .Select(m => new MealDto(
+            m.Id,
+            m.Name,
+            m.Description,
+            m.Price,
+            m.IsActive))
+        .ToListAsync();
+
+    return TypedResults.Ok(meals);
+}
+
+static async Task<Results<Ok<MealDto>, NotFound>> GetMealById(Guid id, MinuteDbContext db)
+{
+    var meal = await db.Meals.FindAsync(id);
+
+    if (meal is null)
+    {
+        return TypedResults.NotFound();
+    }
+
+    var dto = new MealDto(
+        meal.Id,
+        meal.Name,
+        meal.Description,
+        meal.Price,
+        meal.IsActive);
+
+    return TypedResults.Ok(dto);
+}
+
+static async Task<Created<MealDto>> CreateMeal(CreateMealDto input, MinuteDbContext db)
+{
+    var meal = new Meal
+    {
+        Id = Guid.NewGuid(),
+        Name = input.Name,
+        Description = input.Description,
+        Price = input.Price,
+        IsActive = true
+    };
+
+    db.Meals.Add(meal);
+    await db.SaveChangesAsync();
+
+    var dto = new MealDto(
+        meal.Id,
+        meal.Name,
+        meal.Description,
+        meal.Price,
+        meal.IsActive);
+
+    return TypedResults.Created($"/meals/{meal.Id}", dto);
+}
+
+static async Task<Results<NoContent, NotFound>> UpdateMeal(Guid id, UpdateMealDto input, MinuteDbContext db)
+{
+    var meal = await db.Meals.FindAsync(id);
+
+    if (meal is null)
+    {
+        return TypedResults.NotFound();
+    }
+
+    meal.Name = input.Name;
+    meal.Description = input.Description;
+    meal.Price = input.Price;
+    meal.IsActive = input.IsActive;
+
+    await db.SaveChangesAsync();
+
+    return TypedResults.NoContent();
+}

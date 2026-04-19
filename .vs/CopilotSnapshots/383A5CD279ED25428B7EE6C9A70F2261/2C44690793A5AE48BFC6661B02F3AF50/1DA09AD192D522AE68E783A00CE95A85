@@ -1,0 +1,7 @@
+﻿@UTB.Minute.DbManager_HostAddress = https://localhost:7172
+
+### Reset database
+POST {{UTB.Minute.DbManager_HostAddress}}/reset-database
+Content-Type: application/json
+
+{}

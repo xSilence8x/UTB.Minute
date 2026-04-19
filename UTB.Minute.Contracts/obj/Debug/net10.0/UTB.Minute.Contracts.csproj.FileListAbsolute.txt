@@ -9,3 +9,4 @@ C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.Contracts\obj\Debug\net10.0\UT
 C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.Contracts\obj\Debug\net10.0\refint\UTB.Minute.Contracts.dll
 C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.Contracts\obj\Debug\net10.0\UTB.Minute.Contracts.pdb
 C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.Contracts\obj\Debug\net10.0\ref\UTB.Minute.Contracts.dll
+C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.Contracts\obj\Debug\net10.0\UTB.Minute.Contracts.sourcelink.json

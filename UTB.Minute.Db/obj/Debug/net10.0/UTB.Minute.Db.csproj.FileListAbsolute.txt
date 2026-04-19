@@ -12,3 +12,4 @@ C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.Db\obj\Debug\net10.0\refint\UT
 C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.Db\obj\Debug\net10.0\UTB.Minute.Db.pdb
 C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.Db\obj\Debug\net10.0\UTB.Minute.Db.genruntimeconfig.cache
 C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.Db\obj\Debug\net10.0\ref\UTB.Minute.Db.dll
+C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.Db\obj\Debug\net10.0\UTB.Minute.Db.sourcelink.json

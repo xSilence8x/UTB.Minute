@@ -108,3 +108,4 @@ C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.Web\obj\Debug\net10.0\refint\U
 C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.Web\obj\Debug\net10.0\UTB.Minute.Web.pdb
 C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.Web\obj\Debug\net10.0\UTB.Minute.Web.genruntimeconfig.cache
 C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.Web\obj\Debug\net10.0\ref\UTB.Minute.Web.dll
+C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.Web\obj\Debug\net10.0\UTB.Minute.Web.sourcelink.json
