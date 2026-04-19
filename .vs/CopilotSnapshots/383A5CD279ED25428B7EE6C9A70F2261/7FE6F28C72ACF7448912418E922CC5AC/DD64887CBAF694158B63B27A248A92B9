@@ -1,0 +1,40 @@
+﻿using UTB.Minute.Db;
+using Microsoft.EntityFrameworkCore;
+using Aspire.Hosting;
+using Aspire.Hosting.PostgreSQL;
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.AddServiceDefaults();
+
+// Add PostgreSQL database
+var postgresConnection = builder.AddPostgres("postgres")
+    .AddDatabase("minute-db", "minute");
+
+// Register DbContext with PostgreSQL
+builder.Services.AddDbContext<MinuteDbContext>((context) =>
+{
+    context.UseNpgsql(postgresConnection.ConnectionStringExpression);
+});
+
+// Add services
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
+
+var app = builder.Build();
+
+app.MapDefaultEndpoints();
+
+// Configure the HTTP request pipeline
+app.UseCors("AllowAll");
+
+app.UseHttpsRedirection();
+
+app.Run();

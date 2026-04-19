@@ -1,0 +1,108 @@
+﻿using UTB.Minute.Db;
+using Microsoft.EntityFrameworkCore;
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.AddServiceDefaults();
+
+// Add PostgreSQL database
+var postgresConnection = builder.AddPostgres("postgres")
+    .AddDatabase("minute-db", "minute");
+
+// Register DbContext
+builder.Services.AddDbContext<MinuteDbContext>((context) =>
+{
+    context.UseNpgsql(postgresConnection.ConnectionStringExpression);
+});
+
+var app = builder.Build();
+
+app.MapDefaultEndpoints();
+
+app.UseHttpsRedirection();
+
+// Http Command: Reset database (delete and recreate)
+app.MapPost("/reset-database", async (MinuteDbContext dbContext) =>
+{
+    try
+    {
+        // Delete database
+        await dbContext.Database.EnsureDeletedAsync();
+
+        // Create database with migrations
+        await dbContext.Database.EnsureCreatedAsync();
+
+        // Seed test data
+        await SeedDatabaseAsync(dbContext);
+
+        return Results.Ok(new { message = "Database reset and seeded successfully" });
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
+})
+.WithName("ResetDatabase")
+.WithOpenApi();
+
+app.Run();
+
+// Seed test data
+async Task SeedDatabaseAsync(MinuteDbContext dbContext)
+{
+    if (await dbContext.Meals.AnyAsync())
+        return;
+
+    // Create test meals
+    var meals = new[]
+    {
+        new UTB.Minute.Db.Entities.Meal
+        {
+            Id = Guid.NewGuid(),
+            Name = "Kuřecí řízek",
+            Description = "Křupavý kuřecí řízek s bramborami",
+            Price = 120,
+            IsActive = true
+        },
+        new UTB.Minute.Db.Entities.Meal
+        {
+            Id = Guid.NewGuid(),
+            Name = "Vepřové guláš",
+            Description = "Tradičníguláš s bramborovým těstovinou",
+            Price = 140,
+            IsActive = true
+        },
+        new UTB.Minute.Db.Entities.Meal
+        {
+            Id = Guid.NewGuid(),
+            Name = "Rybí filé",
+            Description = "Pečené rybí filé se špenátem",
+            Price = 150,
+            IsActive = true
+        },
+        new UTB.Minute.Db.Entities.Meal
+        {
+            Id = Guid.NewGuid(),
+            Name = "Vegetariánský burger",
+            Description = "Domácí burger s bylinkavým sýrem",
+            Price = 110,
+            IsActive = true
+        }
+    };
+
+    await dbContext.Meals.AddRangeAsync(meals);
+    await dbContext.SaveChangesAsync();
+
+    // Create menu items for today
+    var today = DateOnly.FromDateTime(DateTime.Now);
+    var menuItems = meals.Select((meal, index) => new UTB.Minute.Db.Entities.MenuItem
+    {
+        Id = Guid.NewGuid(),
+        MealId = meal.Id,
+        Date = today,
+        AvailablePortions = 10 + (index * 5)
+    }).ToList();
+
+    await dbContext.MenuItems.AddRangeAsync(menuItems);
+    await dbContext.SaveChangesAsync();
+}

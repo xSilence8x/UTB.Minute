@@ -1,0 +1,6 @@
+@UTB.Minute.WebApi_HostAddress = http://localhost:5206
+
+GET {{UTB.Minute.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

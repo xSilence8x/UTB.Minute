@@ -1,0 +1,26 @@
+﻿var builder = DistributedApplication.CreateBuilder(args);
+
+var webApi = builder.AddProject<Projects.UTB_Minute_WebApi>("webapi")
+    .WithHttpHealthCheck("/health");
+
+builder.AddProject<Projects.UTB_Minute_CanteenClient>("canteenclient")
+    .WithExternalHttpEndpoints()
+    .WithHttpHealthCheck("/health")
+    .WithReference(webApi)
+    .WaitFor(webApi);
+
+builder.AddProject<Projects.UTB_Minute_AdminClient>("adminclient")
+    .WithExternalHttpEndpoints()
+    .WithHttpHealthCheck("/health")
+    .WithReference(webApi)
+    .WaitFor(webApi);
+
+builder.AddProject<Projects.UTB_Minute_WebApi>("utb-minute-webapi");
+
+builder.AddProject<Projects.UTB_Minute_DbManager>("utb-minute-dbmanager");
+
+builder.AddProject<Projects.UTB_Minute_AdminClient>("utb-minute-adminclient");
+
+builder.AddProject<Projects.UTB_Minute_CanteenClient>("utb-minute-canteenclient");
+
+builder.Build().Run();

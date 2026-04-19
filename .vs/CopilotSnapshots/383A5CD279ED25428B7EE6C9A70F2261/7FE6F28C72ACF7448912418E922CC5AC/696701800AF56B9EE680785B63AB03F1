@@ -1,0 +1,36 @@
+﻿using UTB.Minute.Db;
+using Microsoft.EntityFrameworkCore;
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.AddServiceDefaults();
+
+// Add PostgreSQL database via service discovery
+builder.Services.AddDbContext<MinuteDbContext>((context) =>
+{
+    var connectionString = builder.Configuration.GetConnectionString("minute-db") 
+        ?? throw new InvalidOperationException("Connection string 'minute-db' not found.");
+    context.UseNpgsql(connectionString);
+});
+
+// Add services
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
+
+var app = builder.Build();
+
+app.MapDefaultEndpoints();
+
+// Configure the HTTP request pipeline
+app.UseCors("AllowAll");
+
+app.UseHttpsRedirection();
+
+app.Run();

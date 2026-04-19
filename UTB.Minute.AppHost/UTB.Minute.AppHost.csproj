@@ -1,0 +1,24 @@
+<Project Sdk="Aspire.AppHost.Sdk/13.1.0">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <UserSecretsId>fa721c4c-ce8e-40f0-9848-a06fd4f1199e</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\UTB.Minute.AdminClient\UTB.Minute.AdminClient.csproj" />
+    <ProjectReference Include="..\UTB.Minute.CanteenClient\UTB.Minute.CanteenClient.csproj" />
+    <ProjectReference Include="..\UTB.Minute.DbManager\UTB.Minute.DbManager.csproj" />
+    <ProjectReference Include="..\UTB.Minute.WebApi\UTB.Minute.WebApi.csproj" />
+    <ProjectReference Include="..\UTB.Minute.Web\UTB.Minute.Web.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.Keycloak" Version="13.0.1-preview" />
+    <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="10.0.0" />
+  </ItemGroup>
+
+</Project>

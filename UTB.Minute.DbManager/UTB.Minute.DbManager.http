@@ -1,0 +1,6 @@
+@UTB.Minute.DbManager_HostAddress = http://localhost:5296
+
+GET {{UTB.Minute.DbManager_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

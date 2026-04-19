@@ -1,0 +1,12 @@
+C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.ServiceDefaults\bin\Debug\net10.0\UTB.Minute.ServiceDefaults.deps.json
+C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.ServiceDefaults\bin\Debug\net10.0\UTB.Minute.ServiceDefaults.dll
+C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.ServiceDefaults\bin\Debug\net10.0\UTB.Minute.ServiceDefaults.pdb
+C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.ServiceDefaults\obj\Debug\net10.0\UTB.Minute.ServiceDefaults.csproj.AssemblyReference.cache
+C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.ServiceDefaults\obj\Debug\net10.0\UTB.Minute.ServiceDefaults.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.ServiceDefaults\obj\Debug\net10.0\UTB.Minute.ServiceDefaults.AssemblyInfoInputs.cache
+C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.ServiceDefaults\obj\Debug\net10.0\UTB.Minute.ServiceDefaults.AssemblyInfo.cs
+C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.ServiceDefaults\obj\Debug\net10.0\UTB.Minute.ServiceDefaults.csproj.CoreCompileInputs.cache
+C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.ServiceDefaults\obj\Debug\net10.0\UTB.Minute.ServiceDefaults.dll
+C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.ServiceDefaults\obj\Debug\net10.0\refint\UTB.Minute.ServiceDefaults.dll
+C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.ServiceDefaults\obj\Debug\net10.0\UTB.Minute.ServiceDefaults.pdb
+C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.ServiceDefaults\obj\Debug\net10.0\ref\UTB.Minute.ServiceDefaults.dll
