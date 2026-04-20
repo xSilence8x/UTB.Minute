@@ -17,5 +17,5 @@ public class UTB_Minute_AppHost
     /// <summary>
     /// The path to the Aspire Host project.
     /// </summary>
-    public static string ProjectPath => """C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.AppHost""";
+    public static string ProjectPath => """C:\Users\xsile\Documents\_FAI_SWI\AF\semestralni_projekt_v2\UTB.Minute\UTB.Minute.AppHost""";
 }

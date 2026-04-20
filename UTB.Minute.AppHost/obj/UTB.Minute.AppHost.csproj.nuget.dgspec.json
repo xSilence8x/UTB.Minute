@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.AppHost\\UTB.Minute.AppHost.csproj": {}
+    "C:\\Users\\xsile\\Documents\\_FAI_SWI\\AF\\semestralni_projekt_v2\\UTB.Minute\\UTB.Minute.AppHost\\UTB.Minute.AppHost.csproj": {}
   },
   "projects": {
-    "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.AppHost\\UTB.Minute.AppHost.csproj": {
+    "C:\\Users\\xsile\\Documents\\_FAI_SWI\\AF\\semestralni_projekt_v2\\UTB.Minute\\UTB.Minute.AppHost\\UTB.Minute.AppHost.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.AppHost\\UTB.Minute.AppHost.csproj",
+        "projectUniqueName": "C:\\Users\\xsile\\Documents\\_FAI_SWI\\AF\\semestralni_projekt_v2\\UTB.Minute\\UTB.Minute.AppHost\\UTB.Minute.AppHost.csproj",
         "projectName": "UTB.Minute.AppHost",
-        "projectPath": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.AppHost\\UTB.Minute.AppHost.csproj",
+        "projectPath": "C:\\Users\\xsile\\Documents\\_FAI_SWI\\AF\\semestralni_projekt_v2\\UTB.Minute\\UTB.Minute.AppHost\\UTB.Minute.AppHost.csproj",
         "packagesPath": "C:\\Users\\xsile\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.AppHost\\obj\\",
+        "outputPath": "C:\\Users\\xsile\\Documents\\_FAI_SWI\\AF\\semestralni_projekt_v2\\UTB.Minute\\UTB.Minute.AppHost\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -31,6 +31,7 @@
         },
         "frameworks": {
           "net10.0": {
+            "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {}
           }
@@ -49,30 +50,27 @@
       },
       "frameworks": {
         "net10.0": {
+          "framework": "net10.0",
           "targetAlias": "net10.0",
           "dependencies": {
             "Aspire.Dashboard.Sdk.win-x64": {
               "target": "Package",
-              "version": "[13.1.0, )",
+              "version": "[13.2.2, )",
               "autoReferenced": true
             },
             "Aspire.Hosting.AppHost": {
               "target": "Package",
-              "version": "[13.1.0, )",
+              "version": "[13.2.2, )",
               "autoReferenced": true
-            },
-            "Aspire.Hosting.Keycloak": {
-              "target": "Package",
-              "version": "[13.0.1-preview, )"
             },
             "Aspire.Hosting.Orchestration.win-x64": {
               "target": "Package",
-              "version": "[13.1.0, )",
+              "version": "[13.2.2, )",
               "autoReferenced": true
             },
             "Aspire.Hosting.PostgreSQL": {
               "target": "Package",
-              "version": "[10.0.0, )"
+              "version": "[13.2.2, )"
             }
           },
           "imports": [
@@ -91,7 +89,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.202/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",

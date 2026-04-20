@@ -15,7 +15,7 @@ public class UTB_Minute_DbManager : global::Aspire.Hosting.IProjectMetadata
     /// <summary>
     /// The path to the UTB_Minute_DbManager project.
     /// </summary>
-    public string ProjectPath => """C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.DbManager\UTB.Minute.DbManager.csproj""";
+    public string ProjectPath => """C:\Users\xsile\Documents\_FAI_SWI\AF\semestralni_projekt_v2\UTB.Minute\UTB.Minute.DbManager\UTB.Minute.DbManager.csproj""";
 
     /// <summary>
     /// Gets a value indicating whether building the project before running it should be suppressed.

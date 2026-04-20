@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "NEnL5GDUxWQ=",
+  "dgSpecHash": "E5WKjQC+fqc=",
   "success": true,
-  "projectFilePath": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Db\\UTB.Minute.Db.csproj",
+  "projectFilePath": "C:\\Users\\xsile\\Documents\\_FAI_SWI\\AF\\semestralni_projekt_v2\\UTB.Minute\\UTB.Minute.Db\\UTB.Minute.Db.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\xsile\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\xsile\\.nuget\\packages\\microsoft.build.framework\\18.0.2\\microsoft.build.framework.18.0.2.nupkg.sha512",

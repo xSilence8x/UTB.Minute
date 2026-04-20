@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "V4uedb76tGk=",
+  "dgSpecHash": "lmuBJLrEpsc=",
   "success": true,
-  "projectFilePath": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.Web\\UTB.Minute.Web.csproj",
+  "projectFilePath": "C:\\Users\\xsile\\Documents\\_FAI_SWI\\AF\\semestralni_projekt_v2\\UTB.Minute\\UTB.Minute.Web\\UTB.Minute.Web.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\xsile\\.nuget\\packages\\microsoft.aspnetcore.app.internal.assets\\10.0.5\\microsoft.aspnetcore.app.internal.assets.10.0.5.nupkg.sha512",
+    "C:\\Users\\xsile\\.nuget\\packages\\microsoft.aspnetcore.app.internal.assets\\10.0.6\\microsoft.aspnetcore.app.internal.assets.10.0.6.nupkg.sha512",
     "C:\\Users\\xsile\\.nuget\\packages\\microsoft.extensions.ambientmetadata.application\\10.1.0\\microsoft.extensions.ambientmetadata.application.10.1.0.nupkg.sha512",
     "C:\\Users\\xsile\\.nuget\\packages\\microsoft.extensions.compliance.abstractions\\10.1.0\\microsoft.extensions.compliance.abstractions.10.1.0.nupkg.sha512",
     "C:\\Users\\xsile\\.nuget\\packages\\microsoft.extensions.dependencyinjection.autoactivation\\10.1.0\\microsoft.extensions.dependencyinjection.autoactivation.10.1.0.nupkg.sha512",

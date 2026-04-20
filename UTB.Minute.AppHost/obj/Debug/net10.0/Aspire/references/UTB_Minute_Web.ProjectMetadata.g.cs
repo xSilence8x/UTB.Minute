@@ -15,7 +15,7 @@ public class UTB_Minute_Web : global::Aspire.Hosting.IProjectMetadata
     /// <summary>
     /// The path to the UTB_Minute_Web project.
     /// </summary>
-    public string ProjectPath => """C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.Web\UTB.Minute.Web.csproj""";
+    public string ProjectPath => """C:\Users\xsile\Documents\_FAI_SWI\AF\semestralni_projekt_v2\UTB.Minute\UTB.Minute.Web\UTB.Minute.Web.csproj""";
 
     /// <summary>
     /// Gets a value indicating whether building the project before running it should be suppressed.

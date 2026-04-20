@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.ServiceDefaults\\UTB.Minute.ServiceDefaults.csproj": {}
+    "C:\\Users\\xsile\\Documents\\_FAI_SWI\\AF\\semestralni_projekt_v2\\UTB.Minute\\UTB.Minute.ServiceDefaults\\UTB.Minute.ServiceDefaults.csproj": {}
   },
   "projects": {
-    "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.ServiceDefaults\\UTB.Minute.ServiceDefaults.csproj": {
+    "C:\\Users\\xsile\\Documents\\_FAI_SWI\\AF\\semestralni_projekt_v2\\UTB.Minute\\UTB.Minute.ServiceDefaults\\UTB.Minute.ServiceDefaults.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.ServiceDefaults\\UTB.Minute.ServiceDefaults.csproj",
+        "projectUniqueName": "C:\\Users\\xsile\\Documents\\_FAI_SWI\\AF\\semestralni_projekt_v2\\UTB.Minute\\UTB.Minute.ServiceDefaults\\UTB.Minute.ServiceDefaults.csproj",
         "projectName": "UTB.Minute.ServiceDefaults",
-        "projectPath": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.ServiceDefaults\\UTB.Minute.ServiceDefaults.csproj",
+        "projectPath": "C:\\Users\\xsile\\Documents\\_FAI_SWI\\AF\\semestralni_projekt_v2\\UTB.Minute\\UTB.Minute.ServiceDefaults\\UTB.Minute.ServiceDefaults.csproj",
         "packagesPath": "C:\\Users\\xsile\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\xsile\\source\\repos\\UTB.Minute\\UTB.Minute.ServiceDefaults\\obj\\",
+        "outputPath": "C:\\Users\\xsile\\Documents\\_FAI_SWI\\AF\\semestralni_projekt_v2\\UTB.Minute\\UTB.Minute.ServiceDefaults\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -31,6 +31,7 @@
         },
         "frameworks": {
           "net10.0": {
+            "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {}
           }
@@ -49,6 +50,7 @@
       },
       "frameworks": {
         "net10.0": {
+          "framework": "net10.0",
           "targetAlias": "net10.0",
           "dependencies": {
             "Microsoft.Extensions.Http.Resilience": {
@@ -99,7 +101,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.202/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.AspNetCore": "(,10.0.32767]",
             "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",

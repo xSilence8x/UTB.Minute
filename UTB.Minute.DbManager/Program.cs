@@ -6,21 +6,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
-builder.Services.AddDbContext<MinuteDbContext>(options =>
-{
-    var connectionString = builder.Configuration.GetConnectionString("minute-db")
-        ?? throw new InvalidOperationException("Connection string 'minute-db' not found.");
-
-    options.UseNpgsql(connectionString);
-});
+builder.AddNpgsqlDbContext<MinuteDbContext>("database");
 
 var app = builder.Build();
 
-// Ensure database exists and migrations are applied
+// Ensure database exists
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<MinuteDbContext>();
-    await dbContext.Database.MigrateAsync();
+    await dbContext.Database.EnsureCreatedAsync();
 }
 
 app.MapDefaultEndpoints();
@@ -37,7 +31,7 @@ static async Task<IResult> ResetDatabase(MinuteDbContext dbContext)
     try
     {
         // Ensure DB and tables exist
-        await dbContext.Database.MigrateAsync();
+        await dbContext.Database.EnsureCreatedAsync();
 
         // Delete data in correct order because of foreign keys
         await dbContext.Database.ExecuteSqlRawAsync("""DELETE FROM "Orders";""");
@@ -65,7 +59,6 @@ static async Task SeedDatabaseAsync(MinuteDbContext dbContext)
     {
         new Meal
         {
-            Id = Guid.NewGuid(),
             Name = "Chicken schnitzel",
             Description = "Crispy chicken schnitzel with potatoes",
             Price = 120,
@@ -73,7 +66,6 @@ static async Task SeedDatabaseAsync(MinuteDbContext dbContext)
         },
         new Meal
         {
-            Id = Guid.NewGuid(),
             Name = "Pork goulash",
             Description = "Traditional goulash with pasta",
             Price = 140,
@@ -81,7 +73,6 @@ static async Task SeedDatabaseAsync(MinuteDbContext dbContext)
         },
         new Meal
         {
-            Id = Guid.NewGuid(),
             Name = "Fish fillet",
             Description = "Baked fish fillet with spinach",
             Price = 150,
@@ -89,7 +80,6 @@ static async Task SeedDatabaseAsync(MinuteDbContext dbContext)
         },
         new Meal
         {
-            Id = Guid.NewGuid(),
             Name = "Vegetarian burger",
             Description = "Homemade burger with herb cheese",
             Price = 110,
@@ -104,7 +94,6 @@ static async Task SeedDatabaseAsync(MinuteDbContext dbContext)
 
     var menuItems = meals.Select((meal, index) => new MenuItem
     {
-        Id = Guid.NewGuid(),
         MealId = meal.Id,
         Date = today,
         AvailablePortions = 10 + (index * 5)

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("UTB.Minute.WebApi.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d835be7791fe63e15f36418242e5c4b197eb2816")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8168db8fabba5c858f98c075eb24bd28d19cfcc2")]
 [assembly: System.Reflection.AssemblyProductAttribute("UTB.Minute.WebApi.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("UTB.Minute.WebApi.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

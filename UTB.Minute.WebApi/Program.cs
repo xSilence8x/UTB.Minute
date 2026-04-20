@@ -8,90 +8,54 @@ using UTB.Minute.Db.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.AddServiceDefaults();
+builder.AddServiceDefaults(); // Add health check
 
-// Debug: Print environment variables
-Console.WriteLine("=== Environment Variables ===");
-foreach (var env in Environment.GetEnvironmentVariables().Cast<System.Collections.DictionaryEntry>()
-    .Where(x => x.Key.ToString()!.Contains("minute") || x.Key.ToString()!.Contains("postgres")))
-{
-    Console.WriteLine($"{env.Key} = {env.Value}");
-}
-Console.WriteLine("=============================");
-
-builder.Services.AddDbContext<MinuteDbContext>(options =>
-{
-    // Debug: Print all configuration
-    Console.WriteLine("=== Available Connection Strings ===");
-    var connStrings = builder.Configuration.GetSection("ConnectionStrings");
-    foreach (var item in connStrings.GetChildren())
-    {
-        Console.WriteLine($"{item.Key} = {item.Value}");
-    }
-    Console.WriteLine("===================================");
-
-    var connectionString = builder.Configuration.GetConnectionString("minute-db")
-        ?? throw new InvalidOperationException("Connection string 'minute-db' not found.");
-
-    Console.WriteLine($"WebApi Connection String: {connectionString}");
-    options.UseNpgsql(connectionString);
-});
-
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAll", policy =>
-    {
-        policy.AllowAnyOrigin()
-              .AllowAnyMethod()
-              .AllowAnyHeader();
-    });
-});
+builder.AddNpgsqlDbContext<MinuteDbContext>("database");
 
 var app = builder.Build();
 
-// Apply migrations automatically
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<MinuteDbContext>();
-    try
-    {
-        Console.WriteLine("Starting database migration...");
-        await db.Database.MigrateAsync();
-        Console.WriteLine("✅ Database migration completed successfully!");
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"❌ Migration error: {ex.Message}");
-        Console.WriteLine($"Inner exception: {ex.InnerException?.Message}");
-        throw;
-    }
-}
-
 app.MapDefaultEndpoints();
 
-app.UseCors("AllowAll");
-app.UseHttpsRedirection();
+app.MapPost("/reset-database", async (MinuteDbContext context) =>
+{
+    await context.Database.EnsureDeletedAsync();
+    await context.Database.EnsureCreatedAsync();
+
+    Meal meal1 = new()
+    {
+        Name = "Kuřecí řízek s bramborem",
+        Description = "Klasický český oběd s kuřecím řízkem, bramborem a tatarkou.",
+        Price = 85.00m,
+        IsActive = true,
+    };
+
+    context.Meals.Add(meal1);
+
+    await context.SaveChangesAsync();
+});
 
 // Meals
 app.MapGet("/meals", GetMeals);
-app.MapGet("/meals/{id:guid}", GetMealById);
-app.MapPost("/meals", CreateMeal);
-app.MapPut("/meals/{id:guid}", UpdateMeal);
+app.MapGet("/meals/{id:int}", GetMealById);
+//app.MapPost("/meals", CreateMeal);
+//app.MapPut("/meals/{id:int}", UpdateMeal);
 
-// Menu items
-app.MapGet("/menu-items", GetMenuItems);
-app.MapGet("/menu-items/today", GetTodayMenuItems);
-app.MapGet("/menu-items/{id:guid}", GetMenuItemById);
-app.MapPost("/menu-items", CreateMenuItem);
-app.MapPut("/menu-items/{id:guid}", UpdateMenuItem);
-app.MapDelete("/menu-items/{id:guid}", DeleteMenuItem);
+//// Menu items
+//app.MapGet("/menu-items", GetMenuItems);
+//app.MapGet("/menu-items/today", GetTodayMenuItems);
+//app.MapGet("/menu-items/{id:int}", GetMenuItemById);
+//app.MapPost("/menu-items", CreateMenuItem);
+//app.MapPut("/menu-items/{id:int}", UpdateMenuItem);
+//app.MapDelete("/menu-items/{id:int}", DeleteMenuItem);
 
-// Orders
-app.MapGet("/orders", GetOrders);
-app.MapGet("/orders/active", GetActiveOrders);
-app.MapGet("/orders/{id:guid}", GetOrderById);
-app.MapPost("/orders", CreateOrder);
-app.MapPut("/orders/{id:guid}/state", UpdateOrderState);
+//// Orders
+//app.MapGet("/orders", GetOrders);
+//app.MapGet("/orders/active", GetActiveOrders);
+//app.MapGet("/orders/{id:int}", GetOrderById);
+//app.MapPost("/orders", CreateOrder);
+//app.MapPut("/orders/{id:int}/state", UpdateOrderState);
+
+app.UseHttpsRedirection();
 
 app.Run();
 
@@ -109,7 +73,7 @@ static async Task<Ok<List<MealDto>>> GetMeals(MinuteDbContext db)
     return TypedResults.Ok(meals);
 }
 
-static async Task<Results<Ok<MealDto>, NotFound>> GetMealById(Guid id, MinuteDbContext db)
+static async Task<Results<Ok<MealDto>, NotFound>> GetMealById(int id, MinuteDbContext db)
 {
     var meal = await db.Meals.FindAsync(id);
 
@@ -126,341 +90,338 @@ static async Task<Results<Ok<MealDto>, NotFound>> GetMealById(Guid id, MinuteDbC
         meal.IsActive));
 }
 
-static async Task<Created<MealDto>> CreateMeal(CreateMealDto input, MinuteDbContext db)
-{
-    var meal = new Meal
-    {
-        Id = Guid.NewGuid(),
-        Name = input.Name,
-        Description = input.Description,
-        Price = input.Price,
-        IsActive = true
-    };
+//static async Task<Created<MealDto>> CreateMeal(CreateMealDto input, MinuteDbContext db)
+//{
+//    var meal = new Meal
+//    {
+//        Name = input.Name,
+//        Description = input.Description,
+//        Price = input.Price,
+//        IsActive = true
+//    };
 
-    db.Meals.Add(meal);
-    await db.SaveChangesAsync();
+//    db.Meals.Add(meal);
+//    await db.SaveChangesAsync();
 
-    return TypedResults.Created($"/meals/{meal.Id}", new MealDto(
-        meal.Id,
-        meal.Name,
-        meal.Description,
-        meal.Price,
-        meal.IsActive));
-}
+//    return TypedResults.Created($"/meals/{meal.Id}", new MealDto(
+//        meal.Id,
+//        meal.Name,
+//        meal.Description,
+//        meal.Price,
+//        meal.IsActive));
+//}
 
-static async Task<Results<NoContent, NotFound>> UpdateMeal(Guid id, UpdateMealDto input, MinuteDbContext db)
-{
-    var meal = await db.Meals.FindAsync(id);
+//static async Task<Results<NoContent, NotFound>> UpdateMeal(int id, UpdateMealDto input, MinuteDbContext db)
+//{
+//    var meal = await db.Meals.FindAsync(id);
 
-    if (meal is null)
-    {
-        return TypedResults.NotFound();
-    }
+//    if (meal is null)
+//    {
+//        return TypedResults.NotFound();
+//    }
 
-    meal.Name = input.Name;
-    meal.Description = input.Description;
-    meal.Price = input.Price;
-    meal.IsActive = input.IsActive;
+//    meal.Name = input.Name;
+//    meal.Description = input.Description;
+//    meal.Price = input.Price;
+//    meal.IsActive = input.IsActive;
 
-    await db.SaveChangesAsync();
+//    await db.SaveChangesAsync();
 
-    return TypedResults.NoContent();
-}
+//    return TypedResults.NoContent();
+//}
 
-static async Task<Ok<List<MenuItemDto>>> GetMenuItems(MinuteDbContext db)
-{
-    var menuItems = await db.MenuItems
-        .Include(mi => mi.Meal)
-        .OrderBy(mi => mi.Date)
-        .ThenBy(mi => mi.Meal.Name)
-        .Select(mi => new MenuItemDto(
-            mi.Id,
-            mi.Date,
-            mi.MealId,
-            mi.Meal.Name,
-            mi.AvailablePortions))
-        .ToListAsync();
+//static async Task<Ok<List<MenuItemDto>>> GetMenuItems(MinuteDbContext db)
+//{
+//    var menuItems = await db.MenuItems
+//        .Include(mi => mi.Meal)
+//        .OrderBy(mi => mi.Date)
+//        .ThenBy(mi => mi.Meal.Name)
+//        .Select(mi => new MenuItemDto(
+//            mi.Id,
+//            mi.Date,
+//            mi.MealId,
+//            mi.Meal.Name,
+//            mi.AvailablePortions))
+//        .ToListAsync();
 
-    return TypedResults.Ok(menuItems);
-}
+//    return TypedResults.Ok(menuItems);
+//}
 
-static async Task<Ok<List<MenuItemDto>>> GetTodayMenuItems(MinuteDbContext db)
-{
-    var today = DateOnly.FromDateTime(DateTime.Today);
+//static async Task<Ok<List<MenuItemDto>>> GetTodayMenuItems(MinuteDbContext db)
+//{
+//    var today = DateOnly.FromDateTime(DateTime.Today);
 
-    var menuItems = await db.MenuItems
-        .Include(mi => mi.Meal)
-        .Where(mi => mi.Date == today)
-        .OrderBy(mi => mi.Meal.Name)
-        .Select(mi => new MenuItemDto(
-            mi.Id,
-            mi.Date,
-            mi.MealId,
-            mi.Meal.Name,
-            mi.AvailablePortions))
-        .ToListAsync();
+//    var menuItems = await db.MenuItems
+//        .Include(mi => mi.Meal)
+//        .Where(mi => mi.Date == today)
+//        .OrderBy(mi => mi.Meal.Name)
+//        .Select(mi => new MenuItemDto(
+//            mi.Id,
+//            mi.Date,
+//            mi.MealId,
+//            mi.Meal.Name,
+//            mi.AvailablePortions))
+//        .ToListAsync();
 
-    return TypedResults.Ok(menuItems);
-}
+//    return TypedResults.Ok(menuItems);
+//}
 
-static async Task<Results<Ok<MenuItemDto>, NotFound>> GetMenuItemById(Guid id, MinuteDbContext db)
-{
-    var menuItem = await db.MenuItems
-        .Include(mi => mi.Meal)
-        .FirstOrDefaultAsync(mi => mi.Id == id);
+//static async Task<Results<Ok<MenuItemDto>, NotFound>> GetMenuItemById(int id, MinuteDbContext db)
+//{
+//    var menuItem = await db.MenuItems
+//        .Include(mi => mi.Meal)
+//        .FirstOrDefaultAsync(mi => mi.Id == id);
 
-    if (menuItem is null)
-    {
-        return TypedResults.NotFound();
-    }
+//    if (menuItem is null)
+//    {
+//        return TypedResults.NotFound();
+//    }
 
-    return TypedResults.Ok(new MenuItemDto(
-        menuItem.Id,
-        menuItem.Date,
-        menuItem.MealId,
-        menuItem.Meal.Name,
-        menuItem.AvailablePortions));
-}
+//    return TypedResults.Ok(new MenuItemDto(
+//        menuItem.Id,
+//        menuItem.Date,
+//        menuItem.MealId,
+//        menuItem.Meal.Name,
+//        menuItem.AvailablePortions));
+//}
 
-static async Task<Results<Created<MenuItemDto>, BadRequest<string>>> CreateMenuItem(CreateMenuItemDto input, MinuteDbContext db)
-{
-    var mealExists = await db.Meals.AnyAsync(m => m.Id == input.MealId);
-    if (!mealExists)
-    {
-        return TypedResults.BadRequest("Selected meal does not exist.");
-    }
+//static async Task<Results<Created<MenuItemDto>, BadRequest<string>>> CreateMenuItem(CreateMenuItemDto input, MinuteDbContext db)
+//{
+//    var mealExists = await db.Meals.AnyAsync(m => m.Id == input.MealId);
+//    if (!mealExists)
+//    {
+//        return TypedResults.BadRequest("Selected meal does not exist.");
+//    }
 
-    if (input.AvailablePortions < 0)
-    {
-        return TypedResults.BadRequest("Available portions cannot be negative.");
-    }
+//    if (input.AvailablePortions < 0)
+//    {
+//        return TypedResults.BadRequest("Available portions cannot be negative.");
+//    }
 
-    var menuItem = new MenuItem
-    {
-        Id = Guid.NewGuid(),
-        Date = input.Date,
-        MealId = input.MealId,
-        AvailablePortions = input.AvailablePortions
-    };
+//    var menuItem = new MenuItem
+//    {
+//        Date = input.Date,
+//        MealId = input.MealId,
+//        AvailablePortions = input.AvailablePortions
+//    };
 
-    db.MenuItems.Add(menuItem);
-    await db.SaveChangesAsync();
+//    db.MenuItems.Add(menuItem);
+//    await db.SaveChangesAsync();
 
-    var createdMenuItem = await db.MenuItems
-        .Include(mi => mi.Meal)
-        .FirstAsync(mi => mi.Id == menuItem.Id);
+//    var createdMenuItem = await db.MenuItems
+//        .Include(mi => mi.Meal)
+//        .FirstAsync(mi => mi.Id == menuItem.Id);
 
-    return TypedResults.Created($"/menu-items/{menuItem.Id}", new MenuItemDto(
-        createdMenuItem.Id,
-        createdMenuItem.Date,
-        createdMenuItem.MealId,
-        createdMenuItem.Meal.Name,
-        createdMenuItem.AvailablePortions));
-}
+//    return TypedResults.Created($"/menu-items/{menuItem.Id}", new MenuItemDto(
+//        createdMenuItem.Id,
+//        createdMenuItem.Date,
+//        createdMenuItem.MealId,
+//        createdMenuItem.Meal.Name,
+//        createdMenuItem.AvailablePortions));
+//}
 
-static async Task<Results<NoContent, NotFound, BadRequest<string>>> UpdateMenuItem(Guid id, UpdateMenuItemDto input, MinuteDbContext db)
-{
-    var menuItem = await db.MenuItems.FindAsync(id);
-    if (menuItem is null)
-    {
-        return TypedResults.NotFound();
-    }
+//static async Task<Results<NoContent, NotFound, BadRequest<string>>> UpdateMenuItem(Guid id, UpdateMenuItemDto input, MinuteDbContext db)
+//{
+//    var menuItem = await db.MenuItems.FindAsync(id);
+//    if (menuItem is null)
+//    {
+//        return TypedResults.NotFound();
+//    }
 
-    var mealExists = await db.Meals.AnyAsync(m => m.Id == input.MealId);
-    if (!mealExists)
-    {
-        return TypedResults.BadRequest("Selected meal does not exist.");
-    }
+//    var mealExists = await db.Meals.AnyAsync(m => m.Id == input.MealId);
+//    if (!mealExists)
+//    {
+//        return TypedResults.BadRequest("Selected meal does not exist.");
+//    }
 
-    if (input.AvailablePortions < 0)
-    {
-        return TypedResults.BadRequest("Available portions cannot be negative.");
-    }
+//    if (input.AvailablePortions < 0)
+//    {
+//        return TypedResults.BadRequest("Available portions cannot be negative.");
+//    }
 
-    menuItem.Date = input.Date;
-    menuItem.MealId = input.MealId;
-    menuItem.AvailablePortions = input.AvailablePortions;
+//    menuItem.Date = input.Date;
+//    menuItem.MealId = input.MealId;
+//    menuItem.AvailablePortions = input.AvailablePortions;
 
-    await db.SaveChangesAsync();
+//    await db.SaveChangesAsync();
 
-    return TypedResults.NoContent();
-}
+//    return TypedResults.NoContent();
+//}
 
-static async Task<Results<NoContent, NotFound>> DeleteMenuItem(Guid id, MinuteDbContext db)
-{
-    var menuItem = await db.MenuItems.FindAsync(id);
-    if (menuItem is null)
-    {
-        return TypedResults.NotFound();
-    }
+//static async Task<Results<NoContent, NotFound>> DeleteMenuItem(int id, MinuteDbContext db)
+//{
+//    var menuItem = await db.MenuItems.FindAsync(id);
+//    if (menuItem is null)
+//    {
+//        return TypedResults.NotFound();
+//    }
 
-    db.MenuItems.Remove(menuItem);
-    await db.SaveChangesAsync();
+//    db.MenuItems.Remove(menuItem);
+//    await db.SaveChangesAsync();
 
-    return TypedResults.NoContent();
-}
+//    return TypedResults.NoContent();
+//}
 
-static async Task<Ok<List<OrderDto>>> GetOrders(MinuteDbContext db)
-{
-    var orders = await db.Orders
-        .Include(o => o.MenuItem)
-        .ThenInclude(mi => mi.Meal)
-        .OrderByDescending(o => o.CreatedAtUtc)
-        .Select(o => new OrderDto(
-            o.Id,
-            o.MenuItemId,
-            o.MenuItem.Meal.Name,
-            o.StudentName,
-            o.CreatedAtUtc,
-            o.State == OrderState.Preparing ? OrderStateDto.Preparing :
-            o.State == OrderState.Ready ? OrderStateDto.Ready :
-            o.State == OrderState.Cancelled ? OrderStateDto.Cancelled :
-            OrderStateDto.Completed))
-        .ToListAsync();
+//static async Task<Ok<List<OrderDto>>> GetOrders(MinuteDbContext db)
+//{
+//    var orders = await db.Orders
+//        .Include(o => o.MenuItem)
+//        .ThenInclude(mi => mi.Meal)
+//        .OrderByDescending(o => o.CreatedAtUtc)
+//        .Select(o => new OrderDto(
+//            o.Id,
+//            o.MenuItemId,
+//            o.MenuItem.Meal.Name,
+//            o.StudentName,
+//            o.CreatedAtUtc,
+//            o.State == OrderState.Preparing ? OrderStateDto.Preparing :
+//            o.State == OrderState.Ready ? OrderStateDto.Ready :
+//            o.State == OrderState.Cancelled ? OrderStateDto.Cancelled :
+//            OrderStateDto.Completed))
+//        .ToListAsync();
 
-    return TypedResults.Ok(orders);
-}
+//    return TypedResults.Ok(orders);
+//}
 
-static async Task<Ok<List<OrderDto>>> GetActiveOrders(MinuteDbContext db)
-{
-    var orders = await db.Orders
-        .Include(o => o.MenuItem)
-        .ThenInclude(mi => mi.Meal)
-        .Where(o => o.State != OrderState.Completed)
-        .OrderBy(o => o.CreatedAtUtc)
-        .Select(o => new OrderDto(
-            o.Id,
-            o.MenuItemId,
-            o.MenuItem.Meal.Name,
-            o.StudentName,
-            o.CreatedAtUtc,
-            o.State == OrderState.Preparing ? OrderStateDto.Preparing :
-            o.State == OrderState.Ready ? OrderStateDto.Ready :
-            o.State == OrderState.Cancelled ? OrderStateDto.Cancelled :
-            OrderStateDto.Completed))
-        .ToListAsync();
+//static async Task<Ok<List<OrderDto>>> GetActiveOrders(MinuteDbContext db)
+//{
+//    var orders = await db.Orders
+//        .Include(o => o.MenuItem)
+//        .ThenInclude(mi => mi.Meal)
+//        .Where(o => o.State != OrderState.Completed)
+//        .OrderBy(o => o.CreatedAtUtc)
+//        .Select(o => new OrderDto(
+//            o.Id,
+//            o.MenuItemId,
+//            o.MenuItem.Meal.Name,
+//            o.StudentName,
+//            o.CreatedAtUtc,
+//            o.State == OrderState.Preparing ? OrderStateDto.Preparing :
+//            o.State == OrderState.Ready ? OrderStateDto.Ready :
+//            o.State == OrderState.Cancelled ? OrderStateDto.Cancelled :
+//            OrderStateDto.Completed))
+//        .ToListAsync();
 
-    return TypedResults.Ok(orders);
-}
+//    return TypedResults.Ok(orders);
+//}
 
-static async Task<Results<Ok<OrderDto>, NotFound>> GetOrderById(Guid id, MinuteDbContext db)
-{
-    var order = await db.Orders
-        .Include(o => o.MenuItem)
-        .ThenInclude(mi => mi.Meal)
-        .FirstOrDefaultAsync(o => o.Id == id);
+//static async Task<Results<Ok<OrderDto>, NotFound>> GetOrderById(int id, MinuteDbContext db)
+//{
+//    var order = await db.Orders
+//        .Include(o => o.MenuItem)
+//        .ThenInclude(mi => mi.Meal)
+//        .FirstOrDefaultAsync(o => o.Id == id);
 
-    if (order is null)
-    {
-        return TypedResults.NotFound();
-    }
+//    if (order is null)
+//    {
+//        return TypedResults.NotFound();
+//    }
 
-    return TypedResults.Ok(new OrderDto(
-        order.Id,
-        order.MenuItemId,
-        order.MenuItem.Meal.Name,
-        order.StudentName,
-        order.CreatedAtUtc,
-        MapOrderStateToDto(order.State)));
-}
+//    return TypedResults.Ok(new OrderDto(
+//        order.Id,
+//        order.MenuItemId,
+//        order.MenuItem.Meal.Name,
+//        order.StudentName,
+//        order.CreatedAtUtc,
+//        MapOrderStateToDto(order.State)));
+//}
 
-static async Task<Results<Created<OrderDto>, BadRequest<string>>> CreateOrder(CreateOrderDto input, MinuteDbContext db)
-{
-    var menuItem = await db.MenuItems
-        .Include(mi => mi.Meal)
-        .FirstOrDefaultAsync(mi => mi.Id == input.MenuItemId);
+//static async Task<Results<Created<OrderDto>, BadRequest<string>>> CreateOrder(CreateOrderDto input, MinuteDbContext db)
+//{
+//    var menuItem = await db.MenuItems
+//        .Include(mi => mi.Meal)
+//        .FirstOrDefaultAsync(mi => mi.Id == input.MenuItemId);
 
-    if (menuItem is null)
-    {
-        return TypedResults.BadRequest("Selected menu item does not exist.");
-    }
+//    if (menuItem is null)
+//    {
+//        return TypedResults.BadRequest("Selected menu item does not exist.");
+//    }
 
-    if (menuItem.AvailablePortions <= 0)
-    {
-        return TypedResults.BadRequest("Selected menu item is sold out.");
-    }
+//    if (menuItem.AvailablePortions <= 0)
+//    {
+//        return TypedResults.BadRequest("Selected menu item is sold out.");
+//    }
 
-    menuItem.AvailablePortions--;
+//    menuItem.AvailablePortions--;
 
-    var order = new Order
-    {
-        Id = Guid.NewGuid(),
-        MenuItemId = input.MenuItemId,
-        StudentName = input.StudentName,
-        CreatedAtUtc = DateTime.UtcNow,
-        State = OrderState.Preparing
-    };
+//    var order = new Order
+//    {
+//        MenuItemId = input.MenuItemId,
+//        StudentName = input.StudentName,
+//        CreatedAtUtc = DateTime.UtcNow,
+//        State = OrderState.Preparing
+//    };
 
-    db.Orders.Add(order);
-    await db.SaveChangesAsync();
+//    db.Orders.Add(order);
+//    await db.SaveChangesAsync();
 
-    return TypedResults.Created($"/orders/{order.Id}", new OrderDto(
-        order.Id,
-        order.MenuItemId,
-        menuItem.Meal.Name,
-        order.StudentName,
-        order.CreatedAtUtc,
-        MapOrderStateToDto(order.State)));
-}
+//    return TypedResults.Created($"/orders/{order.Id}", new OrderDto(
+//        order.Id,
+//        order.MenuItemId,
+//        menuItem.Meal.Name,
+//        order.StudentName,
+//        order.CreatedAtUtc,
+//        MapOrderStateToDto(order.State)));
+//}
 
-static async Task<Results<NoContent, NotFound, BadRequest<string>>> UpdateOrderState(Guid id, UpdateOrderStateDto input, MinuteDbContext db)
-{
-    var order = await db.Orders.FindAsync(id);
-    if (order is null)
-    {
-        return TypedResults.NotFound();
-    }
+//static async Task<Results<NoContent, NotFound, BadRequest<string>>> UpdateOrderState(int id, UpdateOrderStateDto input, MinuteDbContext db)
+//{
+//    var order = await db.Orders.FindAsync(id);
+//    if (order is null)
+//    {
+//        return TypedResults.NotFound();
+//    }
 
-    var newState = MapOrderStateFromDto(input.State);
+//    var newState = MapOrderStateFromDto(input.State);
 
-    if (!IsValidOrderStateTransition(order.State, newState))
-    {
-        return TypedResults.BadRequest($"Invalid order state transition from '{order.State}' to '{newState}'.");
-    }
+//    if (!IsValidOrderStateTransition(order.State, newState))
+//    {
+//        return TypedResults.BadRequest($"Invalid order state transition from '{order.State}' to '{newState}'.");
+//    }
 
-    order.State = newState;
-    await db.SaveChangesAsync();
+//    order.State = newState;
+//    await db.SaveChangesAsync();
 
-    return TypedResults.NoContent();
-}
+//    return TypedResults.NoContent();
+//}
 
-static OrderStateDto MapOrderStateToDto(OrderState state)
-{
-    return state switch
-    {
-        OrderState.Preparing => OrderStateDto.Preparing,
-        OrderState.Ready => OrderStateDto.Ready,
-        OrderState.Cancelled => OrderStateDto.Cancelled,
-        OrderState.Completed => OrderStateDto.Completed,
-        _ => throw new ArgumentOutOfRangeException(nameof(state), state, "Unsupported order state.")
-    };
-}
+//static OrderStateDto MapOrderStateToDto(OrderState state)
+//{
+//    return state switch
+//    {
+//        OrderState.Preparing => OrderStateDto.Preparing,
+//        OrderState.Ready => OrderStateDto.Ready,
+//        OrderState.Cancelled => OrderStateDto.Cancelled,
+//        OrderState.Completed => OrderStateDto.Completed,
+//        _ => throw new ArgumentOutOfRangeException(nameof(state), state, "Unsupported order state.")
+//    };
+//}
 
-static OrderState MapOrderStateFromDto(OrderStateDto state)
-{
-    return state switch
-    {
-        OrderStateDto.Preparing => OrderState.Preparing,
-        OrderStateDto.Ready => OrderState.Ready,
-        OrderStateDto.Cancelled => OrderState.Cancelled,
-        OrderStateDto.Completed => OrderState.Completed,
-        _ => throw new ArgumentOutOfRangeException(nameof(state), state, "Unsupported order state.")
-    };
-}
+//static OrderState MapOrderStateFromDto(OrderStateDto state)
+//{
+//    return state switch
+//    {
+//        OrderStateDto.Preparing => OrderState.Preparing,
+//        OrderStateDto.Ready => OrderState.Ready,
+//        OrderStateDto.Cancelled => OrderState.Cancelled,
+//        OrderStateDto.Completed => OrderState.Completed,
+//        _ => throw new ArgumentOutOfRangeException(nameof(state), state, "Unsupported order state.")
+//    };
+//}
 
-static bool IsValidOrderStateTransition(OrderState currentState, OrderState newState)
-{
-    if (currentState == newState)
-    {
-        return true;
-    }
+//static bool IsValidOrderStateTransition(OrderState currentState, OrderState newState)
+//{
+//    if (currentState == newState)
+//    {
+//        return true;
+//    }
 
-    return currentState switch
-    {
-        OrderState.Preparing => newState is OrderState.Ready or OrderState.Cancelled,
-        OrderState.Ready => newState == OrderState.Completed,
-        OrderState.Cancelled => newState == OrderState.Completed,
-        OrderState.Completed => false,
-        _ => false
-    };
-}
+//    return currentState switch
+//    {
+//        OrderState.Preparing => newState is OrderState.Ready or OrderState.Cancelled,
+//        OrderState.Ready => newState == OrderState.Completed,
+//        OrderState.Cancelled => newState == OrderState.Completed,
+//        OrderState.Completed => false,
+//        _ => false
+//    };
+//}

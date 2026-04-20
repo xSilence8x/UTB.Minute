@@ -10,3 +10,15 @@ C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.Contracts\obj\Debug\net10.0\re
 C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.Contracts\obj\Debug\net10.0\UTB.Minute.Contracts.pdb
 C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.Contracts\obj\Debug\net10.0\ref\UTB.Minute.Contracts.dll
 C:\Users\xsile\source\repos\UTB.Minute\UTB.Minute.Contracts\obj\Debug\net10.0\UTB.Minute.Contracts.sourcelink.json
+C:\Users\xsile\Documents\_FAI_SWI\AF\semestralni_projekt_v2\UTB.Minute\UTB.Minute.Contracts\bin\Debug\net10.0\UTB.Minute.Contracts.deps.json
+C:\Users\xsile\Documents\_FAI_SWI\AF\semestralni_projekt_v2\UTB.Minute\UTB.Minute.Contracts\bin\Debug\net10.0\UTB.Minute.Contracts.dll
+C:\Users\xsile\Documents\_FAI_SWI\AF\semestralni_projekt_v2\UTB.Minute\UTB.Minute.Contracts\bin\Debug\net10.0\UTB.Minute.Contracts.pdb
+C:\Users\xsile\Documents\_FAI_SWI\AF\semestralni_projekt_v2\UTB.Minute\UTB.Minute.Contracts\obj\Debug\net10.0\UTB.Minute.Contracts.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\xsile\Documents\_FAI_SWI\AF\semestralni_projekt_v2\UTB.Minute\UTB.Minute.Contracts\obj\Debug\net10.0\UTB.Minute.Contracts.AssemblyInfoInputs.cache
+C:\Users\xsile\Documents\_FAI_SWI\AF\semestralni_projekt_v2\UTB.Minute\UTB.Minute.Contracts\obj\Debug\net10.0\UTB.Minute.Contracts.AssemblyInfo.cs
+C:\Users\xsile\Documents\_FAI_SWI\AF\semestralni_projekt_v2\UTB.Minute\UTB.Minute.Contracts\obj\Debug\net10.0\UTB.Minute.Contracts.csproj.CoreCompileInputs.cache
+C:\Users\xsile\Documents\_FAI_SWI\AF\semestralni_projekt_v2\UTB.Minute\UTB.Minute.Contracts\obj\Debug\net10.0\UTB.Minute.Contracts.sourcelink.json
+C:\Users\xsile\Documents\_FAI_SWI\AF\semestralni_projekt_v2\UTB.Minute\UTB.Minute.Contracts\obj\Debug\net10.0\UTB.Minute.Contracts.dll
+C:\Users\xsile\Documents\_FAI_SWI\AF\semestralni_projekt_v2\UTB.Minute\UTB.Minute.Contracts\obj\Debug\net10.0\refint\UTB.Minute.Contracts.dll
+C:\Users\xsile\Documents\_FAI_SWI\AF\semestralni_projekt_v2\UTB.Minute\UTB.Minute.Contracts\obj\Debug\net10.0\UTB.Minute.Contracts.pdb
+C:\Users\xsile\Documents\_FAI_SWI\AF\semestralni_projekt_v2\UTB.Minute\UTB.Minute.Contracts\obj\Debug\net10.0\ref\UTB.Minute.Contracts.dll

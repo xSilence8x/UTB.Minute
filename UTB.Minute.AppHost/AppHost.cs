@@ -1,16 +1,17 @@
-using Aspire.Hosting;
-
 var builder = DistributedApplication.CreateBuilder(args);
 
 // Add PostgreSQL database
 var postgres = builder.AddPostgres("postgres")
-    .AddDatabase("minute-db", "minute");
+    .WithPgAdmin() // Add pgAdmin for browsing DB data
+    .WithDataVolume(); // This method allows saving data on a disk
+
+var database = postgres.AddDatabase("database");
 
 // Add WebAPI with PostgreSQL reference
 var webApi = builder.AddProject<Projects.UTB_Minute_WebApi>("webapi")
     .WithHttpHealthCheck("/health")
-    .WithReference(postgres)
-    .WaitFor(postgres);
+    .WithReference(database)
+    .WaitFor(database);
 
 // Add CanteenClient (for students and cooks)
 builder.AddProject<Projects.UTB_Minute_CanteenClient>("canteenclient")
@@ -28,9 +29,8 @@ builder.AddProject<Projects.UTB_Minute_AdminClient>("adminclient")
 
 // Add DbManager for database management
 builder.AddProject<Projects.UTB_Minute_DbManager>("dbmanager")
-    .WithReference(webApi)
-    .WithReference(postgres)
-    .WaitFor(postgres)
-    .WaitFor(webApi);
+    .WithReference(database)
+    .WithHttpCommand("reset-database", "Reset database")
+    .WaitFor(postgres);
 
 builder.Build().Run();

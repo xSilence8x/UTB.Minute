@@ -1,7 +1,7 @@
 [
   {
     "ContainingType": "Program",
-    "Method": "\u003C\u003CMain\u003E$\u003Eg__ResetDatabase|0_1",
+    "Method": "\u003C\u003CMain\u003E$\u003Eg__ResetDatabase|0_0",
     "RelativePath": "reset-database",
     "HttpMethod": "POST",
     "IsController": false,

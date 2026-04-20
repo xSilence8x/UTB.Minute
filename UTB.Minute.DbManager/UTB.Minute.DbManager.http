@@ -1,23 +1,6 @@
-@DbManagerHost = https://localhost:7172
-@WebApiHost = https://localhost:5001
+@UTB.Library.DbManager_HostAddress = http://localhost:5100
 
-### Reset database
-POST {{DbManagerHost}}/reset-database
-Content-Type: application/json
+GET {{UTB.Library.DbManager_HostAddress}}/weatherforecast/
+Accept: application/json
 
-{}
-
-### 
-GET {{DbManagerHost}}/health
-Content-Type: application/json
-
-
-### Get all meals
-GET {{WebApiHost}}/meals
-
-### Get today menu items
-GET {{WebApiHost}}/menu-items/today
-
-### Get all orders
-GET {{WebApiHost}}/orders
-
+###

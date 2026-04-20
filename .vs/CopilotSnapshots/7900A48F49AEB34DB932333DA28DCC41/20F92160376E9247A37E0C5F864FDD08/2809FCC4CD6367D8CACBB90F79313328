@@ -1,0 +1,12 @@
+﻿{
+  "ConnectionStrings": {
+    "minute-db": "Host=localhost;Port=5432;Database=minute;Username=minute;Password=minute"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*"
+}
