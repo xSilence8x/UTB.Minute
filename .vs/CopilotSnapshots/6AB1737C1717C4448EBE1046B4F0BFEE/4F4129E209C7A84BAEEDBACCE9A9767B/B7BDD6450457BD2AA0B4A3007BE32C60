@@ -1,0 +1,196 @@
+﻿# WebAPI Tests Documentation
+
+## Overview
+
+This test suite provides comprehensive integration tests for the UTB.Minute WebAPI endpoints. The tests cover all CRUD operations for Meals, MenuItems, and Orders entities.
+
+## Test Structure
+
+The test suite is organized into three test classes, each focusing on a specific domain:
+
+### 1. **MealEndpointsTests** (10 tests)
+Tests for meal management endpoints:
+- `GetMeals_ShouldReturnAllMeals` - Verify getting all meals
+- `GetMealById_WithValidId_ShouldReturnMeal` - Get specific meal
+- `GetMealById_WithInvalidId_ShouldReturnNotFound` - Handle invalid meal ID
+- `CreateMeal_WithValidData_ShouldReturnCreated` - Create new meal
+- `UpdateMeal_WithValidData_ShouldReturnNoContent` - Update meal information
+- `UpdateMeal_WithInvalidId_ShouldReturnNotFound` - Handle invalid ID on update
+- `UpdateMeal_WithDeactivation_ShouldSetIsActiveToFalse` - Deactivate meal instead of deleting
+
+### 2. **MenuItemEndpointsTests** (11 tests)
+Tests for menu item management endpoints:
+- `GetMenuItems_ShouldReturnAllMenuItems` - List all menu items
+- `GetTodayMenuItems_ShouldReturnOnlyTodaysItems` - Get menu for current day
+- `GetMenuItemById_WithValidId_ShouldReturnMenuItem` - Get specific menu item
+- `GetMenuItemById_WithInvalidId_ShouldReturnNotFound` - Handle invalid menu item ID
+- `CreateMenuItem_WithValidData_ShouldReturnCreated` - Create menu item
+- `CreateMenuItem_WithInvalidMealId_ShouldReturnBadRequest` - Validate meal exists
+- `CreateMenuItem_WithNegativePortions_ShouldReturnBadRequest` - Validate portion count
+- `UpdateMenuItem_WithValidData_ShouldReturnNoContent` - Update menu item
+- `UpdateMenuItem_WithInvalidId_ShouldReturnNotFound` - Handle invalid ID on update
+- `DeleteMenuItem_WithValidId_ShouldReturnNoContent` - Delete menu item
+- `DeleteMenuItem_WithInvalidId_ShouldReturnNotFound` - Handle invalid ID on delete
+
+### 3. **OrderEndpointsTests** (10 tests)
+Tests for order management endpoints:
+- `GetOrders_ShouldReturnAllOrders` - List all orders
+- `GetActiveOrders_ShouldReturnOnlyActiveOrders` - Get non-completed orders
+- `GetOrderById_WithValidId_ShouldReturnOrder` - Get specific order
+- `GetOrderById_WithInvalidId_ShouldReturnNotFound` - Handle invalid order ID
+- `CreateOrder_WithValidData_ShouldReturnCreated` - Create order
+- `CreateOrder_WithInvalidMenuItem_ShouldReturnBadRequest` - Validate menu item exists
+- `CreateOrder_WithSoldOutMenuItem_ShouldReturnBadRequest` - Prevent ordering when sold out
+- `CreateOrder_ShouldDecreaseAvailablePortions` - Verify portion count decreases
+- `UpdateOrderState_FromPreparingToReady_ShouldReturnNoContent` - Change order state
+- `UpdateOrderState_FromPreparingToCancelled_ShouldReturnNoContent` - Cancel order
+- `UpdateOrderState_WithInvalidId_ShouldReturnNotFound` - Handle invalid order ID
+- `UpdateOrderState_InvalidTransition_ShouldReturnBadRequest` - Block invalid state transitions
+- `UpdateOrderState_ToCompleted_ShouldReturnNoContent` - Complete order
+
+## Prerequisites
+
+### Required:
+- **.NET 10** - The project targets .NET 10
+- **PostgreSQL 15+** - Running locally on `localhost:5432`
+- **Test Database** - A database named `utb_minute_test` must exist
+
+### Database Setup
+
+1. **Ensure PostgreSQL is running:**
+   ```powershell
+   # Option 1: Run via Docker
+   docker run --name postgres-utb-minute ^
+     -e POSTGRES_PASSWORD=postgres ^
+     -p 5432:5432 ^
+     -d postgres:latest
+
+   # Option 2: Use Aspire AppHost
+   dotnet run --project .\UTB.Minute.AppHost\
+   ```
+
+2. **Create test database:**
+   ```sql
+   CREATE DATABASE utb_minute_test;
+   ```
+
+## Running Tests
+
+### Via Visual Studio
+1. Open **Test Explorer** (Test > Test Explorer)
+2. Right-click on "UTB.Minute.WebApi.Tests" project
+3. Select "Run All Tests"
+
+### Via Command Line
+```powershell
+cd C:\Users\xs8x\Documents\AP_project\UTB.Minute
+dotnet test UTB.Minute.WebApi.Tests
+```
+
+### With Detailed Output
+```powershell
+dotnet test UTB.Minute.WebApi.Tests --logger "console;verbosity=detailed"
+```
+
+### Run Specific Test Class
+```powershell
+dotnet test UTB.Minute.WebApi.Tests --filter "ClassName=UTB.Minute.WebApi.Tests.MealEndpointsTests"
+```
+
+### Run Specific Test Method
+```powershell
+dotnet test UTB.Minute.WebApi.Tests --filter "Name=CreateMeal_WithValidData_ShouldReturnCreated"
+```
+
+## Test Implementation Details
+
+### WebApiFactory
+The `WebApiFactory` class configures a test-specific WebApplicationFactory that:
+- Overrides Aspire's service discovery configuration
+- Connects to the dedicated `utb_minute_test` PostgreSQL database
+- Maintains isolation between test runs
+
+### Database Cleanup
+Each test class implements `IAsyncLifetime`:
+- `InitializeAsync()` - Creates a new factory and resets the database
+- `DisposeAsync()` - Cleans up resources
+
+The `/reset-database` endpoint is called before each test class to:
+- Delete all existing data
+- Recreate the schema
+- Seed initial test data (2 meals, 2 menu items, 2 orders)
+
+### Assertion Library
+Tests use **FluentAssertions** for readable and maintainable assertions:
+```csharp
+response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+content.Should().Contain("expectedValue");
+portionsBefore.Should().BeTrue();
+```
+
+## Key Test Scenarios
+
+### Meals
+✅ Create, read, update operations  
+✅ Deactivation instead of deletion  
+✅ Handles invalid IDs gracefully  
+
+### Menu Items
+✅ CRUD operations  
+✅ Validates meal existence  
+✅ Validates portion counts (non-negative)  
+✅ Filters today's menu  
+
+### Orders
+✅ CRUD operations  
+✅ Validates menu item existence  
+✅ Prevents ordering sold-out items  
+✅ Decreases available portions on order  
+✅ State transitions with validation  
+
+## Expected Test Results
+
+All 31 tests should pass when:
+- PostgreSQL is running
+- Test database `utb_minute_test` exists
+- Proper credentials are configured (user: postgres, password: postgres, host: localhost)
+
+```
+Test summary: total: 31; failed: 0; succeeded: 31; skipped: 0
+```
+
+## Troubleshooting
+
+### "Cannot connect to PostgreSQL"
+- Verify PostgreSQL is running: `psql -h localhost -U postgres`
+- Check credentials in `WebApiFactory.cs`
+- Ensure port 5432 is accessible
+
+### "Database 'utb_minute_test' does not exist"
+- Create the database manually or let the tests create it
+- The `/reset-database` endpoint should create tables automatically
+
+### "Tests timeout"
+- PostgreSQL may be slow on first run
+- Increase test timeout if necessary
+- Check PostgreSQL logs for issues
+
+## CI/CD Integration
+
+For automated testing in CI/CD pipelines:
+
+```powershell
+# Run all tests with minimal logging
+dotnet test UTB.Minute.WebApi.Tests --no-build --verbosity minimal --logger "console;verbosity=minimal"
+
+# With code coverage
+dotnet test UTB.Minute.WebApi.Tests --no-build /p:CollectCoverage=true
+```
+
+## Notes
+
+- Tests are **integration tests**, not unit tests - they test against a real database
+- Each test class is independent and can run in parallel
+- Database is reset before each test class, ensuring clean state
+- Tests verify both happy paths and error scenarios
+- State transition tests validate business rules for order workflow

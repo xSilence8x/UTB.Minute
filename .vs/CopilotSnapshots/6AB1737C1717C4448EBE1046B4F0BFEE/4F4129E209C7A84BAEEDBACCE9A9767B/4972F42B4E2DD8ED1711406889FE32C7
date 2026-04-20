@@ -1,0 +1,156 @@
+﻿# Quick Start: Running Tests
+
+## Step 1: Setup PostgreSQL
+
+### Option A: Using Docker (Recommended)
+```powershell
+# Run PostgreSQL container
+docker run --name postgres-utb-minute `
+  -e POSTGRES_PASSWORD=postgres `
+  -p 5432:5432 `
+  -d postgres:latest
+
+# Wait for PostgreSQL to start
+Start-Sleep -Seconds 5
+```
+
+### Option B: Using Aspire AppHost
+```powershell
+cd "C:\Users\xs8x\Documents\AP_project\UTB.Minute"
+dotnet run --project .\UTB.Minute.AppHost\
+```
+
+### Option C: Local PostgreSQL Installation
+- Ensure PostgreSQL is running on `localhost:5432`
+- Default user: `postgres`, password: `postgres`
+
+## Step 2: Create Test Database
+
+```powershell
+# Using psql
+psql -h localhost -U postgres -c "CREATE DATABASE utb_minute_test;"
+
+# Or using Docker
+docker exec postgres-utb-minute psql -U postgres -c "CREATE DATABASE utb_minute_test;"
+```
+
+## Step 3: Run Tests
+
+### Quick Run (All Tests)
+```powershell
+cd "C:\Users\xs8x\Documents\AP_project\UTB.Minute"
+dotnet test UTB.Minute.WebApi.Tests
+```
+
+### Via Visual Studio
+1. Open Solution Explorer
+2. Navigate to `UTB.Minute.WebApi.Tests` project
+3. Open Test Explorer (Test → Test Explorer)
+4. Click "Run All Tests"
+
+### With Progress Information
+```powershell
+dotnet test UTB.Minute.WebApi.Tests --logger "console;verbosity=detailed"
+```
+
+### Run Specific Test Category
+```powershell
+# Run only meal tests
+dotnet test UTB.Minute.WebApi.Tests --filter "ClassName=UTB.Minute.WebApi.Tests.MealEndpointsTests"
+
+# Run only menu item tests
+dotnet test UTB.Minute.WebApi.Tests --filter "ClassName=UTB.Minute.WebApi.Tests.MenuItemEndpointsTests"
+
+# Run only order tests
+dotnet test UTB.Minute.WebApi.Tests --filter "ClassName=UTB.Minute.WebApi.Tests.OrderEndpointsTests"
+```
+
+### Run Single Test
+```powershell
+dotnet test UTB.Minute.WebApi.Tests --filter "Name=CreateMeal_WithValidData_ShouldReturnCreated"
+```
+
+## Verification
+
+Successful test run output:
+```
+Test summary: total: 31; failed: 0; succeeded: 31; skipped: 0; duration: X.XXs
+```
+
+## Troubleshooting
+
+### PostgreSQL Connection Failed
+```powershell
+# Check if PostgreSQL is running
+docker ps | grep postgres
+
+# Check connection manually
+psql -h localhost -U postgres -d postgres
+
+# View PostgreSQL logs (Docker)
+docker logs postgres-utb-minute
+```
+
+### Test Database Already Exists
+```powershell
+# Drop and recreate (be careful!)
+docker exec postgres-utb-minute psql -U postgres -c "DROP DATABASE utb_minute_test;"
+docker exec postgres-utb-minute psql -U postgres -c "CREATE DATABASE utb_minute_test;"
+```
+
+### Tests Timeout or Hang
+- Increase PowerShell timeout if needed
+- Check PostgreSQL is responsive:
+  ```powershell
+  docker exec postgres-utb-minute psql -U postgres -c "SELECT version();"
+  ```
+
+## Files Structure
+
+```
+UTB.Minute.WebApi.Tests/
+├── EndpointsTests.cs          # All 31 integration tests
+├── WebApiFactory.cs            # Test factory configuration
+├── README.md                   # Comprehensive test documentation
+├── TEST_SUMMARY.md             # Quick test reference
+├── SETUP.md                    # This file - setup instructions
+└── UTB.Minute.WebApi.Tests.csproj  # Project configuration
+```
+
+## Test Classes Organization
+
+### MealEndpointsTests (10 tests)
+- GET /meals
+- GET /meals/{id}
+- POST /meals
+- PUT /meals/{id}
+
+### MenuItemEndpointsTests (11 tests)
+- GET /menu-items
+- GET /menu-items/today
+- GET /menu-items/{id}
+- POST /menu-items
+- PUT /menu-items/{id}
+- DELETE /menu-items/{id}
+
+### OrderEndpointsTests (10 tests)
+- GET /orders
+- GET /orders/active
+- GET /orders/{id}
+- POST /orders
+- PUT /orders/{id}/state
+
+## Post-Test Cleanup (Optional)
+
+```powershell
+# Stop Docker container
+docker stop postgres-utb-minute
+
+# Remove container (optional)
+docker rm postgres-utb-minute
+```
+
+---
+
+For detailed test documentation, see [README.md](README.md)  
+For test list and coverage, see [TEST_SUMMARY.md](TEST_SUMMARY.md)

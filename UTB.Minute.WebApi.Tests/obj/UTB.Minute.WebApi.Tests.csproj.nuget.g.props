@@ -5,12 +5,12 @@
     <RestoreTool Condition=" '$(RestoreTool)' == '' ">NuGet</RestoreTool>
     <ProjectAssetsFile Condition=" '$(ProjectAssetsFile)' == '' ">$(MSBuildThisFileDirectory)project.assets.json</ProjectAssetsFile>
     <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">$(UserProfile)\.nuget\packages\</NuGetPackageRoot>
-    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">C:\Users\xsile\.nuget\packages\;C:\Program Files (x86)\Microsoft Visual Studio\Shared\NuGetPackages</NuGetPackageFolders>
+    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">C:\Users\xs8x\.nuget\packages\;C:\Program Files (x86)\Microsoft Visual Studio\Shared\NuGetPackages</NuGetPackageFolders>
     <NuGetProjectStyle Condition=" '$(NuGetProjectStyle)' == '' ">PackageReference</NuGetProjectStyle>
     <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">7.0.0</NuGetToolVersion>
   </PropertyGroup>
   <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <SourceRoot Include="C:\Users\xsile\.nuget\packages\" />
+    <SourceRoot Include="C:\Users\xs8x\.nuget\packages\" />
     <SourceRoot Include="C:\Program Files (x86)\Microsoft Visual Studio\Shared\NuGetPackages\" />
   </ItemGroup>
   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
@@ -18,12 +18,17 @@
     <Import Project="$(NuGetPackageRoot)xunit.core\2.9.3\build\xunit.core.props" Condition="Exists('$(NuGetPackageRoot)xunit.core\2.9.3\build\xunit.core.props')" />
     <Import Project="$(NuGetPackageRoot)microsoft.extensions.telemetry.abstractions\10.1.0\buildTransitive\net8.0\Microsoft.Extensions.Telemetry.Abstractions.props" Condition="Exists('$(NuGetPackageRoot)microsoft.extensions.telemetry.abstractions\10.1.0\buildTransitive\net8.0\Microsoft.Extensions.Telemetry.Abstractions.props')" />
     <Import Project="$(NuGetPackageRoot)microsoft.entityframeworkcore\10.0.6\buildTransitive\net10.0\Microsoft.EntityFrameworkCore.props" Condition="Exists('$(NuGetPackageRoot)microsoft.entityframeworkcore\10.0.6\buildTransitive\net10.0\Microsoft.EntityFrameworkCore.props')" />
+    <Import Project="$(NuGetPackageRoot)microsoft.extensions.configuration.usersecrets\10.0.6\buildTransitive\net8.0\Microsoft.Extensions.Configuration.UserSecrets.props" Condition="Exists('$(NuGetPackageRoot)microsoft.extensions.configuration.usersecrets\10.0.6\buildTransitive\net8.0\Microsoft.Extensions.Configuration.UserSecrets.props')" />
+    <Import Project="$(NuGetPackageRoot)aspire.dashboard.sdk.win-x64\13.2.2\buildTransitive\Aspire.Dashboard.Sdk.win-x64.props" Condition="Exists('$(NuGetPackageRoot)aspire.dashboard.sdk.win-x64\13.2.2\buildTransitive\Aspire.Dashboard.Sdk.win-x64.props')" />
     <Import Project="$(NuGetPackageRoot)microsoft.testplatform.testhost\17.14.1\build\net8.0\Microsoft.TestPlatform.TestHost.props" Condition="Exists('$(NuGetPackageRoot)microsoft.testplatform.testhost\17.14.1\build\net8.0\Microsoft.TestPlatform.TestHost.props')" />
     <Import Project="$(NuGetPackageRoot)microsoft.codecoverage\17.14.1\build\netstandard2.0\Microsoft.CodeCoverage.props" Condition="Exists('$(NuGetPackageRoot)microsoft.codecoverage\17.14.1\build\netstandard2.0\Microsoft.CodeCoverage.props')" />
     <Import Project="$(NuGetPackageRoot)microsoft.net.test.sdk\17.14.1\build\net8.0\Microsoft.NET.Test.Sdk.props" Condition="Exists('$(NuGetPackageRoot)microsoft.net.test.sdk\17.14.1\build\net8.0\Microsoft.NET.Test.Sdk.props')" />
-    <Import Project="$(NuGetPackageRoot)microsoft.extensions.configuration.usersecrets\10.0.6\buildTransitive\net8.0\Microsoft.Extensions.Configuration.UserSecrets.props" Condition="Exists('$(NuGetPackageRoot)microsoft.extensions.configuration.usersecrets\10.0.6\buildTransitive\net8.0\Microsoft.Extensions.Configuration.UserSecrets.props')" />
   </ImportGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <Pkgxunit_analyzers Condition=" '$(Pkgxunit_analyzers)' == '' ">C:\Users\xsile\.nuget\packages\xunit.analyzers\1.18.0</Pkgxunit_analyzers>
+    <Pkgxunit_analyzers Condition=" '$(Pkgxunit_analyzers)' == '' ">C:\Users\xs8x\.nuget\packages\xunit.analyzers\1.18.0</Pkgxunit_analyzers>
+    <PkgGrpc_Tools Condition=" '$(PkgGrpc_Tools)' == '' ">C:\Users\xs8x\.nuget\packages\grpc.tools\2.78.0</PkgGrpc_Tools>
+    <PkgAspire_Hosting_Orchestration_win-x64 Condition=" '$(PkgAspire_Hosting_Orchestration_win-x64)' == '' ">C:\Users\xs8x\.nuget\packages\aspire.hosting.orchestration.win-x64\13.2.2</PkgAspire_Hosting_Orchestration_win-x64>
+    <PkgAspire_Hosting_AppHost Condition=" '$(PkgAspire_Hosting_AppHost)' == '' ">C:\Users\xs8x\.nuget\packages\aspire.hosting.apphost\13.2.2</PkgAspire_Hosting_AppHost>
+    <PkgAspire_Dashboard_Sdk_win-x64 Condition=" '$(PkgAspire_Dashboard_Sdk_win-x64)' == '' ">C:\Users\xs8x\.nuget\packages\aspire.dashboard.sdk.win-x64\13.2.2</PkgAspire_Dashboard_Sdk_win-x64>
   </PropertyGroup>
 </Project>

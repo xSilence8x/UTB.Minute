@@ -1,0 +1,12 @@
+﻿namespace UTB.Minute.WebApi.Tests;
+
+/// <summary>
+/// Collection definition for all API tests.
+/// Ensures all tests share the same TestFixture instance.
+/// DisableParallelization is important because all tests use the same database.
+/// </summary>
+[CollectionDefinition("Database collection", DisableParallelization = true)]
+public class DatabaseCollection : ICollectionFixture<TestFixture>
+{
+    // This class has no code, it's just used to define a named test collection
+}

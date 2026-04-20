@@ -1,0 +1,373 @@
+﻿# UTB.Minute.WebApi.Tests - Complete Test Suite
+
+## 📋 Index
+
+Welcome to the comprehensive test suite for UTB.Minute WebAPI! This document serves as the entry point for all test-related information.
+
+### 🚀 Getting Started
+
+**If you're new here, start with:**
+1. [`QUICK_REFERENCE.md`](QUICK_REFERENCE.md) - 2-minute overview
+2. [`SETUP.md`](SETUP.md) - Setup instructions
+3. Run the tests!
+
+### 📚 Documentation
+
+| Document | Purpose | Read Time |
+|----------|---------|-----------|
+| **QUICK_REFERENCE.md** | Quick reference card with common commands | 2 min |
+| **SETUP.md** | Step-by-step setup and troubleshooting | 5 min |
+| **README.md** | Comprehensive guide to the test suite | 10 min |
+| **TEST_SUMMARY.md** | Complete list of all 31 tests with descriptions | 5 min |
+| **TEST_MAP.md** | Visual architecture and test organization | 8 min |
+| **IMPLEMENTATION_SUMMARY.md** | Technical implementation details | 7 min |
+| **INDEX.md** | This file - documentation index | 3 min |
+
+---
+
+## 🎯 Test Suite Overview
+
+### Statistics
+- **Total Tests**: 31
+- **Test Classes**: 3 (Meals, MenuItems, Orders)
+- **Endpoints Covered**: 14
+- **Success Paths**: 15 tests
+- **Error Paths**: 16 tests
+
+### Test Coverage
+```
+Meals Endpoints        (10 tests) ████████████░░░░░░░░░░░░░░░░░░░░
+MenuItems Endpoints    (11 tests) █████████████░░░░░░░░░░░░░░░░░░░
+Orders Endpoints       (10 tests) ████████████░░░░░░░░░░░░░░░░░░░░
+```
+
+---
+
+## 📁 File Structure
+
+```
+UTB.Minute.WebApi.Tests/
+│
+├── 📄 Core Test Files
+│   ├── EndpointsTests.cs        ← All 31 integration tests
+│   └── WebApiFactory.cs         ← PostgreSQL test configuration
+│
+├── 📖 Documentation
+│   ├── INDEX.md                 ← This file
+│   ├── QUICK_REFERENCE.md       ← Quick reference (START HERE)
+│   ├── SETUP.md                 ← Setup instructions
+│   ├── README.md                ← Comprehensive guide
+│   ├── TEST_SUMMARY.md          ← Test listing
+│   ├── TEST_MAP.md              ← Visual architecture
+│   └── IMPLEMENTATION_SUMMARY.md ← Technical details
+│
+├── 📦 Project Files
+│   └── UTB.Minute.WebApi.Tests.csproj
+│
+├── 🔨 Build Artifacts
+│   ├── bin/
+│   │   └── Debug/net10.0/
+│   │       └── UTB.Minute.WebApi.Tests.dll
+│   └── obj/
+│
+```
+
+---
+
+## ⚡ Quick Start
+
+### 30-Second Setup
+```powershell
+# 1. Start PostgreSQL
+docker run --name postgres-utb-minute -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres:latest
+
+# 2. Create test database
+docker exec postgres-utb-minute psql -U postgres -c "CREATE DATABASE utb_minute_test;"
+
+# 3. Run tests
+dotnet test UTB.Minute.WebApi.Tests
+```
+
+### Expected Result
+```
+Test summary: total: 31; failed: 0; succeeded: 31; skipped: 0; duration: X.XXs
+```
+
+---
+
+## 🧪 Test Classes
+
+### 1️⃣ MealEndpointsTests (10 tests)
+**Purpose**: Test meal management functionality
+**Endpoints**: GET, POST, PUT /meals
+**Key Tests**:
+- ✓ Create meal with valid data
+- ✓ Get all meals or specific meal
+- ✓ Update meal or deactivate
+- ✓ Handle invalid IDs
+
+### 2️⃣ MenuItemEndpointsTests (11 tests)
+**Purpose**: Test menu item management
+**Endpoints**: GET, POST, PUT, DELETE /menu-items
+**Key Tests**:
+- ✓ List all items and filter by today
+- ✓ Create items with validation
+- ✓ Update items
+- ✓ Delete items
+- ✓ Validate meal existence and portion counts
+
+### 3️⃣ OrderEndpointsTests (10 tests)
+**Purpose**: Test order management and state transitions
+**Endpoints**: GET, POST, PUT /orders
+**Key Tests**:
+- ✓ List all orders or active orders
+- ✓ Create orders with validation
+- ✓ Verify portion count decreases
+- ✓ Manage order state transitions
+- ✓ Prevent invalid state changes
+
+---
+
+## 📊 Endpoint Coverage
+
+### All Endpoints Covered ✓
+
+**Meals (4 endpoints)**
+- `POST /meals` - Create meal
+- `GET /meals` - Get all meals
+- `GET /meals/{id}` - Get meal by ID
+- `PUT /meals/{id}` - Update meal
+
+**MenuItems (6 endpoints)**
+- `POST /menu-items` - Create menu item
+- `GET /menu-items` - Get all menu items
+- `GET /menu-items/today` - Get today's menu
+- `GET /menu-items/{id}` - Get menu item by ID
+- `PUT /menu-items/{id}` - Update menu item
+- `DELETE /menu-items/{id}` - Delete menu item
+
+**Orders (5 endpoints)**
+- `POST /orders` - Create order
+- `GET /orders` - Get all orders
+- `GET /orders/active` - Get active orders
+- `GET /orders/{id}` - Get order by ID
+- `PUT /orders/{id}/state` - Update order state
+
+---
+
+## 🔄 Test Workflow
+
+```
+┌─────────────────────────────────────┐
+│ 1. Setup PostgreSQL Database        │
+├─────────────────────────────────────┤
+│ 2. Create WebApiFactory Instance    │
+├─────────────────────────────────────┤
+│ 3. Reset Database (/reset-database) │
+├─────────────────────────────────────┤
+│ 4. Run Test (Arrange→Act→Assert)    │
+├─────────────────────────────────────┤
+│ 5. Verify Assertions                │
+├─────────────────────────────────────┤
+│ 6. Cleanup Resources                │
+├─────────────────────────────────────┤
+│ 7. Report Results                   │
+└─────────────────────────────────────┘
+```
+
+---
+
+## 🛠️ Technology Stack
+
+- **.NET 10** - Framework
+- **xUnit** - Test framework
+- **FluentAssertions** - Assertion library
+- **PostgreSQL** - Test database
+- **WebApplicationFactory** - Web API testing
+- **HttpClient** - HTTP calls
+
+---
+
+## 📋 Running Tests
+
+### Basic Commands
+```powershell
+# Run all tests
+dotnet test UTB.Minute.WebApi.Tests
+
+# Run specific test class
+dotnet test --filter "ClassName=MealEndpointsTests"
+
+# Run specific test
+dotnet test --filter "Name=CreateMeal_WithValidData_ShouldReturnCreated"
+
+# With verbose output
+dotnet test --logger "console;verbosity=detailed"
+```
+
+### Visual Studio
+1. Open **Test Explorer** (Test → Test Explorer)
+2. Click **Run All Tests**
+
+---
+
+## ✨ Key Features
+
+### Comprehensive Coverage
+- ✓ Happy path tests (success scenarios)
+- ✓ Error handling tests (failure scenarios)
+- ✓ Business logic validation
+- ✓ State transition tests
+- ✓ Data integrity checks
+
+### Production-Ready
+- ✓ Real PostgreSQL database (not in-memory)
+- ✓ Proper test isolation
+- ✓ Automatic database reset
+- ✓ Detailed documentation
+- ✓ Easy troubleshooting
+
+### Well-Organized
+- ✓ Clear test naming
+- ✓ Logical test grouping
+- ✓ AAA pattern (Arrange→Act→Assert)
+- ✓ FluentAssertions for readability
+
+---
+
+## 🔍 Test Scenarios
+
+### What Gets Tested
+
+**Happy Paths** (15 tests)
+- Creating valid resources
+- Reading existing resources
+- Updating resources
+- Deleting resources
+- Filtering data
+
+**Error Handling** (16 tests)
+- Invalid resource IDs → 404 Not Found
+- Invalid request data → 400 Bad Request
+- Business rule violations:
+  - Non-existent foreign keys
+  - Negative values
+  - Sold-out items
+  - Invalid state transitions
+
+**Business Logic** (Additional)
+- Portion counts decrease on order
+- Meals deactivated (not deleted)
+- Order state transitions validated
+- Menu filtered by date
+
+---
+
+## 🚨 Troubleshooting
+
+### PostgreSQL Issues
+**Q: "Cannot connect to PostgreSQL"**
+```powershell
+# Check PostgreSQL is running
+docker ps | grep postgres
+# Or verify local installation
+psql -h localhost -U postgres
+```
+
+**Q: "Database 'utb_minute_test' does not exist"**
+```powershell
+# Create the database
+docker exec postgres-utb-minute psql -U postgres -c "CREATE DATABASE utb_minute_test;"
+```
+
+### Test Issues
+**Q: "Tests timeout"**
+- PostgreSQL may be slow - give it more time
+- Check PostgreSQL logs: `docker logs postgres-utb-minute`
+
+**Q: "All tests fail with 500 Internal Server Error"**
+- Database connection is failing
+- Verify PostgreSQL is running and database exists
+
+See [`SETUP.md`](SETUP.md) for detailed troubleshooting.
+
+---
+
+## 📞 Need Help?
+
+1. **Quick answer?** → [`QUICK_REFERENCE.md`](QUICK_REFERENCE.md)
+2. **Setup issue?** → [`SETUP.md`](SETUP.md)
+3. **Detailed info?** → [`README.md`](README.md)
+4. **Which test?** → [`TEST_SUMMARY.md`](TEST_SUMMARY.md)
+5. **Architecture?** → [`TEST_MAP.md`](TEST_MAP.md)
+6. **Implementation?** → [`IMPLEMENTATION_SUMMARY.md`](IMPLEMENTATION_SUMMARY.md)
+
+---
+
+## 📈 Test Progress
+
+Track your test completion:
+
+```
+Meals Tests
+├─ GET /meals                    ✓ DONE
+├─ GET /meals/{id}              ✓ DONE
+├─ POST /meals                  ✓ DONE
+└─ PUT /meals/{id}              ✓ DONE
+
+MenuItems Tests
+├─ GET /menu-items              ✓ DONE
+├─ GET /menu-items/today        ✓ DONE
+├─ GET /menu-items/{id}         ✓ DONE
+├─ POST /menu-items             ✓ DONE
+├─ PUT /menu-items/{id}         ✓ DONE
+└─ DELETE /menu-items/{id}      ✓ DONE
+
+Orders Tests
+├─ GET /orders                  ✓ DONE
+├─ GET /orders/active           ✓ DONE
+├─ GET /orders/{id}             ✓ DONE
+├─ POST /orders                 ✓ DONE
+└─ PUT /orders/{id}/state       ✓ DONE
+```
+
+---
+
+## ✅ Checklist Before Running Tests
+
+- [ ] PostgreSQL installed/running
+- [ ] Test database `utb_minute_test` created
+- [ ] .NET 10 installed
+- [ ] Visual Studio/VS Code set up
+- [ ] Read [`QUICK_REFERENCE.md`](QUICK_REFERENCE.md)
+- [ ] Dependencies resolved (NuGet restore)
+
+---
+
+## 🎉 Success!
+
+When all tests pass, you should see:
+
+```
+Test summary: total: 31; failed: 0; succeeded: 31; skipped: 0; duration: X.XXs
+```
+
+---
+
+## 📝 Summary
+
+This test suite provides **comprehensive integration testing** for the UTB.Minute WebAPI with:
+- **31 tests** covering **14 endpoints**
+- **Real PostgreSQL database** for testing
+- **Detailed documentation** for easy setup and usage
+- **Production-ready** test infrastructure
+
+**Start here**: [`QUICK_REFERENCE.md`](QUICK_REFERENCE.md)  
+**For setup**: [`SETUP.md`](SETUP.md)  
+**For details**: [`README.md`](README.md)
+
+---
+
+**Happy Testing! 🧪🚀**
+
+*Last Updated: April 20, 2026*

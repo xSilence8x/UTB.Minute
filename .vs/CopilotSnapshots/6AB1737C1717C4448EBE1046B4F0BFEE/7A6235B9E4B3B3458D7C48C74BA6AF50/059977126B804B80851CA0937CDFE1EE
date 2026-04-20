@@ -1,0 +1,276 @@
+﻿# WebAPI Endpoints Test Map
+
+## Architecture Overview
+
+```
+┌─────────────────────────────────────────────────────┐
+│       UTB.Minute.WebApi.Tests (31 Tests)             │
+└─────────────────────────────────────────────────────┘
+           │
+           ├─→ WebApiFactory (Test Configuration)
+           │   └─ Configures PostgreSQL connection
+           │
+           └─→ Integration Tests
+               │
+               ├─ MealEndpointsTests (10 tests)
+               │  ├─ GetMeals_ShouldReturnAllMeals
+               │  ├─ GetMealById_WithValidId_ShouldReturnMeal
+               │  ├─ GetMealById_WithInvalidId_ShouldReturnNotFound
+               │  ├─ CreateMeal_WithValidData_ShouldReturnCreated
+               │  ├─ UpdateMeal_WithValidData_ShouldReturnNoContent
+               │  ├─ UpdateMeal_WithInvalidId_ShouldReturnNotFound
+               │  └─ UpdateMeal_WithDeactivation_ShouldSetIsActiveToFalse
+               │
+               ├─ MenuItemEndpointsTests (11 tests)
+               │  ├─ GetMenuItems_ShouldReturnAllMenuItems
+               │  ├─ GetTodayMenuItems_ShouldReturnOnlyTodaysItems
+               │  ├─ GetMenuItemById_WithValidId_ShouldReturnMenuItem
+               │  ├─ GetMenuItemById_WithInvalidId_ShouldReturnNotFound
+               │  ├─ CreateMenuItem_WithValidData_ShouldReturnCreated
+               │  ├─ CreateMenuItem_WithInvalidMealId_ShouldReturnBadRequest
+               │  ├─ CreateMenuItem_WithNegativePortions_ShouldReturnBadRequest
+               │  ├─ UpdateMenuItem_WithValidData_ShouldReturnNoContent
+               │  ├─ UpdateMenuItem_WithInvalidId_ShouldReturnNotFound
+               │  ├─ DeleteMenuItem_WithValidId_ShouldReturnNoContent
+               │  └─ DeleteMenuItem_WithInvalidId_ShouldReturnNotFound
+               │
+               └─ OrderEndpointsTests (10 tests)
+                  ├─ GetOrders_ShouldReturnAllOrders
+                  ├─ GetActiveOrders_ShouldReturnOnlyActiveOrders
+                  ├─ GetOrderById_WithValidId_ShouldReturnOrder
+                  ├─ GetOrderById_WithInvalidId_ShouldReturnNotFound
+                  ├─ CreateOrder_WithValidData_ShouldReturnCreated
+                  ├─ CreateOrder_WithInvalidMenuItem_ShouldReturnBadRequest
+                  ├─ CreateOrder_WithSoldOutMenuItem_ShouldReturnBadRequest
+                  ├─ CreateOrder_ShouldDecreaseAvailablePortions
+                  ├─ UpdateOrderState_FromPreparingToReady_ShouldReturnNoContent
+                  ├─ UpdateOrderState_FromPreparingToCancelled_ShouldReturnNoContent
+                  ├─ UpdateOrderState_WithInvalidId_ShouldReturnNotFound
+                  ├─ UpdateOrderState_InvalidTransition_ShouldReturnBadRequest
+                  └─ UpdateOrderState_ToCompleted_ShouldReturnNoContent
+```
+
+---
+
+## Endpoint Coverage Matrix
+
+### Meals Domain
+```
+┌─────────────────────────────────────────────────────┐
+│ Meal Endpoints Tests (10 tests)                     │
+├─────────────────────────────────────────────────────┤
+│ GET    /meals              → ✓ GetMeals_...        │
+│ GET    /meals/{id}         → ✓ GetMealById_...     │
+│ POST   /meals              → ✓ CreateMeal_...      │
+│ PUT    /meals/{id}         → ✓ UpdateMeal_...      │
+│        (Deactivation)      → ✓ Deactivation test   │
+└─────────────────────────────────────────────────────┘
+```
+
+### Menu Items Domain
+```
+┌─────────────────────────────────────────────────────┐
+│ MenuItem Endpoints Tests (11 tests)                 │
+├─────────────────────────────────────────────────────┤
+│ GET    /menu-items         → ✓ GetMenuItems_...    │
+│ GET    /menu-items/today   → ✓ GetTodayMenuItems_...│
+│ GET    /menu-items/{id}    → ✓ GetMenuItemById_... │
+│ POST   /menu-items         → ✓ CreateMenuItem_...  │
+│        (Validation)        → ✓ Invalid meals, ports │
+│ PUT    /menu-items/{id}    → ✓ UpdateMenuItem_...  │
+│ DELETE /menu-items/{id}    → ✓ DeleteMenuItem_...  │
+└─────────────────────────────────────────────────────┘
+```
+
+### Orders Domain
+```
+┌──────────────────────────────────────────────────────┐
+│ Order Endpoints Tests (10 tests)                     │
+├──────────────────────────────────────────────────────┤
+│ GET    /orders             → ✓ GetOrders_...        │
+│ GET    /orders/active      → ✓ GetActiveOrders_...  │
+│ GET    /orders/{id}        → ✓ GetOrderById_...     │
+│ POST   /orders             → ✓ CreateOrder_...      │
+│        (Validation)        → ✓ Invalid items, sold-out│
+│        (Business Logic)    → ✓ Portion decrease     │
+│ PUT    /orders/{id}/state  → ✓ UpdateOrderState_... │
+│        (State Transitions) → ✓ Valid & invalid      │
+└──────────────────────────────────────────────────────┘
+```
+
+---
+
+## Test Flow Diagram
+
+```
+Test Execution
+      │
+      ├─→ Initialize Factory
+      │   └─→ Create WebApiFactory instance
+      │   └─→ Create HttpClient
+      │   └─→ POST /reset-database
+      │
+      ├─→ Execute Test
+      │   ├─→ Arrange (Setup test data)
+      │   ├─→ Act (Call endpoint)
+      │   └─→ Assert (Verify response)
+      │
+      └─→ Cleanup
+          ├─→ HttpClient.Dispose()
+          └─→ Factory.DisposeAsync()
+```
+
+---
+
+## Request/Response Pattern
+
+### Success Response (201 Created)
+```
+Request:  POST /meals
+Body:     { "name": "...", "description": "...", "price": 150.00 }
+Response: 201 Created
+Headers:  Location: /meals/3
+```
+
+### Error Response (400 Bad Request)
+```
+Request:  POST /menu-items
+Body:     { "mealId": 999, "date": "2024-04-20", "availablePortions": 10 }
+Response: 400 Bad Request
+Body:     "Selected meal does not exist."
+```
+
+### Not Found Response (404)
+```
+Request:  GET /meals/999
+Response: 404 Not Found
+```
+
+---
+
+## Database Operations in Tests
+
+```
+┌──────────────────────────────────────┐
+│   Database Reset (Before Each Test)  │
+├──────────────────────────────────────┤
+│ 1. DELETE from Orders                │
+│ 2. DELETE from MenuItems             │
+│ 3. DELETE from Meals                 │
+│ 4. CREATE new Meals (2)              │
+│    - Kuřecí řízek (ID: 1)           │
+│    - Svíčková (ID: 2)               │
+│ 5. CREATE new MenuItems (2)          │
+│    - MenuItem 1 (10 portions)        │
+│    - MenuItem 2 (5 portions)         │
+│ 6. CREATE new Orders (2)             │
+│    - Order 1 (Preparing)             │
+│    - Order 2 (Ready)                 │
+└──────────────────────────────────────┘
+```
+
+---
+
+## Test Categorization by Purpose
+
+### Happy Path Tests (15)
+- `GetMeals_ShouldReturnAllMeals`
+- `GetMealById_WithValidId_ShouldReturnMeal`
+- `CreateMeal_WithValidData_ShouldReturnCreated`
+- `UpdateMeal_WithValidData_ShouldReturnNoContent`
+- `GetMenuItems_ShouldReturnAllMenuItems`
+- `GetTodayMenuItems_ShouldReturnOnlyTodaysItems`
+- `GetMenuItemById_WithValidId_ShouldReturnMenuItem`
+- `CreateMenuItem_WithValidData_ShouldReturnCreated`
+- `UpdateMenuItem_WithValidData_ShouldReturnNoContent`
+- `DeleteMenuItem_WithValidId_ShouldReturnNoContent`
+- `GetOrders_ShouldReturnAllOrders`
+- `GetActiveOrders_ShouldReturnOnlyActiveOrders`
+- `GetOrderById_WithValidId_ShouldReturnOrder`
+- `CreateOrder_WithValidData_ShouldReturnCreated`
+- `UpdateOrderState_FromPreparingToReady_ShouldReturnNoContent`
+
+### Error Handling Tests (16)
+- `GetMealById_WithInvalidId_ShouldReturnNotFound`
+- `UpdateMeal_WithInvalidId_ShouldReturnNotFound`
+- `GetMenuItemById_WithInvalidId_ShouldReturnNotFound`
+- `CreateMenuItem_WithInvalidMealId_ShouldReturnBadRequest`
+- `CreateMenuItem_WithNegativePortions_ShouldReturnBadRequest`
+- `UpdateMenuItem_WithInvalidId_ShouldReturnNotFound`
+- `DeleteMenuItem_WithInvalidId_ShouldReturnNotFound`
+- `GetOrderById_WithInvalidId_ShouldReturnNotFound`
+- `CreateOrder_WithInvalidMenuItem_ShouldReturnBadRequest`
+- `CreateOrder_WithSoldOutMenuItem_ShouldReturnBadRequest`
+- `UpdateOrderState_WithInvalidId_ShouldReturnNotFound`
+- `UpdateOrderState_InvalidTransition_ShouldReturnBadRequest`
+
+### Business Logic Tests (3)
+- `UpdateMeal_WithDeactivation_ShouldSetIsActiveToFalse`
+- `CreateOrder_ShouldDecreaseAvailablePortions`
+- `UpdateOrderState_FromPreparingToCancelled_ShouldReturnNoContent`
+- `UpdateOrderState_ToCompleted_ShouldReturnNoContent`
+
+---
+
+## Test Dependencies
+
+```
+FluentAssertions
+     ↓
+   Tests
+     ↓
+HttpClient
+     ↓
+WebApplicationFactory
+     ↓
+WebApiFactory
+     ↓
+Program.cs (WebAPI)
+     ↓
+DbContext (MinuteDbContext)
+     ↓
+PostgreSQL Database
+```
+
+---
+
+## Running Tests Workflow
+
+```
+User Input
+    ↓
+dotnet test
+    ↓
+Load Test Project
+    ↓
+Compile Tests
+    ↓
+For each Test Class:
+    ├─ Call InitializeAsync()
+    ├─ Run all tests in class
+    └─ Call DisposeAsync()
+    ↓
+Generate Results
+    ↓
+Display Summary
+    ↓
+Exit with status code
+```
+
+---
+
+## Key Files
+
+| File | Purpose |
+|------|---------|
+| `EndpointsTests.cs` | 31 integration tests |
+| `WebApiFactory.cs` | PostgreSQL configuration |
+| `README.md` | Comprehensive documentation |
+| `TEST_SUMMARY.md` | Quick test reference |
+| `SETUP.md` | Setup and troubleshooting |
+| `IMPLEMENTATION_SUMMARY.md` | Implementation details |
+| `TEST_MAP.md` | This visual guide |
+
+---
+
+**Total Test Coverage: 31 tests across 14 endpoints**

@@ -3636,23 +3636,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\xsile\\.nuget\\packages\\": {},
+    "C:\\Users\\xs8x\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\xsile\\Documents\\_FAI_SWI\\AF\\semestralni_projekt_v2\\UTB.Minute\\UTB.Minute.AppHost\\UTB.Minute.AppHost.csproj",
+      "projectUniqueName": "C:\\Users\\xs8x\\Documents\\AP_project\\UTB.Minute\\UTB.Minute.AppHost\\UTB.Minute.AppHost.csproj",
       "projectName": "UTB.Minute.AppHost",
-      "projectPath": "C:\\Users\\xsile\\Documents\\_FAI_SWI\\AF\\semestralni_projekt_v2\\UTB.Minute\\UTB.Minute.AppHost\\UTB.Minute.AppHost.csproj",
-      "packagesPath": "C:\\Users\\xsile\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\xsile\\Documents\\_FAI_SWI\\AF\\semestralni_projekt_v2\\UTB.Minute\\UTB.Minute.AppHost\\obj\\",
+      "projectPath": "C:\\Users\\xs8x\\Documents\\AP_project\\UTB.Minute\\UTB.Minute.AppHost\\UTB.Minute.AppHost.csproj",
+      "packagesPath": "C:\\Users\\xs8x\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\xs8x\\Documents\\AP_project\\UTB.Minute\\UTB.Minute.AppHost\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\xsile\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\xs8x\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -3661,7 +3661,6 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {

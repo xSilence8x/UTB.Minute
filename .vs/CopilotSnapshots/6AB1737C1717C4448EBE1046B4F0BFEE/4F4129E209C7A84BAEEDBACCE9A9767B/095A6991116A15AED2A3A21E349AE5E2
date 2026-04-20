@@ -1,0 +1,147 @@
+﻿namespace UTB.Minute.WebApi.Tests;
+
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.ServiceDiscovery;
+using Testcontainers.PostgreSql;
+using UTB.Minute.Db;
+using UTB.Minute.Db.Entities;
+
+/// <summary>
+/// Test fixture that provides a PostgreSQL database for integration tests.
+/// Uses Testcontainers for automatic PostgreSQL management.
+/// </summary>
+public class TestFixture : IAsyncLifetime
+{
+    private PostgreSqlContainer? _container;
+    private string? _connectionString;
+
+    /// <summary>
+    /// HttpClient for calling Web API endpoints
+    /// </summary>
+    public HttpClient HttpClient { get; private set; } = null!;
+
+    /// <summary>
+    /// Initialize PostgreSQL container and seed test data
+    /// </summary>
+    public async Task InitializeAsync()
+    {
+        // Create and start PostgreSQL container
+        _container = new PostgreSqlBuilder()
+            .WithDatabase("utb_minute_test")
+            .WithUsername("postgres")
+            .WithPassword("postgres")
+            .WithImage("postgres:latest")
+            .Build();
+
+        await _container.StartAsync();
+
+        // Get connection string
+        _connectionString = _container.GetConnectionString();
+
+        // Create HTTP client for API calls
+        HttpClient = new HttpClient
+        {
+            BaseAddress = new Uri("https://localhost:5000/"),
+            Timeout = TimeSpan.FromSeconds(30)
+        };
+
+        // Create and seed database
+        using var context = CreateContext();
+        await context.Database.EnsureCreatedAsync();
+        await SeedTestDataAsync(context);
+    }
+
+    /// <summary>
+    /// Create a fresh DbContext with connection string to test database
+    /// </summary>
+    public MinuteDbContext CreateContext()
+    {
+        var options = new DbContextOptionsBuilder<MinuteDbContext>()
+            .UseNpgsql(_connectionString)
+            .Options;
+
+        return new MinuteDbContext(options);
+    }
+
+    /// <summary>
+    /// Seed initial test data for all tests
+    /// </summary>
+    private async Task SeedTestDataAsync(MinuteDbContext context)
+    {
+        // Create test meals
+        var meal1 = new Meal
+        {
+            Name = "Kuřecí řízek s bramborem",
+            Description = "Klasický český oběd s kuřecím řízkem, bramborem a tatarkou.",
+            Price = 85.00m,
+            IsActive = true,
+        };
+
+        var meal2 = new Meal
+        {
+            Name = "Svíčková na smetaně",
+            Description = "Hovězí pečeně na smetaně s houskovým knedlíkem a brusinkami.",
+            Price = 110.00m,
+            IsActive = true,
+        };
+
+        context.Meals.AddRange(meal1, meal2);
+        await context.SaveChangesAsync();
+
+        // Create test menu items for today
+        var today = DateOnly.FromDateTime(DateTime.Today);
+
+        var menuItem1 = new MenuItem
+        {
+            Meal = meal1,
+            Date = today,
+            AvailablePortions = 10
+        };
+
+        var menuItem2 = new MenuItem
+        {
+            Meal = meal2,
+            Date = today,
+            AvailablePortions = 5
+        };
+
+        context.MenuItems.AddRange(menuItem1, menuItem2);
+        await context.SaveChangesAsync();
+
+        // Create test orders
+        var order1 = new Order
+        {
+            MenuItem = menuItem1,
+            StudentName = "Jan Novák",
+            CreatedAtUtc = DateTime.UtcNow,
+            State = OrderState.Preparing
+        };
+
+        var order2 = new Order
+        {
+            MenuItem = menuItem2,
+            StudentName = "Eva Dvořáková",
+            CreatedAtUtc = DateTime.UtcNow.AddMinutes(-10),
+            State = OrderState.Ready
+        };
+
+        context.Orders.AddRange(order1, order2);
+        await context.SaveChangesAsync();
+    }
+
+    /// <summary>
+    /// Cleanup: stop PostgreSQL container and dispose resources
+    /// </summary>
+    public async Task DisposeAsync()
+    {
+        HttpClient?.Dispose();
+
+        if (_container != null)
+        {
+            await _container.StopAsync();
+            await _container.DisposeAsync();
+        }
+
+        GC.SuppressFinalize(this);
+    }
+}

@@ -1,0 +1,244 @@
+﻿# Test Quick Reference Card
+
+## Test Suite Overview
+- **Total Tests**: 31
+- **Test Classes**: 3
+- **Endpoints Covered**: 14
+- **Framework**: xUnit with FluentAssertions
+- **Database**: PostgreSQL (real database, not in-memory)
+
+---
+
+## Running Tests
+
+### Command Line
+```bash
+# Run all tests
+dotnet test UTB.Minute.WebApi.Tests
+
+# Run with verbosity
+dotnet test UTB.Minute.WebApi.Tests --logger "console;verbosity=detailed"
+
+# Run specific class
+dotnet test --filter "ClassName=MealEndpointsTests"
+
+# Run specific test
+dotnet test --filter "Name=CreateMeal_WithValidData_ShouldReturnCreated"
+```
+
+### Visual Studio
+1. Test → Test Explorer
+2. Right-click project → Run Tests
+
+---
+
+## Test Classes at a Glance
+
+### 🍽️ MealEndpointsTests (10 tests)
+| Endpoint | Tests |
+|----------|-------|
+| GET /meals | ✓ |
+| GET /meals/{id} | ✓ Valid & Invalid |
+| POST /meals | ✓ |
+| PUT /meals/{id} | ✓ Update & Deactivate |
+
+### 📋 MenuItemEndpointsTests (11 tests)
+| Endpoint | Tests |
+|----------|-------|
+| GET /menu-items | ✓ |
+| GET /menu-items/today | ✓ |
+| GET /menu-items/{id} | ✓ Valid & Invalid |
+| POST /menu-items | ✓ With validation |
+| PUT /menu-items/{id} | ✓ Valid & Invalid |
+| DELETE /menu-items/{id} | ✓ Valid & Invalid |
+
+### 📦 OrderEndpointsTests (10 tests)
+| Endpoint | Tests |
+|----------|-------|
+| GET /orders | ✓ |
+| GET /orders/active | ✓ |
+| GET /orders/{id} | ✓ Valid & Invalid |
+| POST /orders | ✓ With validation |
+| PUT /orders/{id}/state | ✓ State transitions |
+
+---
+
+## Setup Checklist
+
+- [ ] PostgreSQL running on localhost:5432
+- [ ] Database `utb_minute_test` created
+- [ ] .NET 10 installed
+- [ ] Visual Studio or VS Code with .NET extensions
+
+---
+
+## Database Setup (One-time)
+
+### Docker
+```powershell
+docker run --name postgres-utb-minute -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres:latest
+docker exec postgres-utb-minute psql -U postgres -c "CREATE DATABASE utb_minute_test;"
+```
+
+### Direct PostgreSQL
+```sql
+CREATE DATABASE utb_minute_test;
+```
+
+---
+
+## Common Test Scenarios
+
+### ✓ Happy Path
+- Create resource with valid data → 201 Created
+- Get existing resource → 200 OK
+- Update resource → 204 No Content
+- Delete resource → 204 No Content
+
+### ✗ Error Cases
+- Get non-existent resource → 404 Not Found
+- Create with invalid foreign key → 400 Bad Request
+- Create with negative values → 400 Bad Request
+- Invalid state transition → 400 Bad Request
+
+### 🔄 Business Logic
+- Order decreases available portions
+- Meal deactivation (not deletion)
+- Order state transitions validated
+- Menu filtering by date
+
+---
+
+## Test Assertion Patterns
+
+### HTTP Status Codes
+```csharp
+response.StatusCode.Should().Be(HttpStatusCode.OK);
+response.StatusCode.Should().Be(HttpStatusCode.Created);
+response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+```
+
+### Headers
+```csharp
+response.Headers.Location.Should().NotBeNull();
+response.Headers.Location.Should().Contain("/meals/");
+```
+
+### Content
+```csharp
+content.Should().NotBeEmpty();
+content.Should().Contain("\"isActive\":false");
+portionsBefore.Should().BeTrue();
+```
+
+---
+
+## Test File Structure
+
+Each test follows AAA pattern:
+```csharp
+[Fact]
+public async Task TestName()
+{
+    // Arrange - Setup test data
+    var createDto = new { name = "Test" };
+    var content = new StringContent(...);
+
+    // Act - Execute endpoint
+    var response = await _httpClient.PostAsync("/endpoint", content);
+
+    // Assert - Verify response
+    response.StatusCode.Should().Be(HttpStatusCode.Created);
+}
+```
+
+---
+
+## Database Reset
+
+Automatic before each test class:
+```csharp
+await _httpClient.PostAsync("/reset-database", null);
+```
+
+This endpoint:
+1. ✓ Deletes all data
+2. ✓ Recreates schema
+3. ✓ Seeds test data (2 meals, 2 menu items, 2 orders)
+
+---
+
+## Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| Connection refused | Check PostgreSQL is running |
+| Database not found | Create `utb_minute_test` database |
+| Tests timeout | Verify PostgreSQL responsiveness |
+| Port in use | Change port or stop other services |
+
+---
+
+## Documentation Files
+
+| File | Purpose |
+|------|---------|
+| `README.md` | Detailed documentation |
+| `TEST_SUMMARY.md` | Test reference list |
+| `SETUP.md` | Setup instructions |
+| `TEST_MAP.md` | Visual architecture |
+| `IMPLEMENTATION_SUMMARY.md` | Implementation details |
+| `QUICK_REFERENCE.md` | This file |
+
+---
+
+## Key Statistics
+
+- **Total Endpoints**: 14
+- **Total Tests**: 31
+- **Success Path Tests**: 15
+- **Error Path Tests**: 16
+- **Test Execution Time**: ~10-15 seconds (depending on PostgreSQL performance)
+
+---
+
+## IDE Shortcuts
+
+### Visual Studio
+- **Ctrl+R, Ctrl+A** - Run All Tests
+- **Ctrl+R, Ctrl+T** - Run Tests in Current Context
+- **Test → Test Explorer** - Open Test Explorer
+
+### Command Line
+```bash
+# Watch for changes and run tests
+dotnet watch test --project UTB.Minute.WebApi.Tests
+
+# Run with coverage
+dotnet test /p:CollectCoverage=true
+```
+
+---
+
+## Expected Output
+
+Successful test run:
+```
+Test summary: total: 31; failed: 0; succeeded: 31; skipped: 0; duration: X.XXs
+```
+
+---
+
+## Next Steps After Running Tests
+
+1. Review test output for any failures
+2. Check `TEST_SUMMARY.md` for what each test does
+3. Read `README.md` for detailed documentation
+4. Customize tests for your specific needs
+5. Run tests in CI/CD pipeline
+
+---
+
+**Happy Testing! 🧪**

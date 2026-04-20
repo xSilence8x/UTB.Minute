@@ -1,0 +1,683 @@
+﻿namespace UTB.Minute.WebApi.Tests;
+
+using System.Net;
+using System.Text.Json;
+using UTB.Minute.Contracts.Meals;
+using UTB.Minute.Contracts.MenuItems;
+using UTB.Minute.Contracts.Orders;
+using UTB.Minute.Db;
+using UTB.Minute.Db.Entities;
+
+/// <summary>
+/// Integration tests for Meal endpoints.
+/// Tests verify HTTP status codes, response content, and database state.
+/// </summary>
+[Collection("Database collection")]
+public class MealEndpointsTests(TestFixture fixture)
+{
+    private readonly TestFixture fixture = fixture;
+
+    [Fact]
+    public async Task GetMeals_ShouldReturnAllMeals()
+    {
+        // Act
+        var response = await fixture.HttpClient.GetAsync("/meals", TestContext.Current.CancellationToken);
+        var content = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        content.Should().NotBeEmpty();
+        content.Should().Contain("Kuřecí řízek");
+    }
+
+    [Fact]
+    public async Task GetMealById_WithValidId_ShouldReturnMeal()
+    {
+        // Act
+        var response = await fixture.HttpClient.GetAsync("/meals/1", TestContext.Current.CancellationToken);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+    }
+
+    [Fact]
+    public async Task GetMealById_WithInvalidId_ShouldReturnNotFound()
+    {
+        // Act
+        var response = await fixture.HttpClient.GetAsync("/meals/999", TestContext.Current.CancellationToken);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+
+    [Fact]
+    public async Task CreateMeal_WithValidData_ShouldReturnCreatedAndPersistsMeal()
+    {
+        // Arrange
+        var createMealDto = new CreateMealDto
+        {
+            Name = "Test Pokrm",
+            Description = "Testovací pokrm",
+            Price = 150.00m
+        };
+
+        // Act
+        var response = await fixture.HttpClient.PostAsJsonAsync(
+            "/meals",
+            createMealDto,
+            TestContext.Current.CancellationToken);
+
+        // Assert - HTTP response
+        response.StatusCode.Should().Be(HttpStatusCode.Created);
+        response.Headers.Location.Should().NotBeNull();
+
+        var responseContent = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
+        var mealDto = JsonSerializer.Deserialize<MealDto>(responseContent);
+
+        mealDto.Should().NotBeNull();
+        mealDto!.Name.Should().Be(createMealDto.Name);
+        mealDto.Description.Should().Be(createMealDto.Description);
+        mealDto.Price.Should().Be(createMealDto.Price);
+        mealDto.IsActive.Should().BeTrue();
+
+        // Assert - Database state
+        using var context = fixture.CreateContext();
+        var mealInDb = await context.Meals.FindAsync(mealDto.Id, TestContext.Current.CancellationToken);
+
+        mealInDb.Should().NotBeNull();
+        mealInDb!.Name.Should().Be(createMealDto.Name);
+        mealInDb.Price.Should().Be(createMealDto.Price);
+        mealInDb.IsActive.Should().BeTrue();
+    }
+
+    [Fact]
+    public async Task UpdateMeal_WithValidData_ShouldReturnNoContentAndUpdateDatabase()
+    {
+        // Arrange
+        var updateMealDto = new UpdateMealDto
+        {
+            Name = "Aktualizovaný pokrm",
+            Description = "Nový popis",
+            Price = 200.00m,
+            IsActive = true
+        };
+
+        // Act
+        var response = await fixture.HttpClient.PutAsJsonAsync(
+            "/meals/1",
+            updateMealDto,
+            TestContext.Current.CancellationToken);
+
+        // Assert - HTTP response
+        response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+
+        // Assert - Database state
+        using var context = fixture.CreateContext();
+        var meal = await context.Meals.FindAsync(1, TestContext.Current.CancellationToken);
+
+        meal.Should().NotBeNull();
+        meal!.Name.Should().Be(updateMealDto.Name);
+        meal.Description.Should().Be(updateMealDto.Description);
+        meal.Price.Should().Be(updateMealDto.Price);
+    }
+
+    [Fact]
+    public async Task UpdateMeal_WithInvalidId_ShouldReturnNotFound()
+    {
+        // Arrange
+        var updateMealDto = new UpdateMealDto
+        {
+            Name = "Test",
+            Description = "Test",
+            Price = 100.00m,
+            IsActive = true
+        };
+
+        // Act
+        var response = await fixture.HttpClient.PutAsJsonAsync(
+            "/meals/999",
+            updateMealDto,
+            TestContext.Current.CancellationToken);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+
+    [Fact]
+    public async Task UpdateMeal_WithDeactivation_ShouldSetIsActiveToFalse()
+    {
+        // Arrange
+        var updateMealDto = new UpdateMealDto
+        {
+            Name = "Kuřecí řízek s bramborem",
+            Description = "Klasický český oběd s kuřecím řízkem, bramborem a tatarkou.",
+            Price = 85.00m,
+            IsActive = false
+        };
+
+        // Act
+        var response = await fixture.HttpClient.PutAsJsonAsync(
+            "/meals/1",
+            updateMealDto,
+            TestContext.Current.CancellationToken);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+
+        // Verify in database
+        using var context = fixture.CreateContext();
+        var meal = await context.Meals.FindAsync(1, TestContext.Current.CancellationToken);
+
+        meal.Should().NotBeNull();
+        meal!.IsActive.Should().BeFalse();
+    }
+}
+
+/// <summary>
+/// Integration tests for MenuItem endpoints.
+/// </summary>
+[Collection("Database collection")]
+public class MenuItemEndpointsTests(TestFixture fixture)
+{
+    private readonly TestFixture fixture = fixture;
+
+    [Fact]
+    public async Task GetMenuItems_ShouldReturnAllMenuItems()
+    {
+        // Act
+        var response = await fixture.HttpClient.GetAsync("/menu-items", TestContext.Current.CancellationToken);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        var content = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
+        content.Should().NotBeEmpty();
+    }
+
+    [Fact]
+    public async Task GetTodayMenuItems_ShouldReturnOnlyTodaysItems()
+    {
+        // Act
+        var response = await fixture.HttpClient.GetAsync("/menu-items/today", TestContext.Current.CancellationToken);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+    }
+
+    [Fact]
+    public async Task GetMenuItemById_WithValidId_ShouldReturnMenuItem()
+    {
+        // Act
+        var response = await fixture.HttpClient.GetAsync("/menu-items/1", TestContext.Current.CancellationToken);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+    }
+
+    [Fact]
+    public async Task GetMenuItemById_WithInvalidId_ShouldReturnNotFound()
+    {
+        // Act
+        var response = await fixture.HttpClient.GetAsync("/menu-items/999", TestContext.Current.CancellationToken);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+
+    [Fact]
+    public async Task CreateMenuItem_WithValidData_ShouldReturnCreatedAndPersistsMenuItem()
+    {
+        // Arrange
+        var createMenuItemDto = new CreateMenuItemDto
+        {
+            MealId = 1,
+            Date = DateOnly.FromDateTime(DateTime.Today),
+            AvailablePortions = 15
+        };
+
+        // Act
+        var response = await fixture.HttpClient.PostAsJsonAsync(
+            "/menu-items",
+            createMenuItemDto,
+            TestContext.Current.CancellationToken);
+
+        // Assert - HTTP response
+        response.StatusCode.Should().Be(HttpStatusCode.Created);
+        response.Headers.Location.Should().NotBeNull();
+
+        var responseContent = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
+        var menuItemDto = JsonSerializer.Deserialize<MenuItemDto>(responseContent);
+
+        menuItemDto.Should().NotBeNull();
+        menuItemDto!.MealId.Should().Be(createMenuItemDto.MealId);
+        menuItemDto.AvailablePortions.Should().Be(createMenuItemDto.AvailablePortions);
+
+        // Assert - Database state
+        using var context = fixture.CreateContext();
+        var menuItemInDb = await context.MenuItems.FindAsync(menuItemDto.Id, TestContext.Current.CancellationToken);
+
+        menuItemInDb.Should().NotBeNull();
+        menuItemInDb!.MealId.Should().Be(createMenuItemDto.MealId);
+        menuItemInDb.AvailablePortions.Should().Be(createMenuItemDto.AvailablePortions);
+    }
+
+    [Fact]
+    public async Task CreateMenuItem_WithInvalidMealId_ShouldReturnBadRequest()
+    {
+        // Arrange
+        var createMenuItemDto = new CreateMenuItemDto
+        {
+            MealId = 999,
+            Date = DateOnly.FromDateTime(DateTime.Today),
+            AvailablePortions = 15
+        };
+
+        // Act
+        var response = await fixture.HttpClient.PostAsJsonAsync(
+            "/menu-items",
+            createMenuItemDto,
+            TestContext.Current.CancellationToken);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+    }
+
+    [Fact]
+    public async Task CreateMenuItem_WithNegativePortions_ShouldReturnBadRequest()
+    {
+        // Arrange
+        var createMenuItemDto = new CreateMenuItemDto
+        {
+            MealId = 1,
+            Date = DateOnly.FromDateTime(DateTime.Today),
+            AvailablePortions = -5
+        };
+
+        // Act
+        var response = await fixture.HttpClient.PostAsJsonAsync(
+            "/menu-items",
+            createMenuItemDto,
+            TestContext.Current.CancellationToken);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+    }
+
+    [Fact]
+    public async Task UpdateMenuItem_WithValidData_ShouldReturnNoContent()
+    {
+        // Arrange
+        var updateMenuItemDto = new UpdateMenuItemDto
+        {
+            MealId = 2,
+            Date = DateOnly.FromDateTime(DateTime.Today.AddDays(1)),
+            AvailablePortions = 20
+        };
+
+        // Act
+        var response = await fixture.HttpClient.PutAsJsonAsync(
+            "/menu-items/1",
+            updateMenuItemDto,
+            TestContext.Current.CancellationToken);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+    }
+
+    [Fact]
+    public async Task UpdateMenuItem_WithInvalidId_ShouldReturnNotFound()
+    {
+        // Arrange
+        var updateMenuItemDto = new UpdateMenuItemDto
+        {
+            MealId = 1,
+            Date = DateOnly.FromDateTime(DateTime.Today),
+            AvailablePortions = 15
+        };
+
+        // Act
+        var response = await fixture.HttpClient.PutAsJsonAsync(
+            "/menu-items/999",
+            updateMenuItemDto,
+            TestContext.Current.CancellationToken);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+
+    [Fact]
+    public async Task DeleteMenuItem_WithValidId_ShouldReturnNoContent()
+    {
+        // Act
+        var response = await fixture.HttpClient.DeleteAsync("/menu-items/1", TestContext.Current.CancellationToken);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+
+        // Verify deletion in database
+        using var context = fixture.CreateContext();
+        var menuItem = await context.MenuItems.FindAsync(1, TestContext.Current.CancellationToken);
+        menuItem.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task DeleteMenuItem_WithInvalidId_ShouldReturnNotFound()
+    {
+        // Act
+        var response = await fixture.HttpClient.DeleteAsync("/menu-items/999", TestContext.Current.CancellationToken);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+}
+
+/// <summary>
+/// Integration tests for Order endpoints.
+/// </summary>
+[Collection("Database collection")]
+public class OrderEndpointsTests(TestFixture fixture)
+{
+    private readonly TestFixture fixture = fixture;
+
+    [Fact]
+    public async Task GetOrders_ShouldReturnAllOrders()
+    {
+        // Act
+        var response = await fixture.HttpClient.GetAsync("/orders", TestContext.Current.CancellationToken);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+    }
+
+    [Fact]
+    public async Task GetActiveOrders_ShouldReturnOnlyActiveOrders()
+    {
+        // Act
+        var response = await fixture.HttpClient.GetAsync("/orders/active", TestContext.Current.CancellationToken);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+    }
+
+    [Fact]
+    public async Task GetOrderById_WithValidId_ShouldReturnOrder()
+    {
+        // Act
+        var response = await fixture.HttpClient.GetAsync("/orders/1", TestContext.Current.CancellationToken);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+    }
+
+    [Fact]
+    public async Task GetOrderById_WithInvalidId_ShouldReturnNotFound()
+    {
+        // Act
+        var response = await fixture.HttpClient.GetAsync("/orders/999", TestContext.Current.CancellationToken);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+
+    [Fact]
+    public async Task CreateOrder_WithValidData_ShouldReturnCreatedAndPersistsOrder()
+    {
+        // Arrange
+        var createOrderDto = new CreateOrderDto
+        {
+            MenuItemId = 1,
+            StudentName = "Test Student"
+        };
+
+        // Act
+        var response = await fixture.HttpClient.PostAsJsonAsync(
+            "/orders",
+            createOrderDto,
+            TestContext.Current.CancellationToken);
+
+        // Assert - HTTP response
+        response.StatusCode.Should().Be(HttpStatusCode.Created);
+        response.Headers.Location.Should().NotBeNull();
+
+        var responseContent = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
+        var orderDto = JsonSerializer.Deserialize<OrderDto>(responseContent);
+
+        orderDto.Should().NotBeNull();
+        orderDto!.StudentName.Should().Be(createOrderDto.StudentName);
+        orderDto.MenuItemId.Should().Be(createOrderDto.MenuItemId);
+
+        // Assert - Database state
+        using var context = fixture.CreateContext();
+        var orderInDb = await context.Orders.FindAsync(orderDto.Id, TestContext.Current.CancellationToken);
+
+        orderInDb.Should().NotBeNull();
+        orderInDb!.StudentName.Should().Be(createOrderDto.StudentName);
+        orderInDb.MenuItemId.Should().Be(createOrderDto.MenuItemId);
+        orderInDb.State.Should().Be(OrderState.Preparing);
+    }
+
+    [Fact]
+    public async Task CreateOrder_WithInvalidMenuItem_ShouldReturnBadRequest()
+    {
+        // Arrange
+        var createOrderDto = new CreateOrderDto
+        {
+            MenuItemId = 999,
+            StudentName = "Test Student"
+        };
+
+        // Act
+        var response = await fixture.HttpClient.PostAsJsonAsync(
+            "/orders",
+            createOrderDto,
+            TestContext.Current.CancellationToken);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+    }
+
+    [Fact]
+    public async Task CreateOrder_WithSoldOutMenuItem_ShouldReturnBadRequest()
+    {
+        // Arrange - create a menu item with 0 portions
+        var createMenuItemDto = new CreateMenuItemDto
+        {
+            MealId = 1,
+            Date = DateOnly.FromDateTime(DateTime.Today),
+            AvailablePortions = 0
+        };
+
+        await fixture.HttpClient.PostAsJsonAsync(
+            "/menu-items",
+            createMenuItemDto,
+            TestContext.Current.CancellationToken);
+
+        // Get the newly created menu item ID
+        var menuItemsResponse = await fixture.HttpClient.GetAsync("/menu-items", TestContext.Current.CancellationToken);
+        var menuItemsContent = await menuItemsResponse.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
+        var menuItems = JsonSerializer.Deserialize<JsonElement>(menuItemsContent);
+
+        var lastMenuItem = menuItems.Value.EnumerateArray().Last();
+        var newMenuItemId = lastMenuItem.GetProperty("id").GetInt32();
+
+        var createOrderDto = new CreateOrderDto
+        {
+            MenuItemId = newMenuItemId,
+            StudentName = "Test Student"
+        };
+
+        // Act
+        var response = await fixture.HttpClient.PostAsJsonAsync(
+            "/orders",
+            createOrderDto,
+            TestContext.Current.CancellationToken);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+    }
+
+    [Fact]
+    public async Task CreateOrder_ShouldDecreaseAvailablePortions()
+    {
+        // Arrange - Get initial portion count
+        var getMenuItemResponse = await fixture.HttpClient.GetAsync(
+            "/menu-items/1",
+            TestContext.Current.CancellationToken);
+        var initialContent = await getMenuItemResponse.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
+        var initialMenuItem = JsonSerializer.Deserialize<MenuItemDto>(initialContent);
+        var initialPortions = initialMenuItem!.AvailablePortions;
+
+        var createOrderDto = new CreateOrderDto
+        {
+            MenuItemId = 1,
+            StudentName = "Test Student"
+        };
+
+        // Act
+        await fixture.HttpClient.PostAsJsonAsync(
+            "/orders",
+            createOrderDto,
+            TestContext.Current.CancellationToken);
+
+        // Assert - Check portion count decreased
+        var getFinalResponse = await fixture.HttpClient.GetAsync(
+            "/menu-items/1",
+            TestContext.Current.CancellationToken);
+        var finalContent = await getFinalResponse.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
+        var finalMenuItem = JsonSerializer.Deserialize<MenuItemDto>(finalContent);
+
+        finalMenuItem!.AvailablePortions.Should().Be(initialPortions - 1);
+    }
+
+    [Fact]
+    public async Task UpdateOrderState_FromPreparingToReady_ShouldReturnNoContent()
+    {
+        // Arrange
+        var updateStateDto = new UpdateOrderStateDto
+        {
+            State = OrderStateDto.Ready
+        };
+
+        // Act
+        var response = await fixture.HttpClient.PutAsJsonAsync(
+            "/orders/1/state",
+            updateStateDto,
+            TestContext.Current.CancellationToken);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+
+        // Verify in database
+        using var context = fixture.CreateContext();
+        var order = await context.Orders.FindAsync(1, TestContext.Current.CancellationToken);
+        order.Should().NotBeNull();
+        order!.State.Should().Be(OrderState.Ready);
+    }
+
+    [Fact]
+    public async Task UpdateOrderState_FromPreparingToCancelled_ShouldReturnNoContent()
+    {
+        // Arrange
+        var updateStateDto = new UpdateOrderStateDto
+        {
+            State = OrderStateDto.Cancelled
+        };
+
+        // Act
+        var response = await fixture.HttpClient.PutAsJsonAsync(
+            "/orders/1/state",
+            updateStateDto,
+            TestContext.Current.CancellationToken);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+
+        // Verify in database
+        using var context = fixture.CreateContext();
+        var order = await context.Orders.FindAsync(1, TestContext.Current.CancellationToken);
+        order.Should().NotBeNull();
+        order!.State.Should().Be(OrderState.Cancelled);
+    }
+
+    [Fact]
+    public async Task UpdateOrderState_WithInvalidId_ShouldReturnNotFound()
+    {
+        // Arrange
+        var updateStateDto = new UpdateOrderStateDto
+        {
+            State = OrderStateDto.Ready
+        };
+
+        // Act
+        var response = await fixture.HttpClient.PutAsJsonAsync(
+            "/orders/999/state",
+            updateStateDto,
+            TestContext.Current.CancellationToken);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+
+    [Fact]
+    public async Task UpdateOrderState_InvalidTransition_ShouldReturnBadRequest()
+    {
+        // Arrange - first change to Cancelled
+        var cancelStateDto = new UpdateOrderStateDto
+        {
+            State = OrderStateDto.Cancelled
+        };
+        await fixture.HttpClient.PutAsJsonAsync(
+            "/orders/1/state",
+            cancelStateDto,
+            TestContext.Current.CancellationToken);
+
+        // Try invalid transition: Cancelled → Ready
+        var updateStateDto = new UpdateOrderStateDto
+        {
+            State = OrderStateDto.Ready
+        };
+
+        // Act
+        var response = await fixture.HttpClient.PutAsJsonAsync(
+            "/orders/1/state",
+            updateStateDto,
+            TestContext.Current.CancellationToken);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+    }
+
+    [Fact]
+    public async Task UpdateOrderState_ToCompleted_ShouldReturnNoContent()
+    {
+        // Arrange - first change to Ready
+        var readyStateDto = new UpdateOrderStateDto
+        {
+            State = OrderStateDto.Ready
+        };
+        await fixture.HttpClient.PutAsJsonAsync(
+            "/orders/1/state",
+            readyStateDto,
+            TestContext.Current.CancellationToken);
+
+        // Then change to Completed
+        var completedStateDto = new UpdateOrderStateDto
+        {
+            State = OrderStateDto.Completed
+        };
+
+        // Act
+        var response = await fixture.HttpClient.PutAsJsonAsync(
+            "/orders/1/state",
+            completedStateDto,
+            TestContext.Current.CancellationToken);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+
+        // Verify in database
+        using var context = fixture.CreateContext();
+        var order = await context.Orders.FindAsync(1, TestContext.Current.CancellationToken);
+        order.Should().NotBeNull();
+        order!.State.Should().Be(OrderState.Completed);
+    }
+}

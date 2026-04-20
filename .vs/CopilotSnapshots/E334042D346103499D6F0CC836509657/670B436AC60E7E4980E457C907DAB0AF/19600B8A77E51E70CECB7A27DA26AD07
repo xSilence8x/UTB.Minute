@@ -1,0 +1,52 @@
+﻿var builder = DistributedApplication.CreateBuilder(args);
+
+// Configure PostgreSQL based on environment
+IResourceBuilder<PostgresServerResource> postgres;
+
+if (builder.Environment.IsEnvironment("Testing"))
+{
+    // Testing: Use ephemeral PostgreSQL container without data volume
+    postgres = builder.AddPostgres("postgres")
+        .WithContainerName("postgres-testing-utb-minute")
+        .WithInitialData("./init.sql") // Seed data if needed
+        .WithLifetime(ContainerLifetime.Session); // Auto cleanup after tests
+}
+else
+{
+    // Production: Use persistent PostgreSQL with PgAdmin
+    postgres = builder.AddPostgres("postgres")
+        .WithContainerName("postgres-utb-minute")
+        .WithPgAdmin() // Add pgAdmin for browsing DB data
+        .WithDataVolume() // Persist data on disk
+        .WithLifetime(ContainerLifetime.Persistent);
+}
+
+var database = postgres.AddDatabase("database");
+
+// Add WebAPI with PostgreSQL reference
+var webApi = builder.AddProject<Projects.UTB_Minute_WebApi>("webapi")
+    .WithHttpHealthCheck("/health")
+    .WithReference(database)
+    .WaitFor(database);
+
+// Add CanteenClient (for students and cooks)
+builder.AddProject<Projects.UTB_Minute_CanteenClient>("canteenclient")
+    .WithExternalHttpEndpoints()
+    .WithHttpHealthCheck("/health")
+    .WithReference(webApi)
+    .WaitFor(webApi);
+
+// Add AdminClient (for canteen management)
+builder.AddProject<Projects.UTB_Minute_AdminClient>("adminclient")
+    .WithExternalHttpEndpoints()
+    .WithHttpHealthCheck("/health")
+    .WithReference(webApi)
+    .WaitFor(webApi);
+
+// Add DbManager for database management
+builder.AddProject<Projects.UTB_Minute_DbManager>("dbmanager")
+    .WithReference(database)
+    .WithHttpCommand("reset-database", "Reset database")
+    .WaitFor(postgres);
+
+builder.Build().Run();

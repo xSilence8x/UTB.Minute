@@ -1,0 +1,131 @@
+﻿# WebAPI Endpoints Test Summary
+
+## Total Tests: 31
+
+---
+
+## Meal Endpoints Tests (10 tests)
+
+| Test Name | Purpose | Expected Result |
+|-----------|---------|-----------------|
+| `GetMeals_ShouldReturnAllMeals` | Retrieve all meals | 200 OK with list of meals |
+| `GetMealById_WithValidId_ShouldReturnMeal` | Get meal by ID | 200 OK with meal data |
+| `GetMealById_WithInvalidId_ShouldReturnNotFound` | Invalid meal ID | 404 Not Found |
+| `CreateMeal_WithValidData_ShouldReturnCreated` | Create new meal | 201 Created with Location header |
+| `UpdateMeal_WithValidData_ShouldReturnNoContent` | Update meal info | 204 No Content |
+| `UpdateMeal_WithInvalidId_ShouldReturnNotFound` | Update non-existent meal | 404 Not Found |
+| `UpdateMeal_WithDeactivation_ShouldSetIsActiveToFalse` | Deactivate meal | 204 No Content, IsActive = false |
+
+---
+
+## Menu Item Endpoints Tests (11 tests)
+
+| Test Name | Purpose | Expected Result |
+|-----------|---------|-----------------|
+| `GetMenuItems_ShouldReturnAllMenuItems` | Retrieve all menu items | 200 OK with list |
+| `GetTodayMenuItems_ShouldReturnOnlyTodaysItems` | Get today's menu | 200 OK with current day items |
+| `GetMenuItemById_WithValidId_ShouldReturnMenuItem` | Get menu item by ID | 200 OK with item data |
+| `GetMenuItemById_WithInvalidId_ShouldReturnNotFound` | Invalid item ID | 404 Not Found |
+| `CreateMenuItem_WithValidData_ShouldReturnCreated` | Create menu item | 201 Created with Location header |
+| `CreateMenuItem_WithInvalidMealId_ShouldReturnBadRequest` | Non-existent meal | 400 Bad Request |
+| `CreateMenuItem_WithNegativePortions_ShouldReturnBadRequest` | Negative portions | 400 Bad Request |
+| `UpdateMenuItem_WithValidData_ShouldReturnNoContent` | Update menu item | 204 No Content |
+| `UpdateMenuItem_WithInvalidId_ShouldReturnNotFound` | Update non-existent item | 404 Not Found |
+| `DeleteMenuItem_WithValidId_ShouldReturnNoContent` | Delete menu item | 204 No Content |
+| `DeleteMenuItem_WithInvalidId_ShouldReturnNotFound` | Delete non-existent item | 404 Not Found |
+
+---
+
+## Order Endpoints Tests (10 tests)
+
+| Test Name | Purpose | Expected Result |
+|-----------|---------|-----------------|
+| `GetOrders_ShouldReturnAllOrders` | Retrieve all orders | 200 OK with list of orders |
+| `GetActiveOrders_ShouldReturnOnlyActiveOrders` | Get non-completed orders | 200 OK with active orders |
+| `GetOrderById_WithValidId_ShouldReturnOrder` | Get order by ID | 200 OK with order data |
+| `GetOrderById_WithInvalidId_ShouldReturnNotFound` | Invalid order ID | 404 Not Found |
+| `CreateOrder_WithValidData_ShouldReturnCreated` | Create new order | 201 Created with Location header |
+| `CreateOrder_WithInvalidMenuItem_ShouldReturnBadRequest` | Non-existent menu item | 400 Bad Request |
+| `CreateOrder_WithSoldOutMenuItem_ShouldReturnBadRequest` | No portions available | 400 Bad Request |
+| `CreateOrder_ShouldDecreaseAvailablePortions` | Verify portion reduction | Portions decreased by 1 |
+| `UpdateOrderState_FromPreparingToReady_ShouldReturnNoContent` | Change to Ready | 204 No Content |
+| `UpdateOrderState_FromPreparingToCancelled_ShouldReturnNoContent` | Change to Cancelled | 204 No Content |
+| `UpdateOrderState_WithInvalidId_ShouldReturnNotFound` | Invalid order ID | 404 Not Found |
+| `UpdateOrderState_InvalidTransition_ShouldReturnBadRequest` | Invalid state change | 400 Bad Request |
+| `UpdateOrderState_ToCompleted_ShouldReturnNoContent` | Complete order | 204 No Content |
+
+---
+
+## Test Coverage by Endpoint
+
+### Meals Endpoints
+- `GET /meals` ✓
+- `GET /meals/{id}` ✓
+- `POST /meals` ✓
+- `PUT /meals/{id}` ✓
+
+### Menu Items Endpoints
+- `GET /menu-items` ✓
+- `GET /menu-items/today` ✓
+- `GET /menu-items/{id}` ✓
+- `POST /menu-items` ✓
+- `PUT /menu-items/{id}` ✓
+- `DELETE /menu-items/{id}` ✓
+
+### Orders Endpoints
+- `GET /orders` ✓
+- `GET /orders/active` ✓
+- `GET /orders/{id}` ✓
+- `POST /orders` ✓
+- `PUT /orders/{id}/state` ✓
+
+---
+
+## Tested Scenarios
+
+### Success Paths (Happy Path) ✓
+- Creating resources with valid data
+- Reading existing resources
+- Updating resources with valid data
+- Deleting resources
+- Filtering data (today's menu, active orders)
+
+### Error Handling ✓
+- Invalid resource IDs (404 Not Found)
+- Invalid request data (400 Bad Request)
+- Business rule violations:
+  - Non-existent meal IDs
+  - Negative portion counts
+  - Sold-out items
+  - Invalid state transitions
+
+### Business Logic ✓
+- Portion count decreases on order creation
+- Meal deactivation instead of deletion
+- Order state transitions with validation
+- Menu filtering by date
+
+---
+
+## Requirements Alignment
+
+### Specification Requirements Met:
+✅ CRUD operations for Meals  
+✅ CRUD operations for MenuItems  
+✅ CRUD operations for Orders  
+✅ Order state management  
+✅ Meal deactivation (not deletion)  
+✅ Portion count management  
+✅ Validation of business rules  
+✅ Proper HTTP status codes  
+✅ Error handling  
+
+---
+
+## Notes
+
+- All tests are **integration tests** running against a real PostgreSQL database
+- Each test class resets the database before running to ensure clean state
+- Tests use **FluentAssertions** for readable and maintainable assertions
+- Tests validate both the response status codes and response content where applicable
+- State transition tests ensure order workflow integrity

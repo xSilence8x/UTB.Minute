@@ -1,18 +1,45 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\xsile\\Documents\\_FAI_SWI\\AF\\semestralni_projekt_v2\\UTB.Minute\\",
+  "WorkspaceRootPath": "C:\\Users\\xs8x\\Documents\\AP_project\\UTB.Minute\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{511397AE-D3AA-C293-AD1F-7F0314A4111B}|UTB.Minute.WebApi\\UTB.Minute.WebApi.csproj|c:\\users\\xsile\\documents\\_fai_swi\\af\\semestralni_projekt_v2\\utb.minute\\utb.minute.webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{511397AE-D3AA-C293-AD1F-7F0314A4111B}|UTB.Minute.WebApi\\UTB.Minute.WebApi.csproj|solutionrelative:utb.minute.webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{21742470-3BF4-0E3B-0732-606D6E29A785}|UTB.Minute.DbManager\\UTB.Minute.DbManager.csproj|c:\\users\\xsile\\documents\\_fai_swi\\af\\semestralni_projekt_v2\\utb.minute\\utb.minute.dbmanager\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{21742470-3BF4-0E3B-0732-606D6E29A785}|UTB.Minute.DbManager\\UTB.Minute.DbManager.csproj|c:\\users\\xs8x\\documents\\ap_project\\utb.minute\\utb.minute.dbmanager\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{21742470-3BF4-0E3B-0732-606D6E29A785}|UTB.Minute.DbManager\\UTB.Minute.DbManager.csproj|solutionrelative:utb.minute.dbmanager\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{952A2B5B-B2F6-3357-FB7C-2EAEBAFF603D}|UTB.Minute.AppHost\\UTB.Minute.AppHost.csproj|c:\\users\\xsile\\documents\\_fai_swi\\af\\semestralni_projekt_v2\\utb.minute\\utb.minute.apphost\\apphost.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{952A2B5B-B2F6-3357-FB7C-2EAEBAFF603D}|UTB.Minute.AppHost\\UTB.Minute.AppHost.csproj|c:\\users\\xs8x\\documents\\ap_project\\utb.minute\\utb.minute.apphost\\apphost.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{952A2B5B-B2F6-3357-FB7C-2EAEBAFF603D}|UTB.Minute.AppHost\\UTB.Minute.AppHost.csproj|solutionrelative:utb.minute.apphost\\apphost.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\xs8x\\Documents\\AP_project\\UTB.Minute\\run-tests.ps1||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:run-tests.ps1||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F0D3CA16-E083-CD9E-AB30-575DD500C512}|UTB.Minute.Db\\UTB.Minute.Db.csproj|c:\\users\\xs8x\\documents\\ap_project\\utb.minute\\utb.minute.db\\entities\\meal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F0D3CA16-E083-CD9E-AB30-575DD500C512}|UTB.Minute.Db\\UTB.Minute.Db.csproj|solutionrelative:utb.minute.db\\entities\\meal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{511397AE-D3AA-C293-AD1F-7F0314A4111B}|UTB.Minute.WebApi\\UTB.Minute.WebApi.csproj|c:\\users\\xs8x\\documents\\ap_project\\utb.minute\\utb.minute.webapi\\utb.minute.webapi.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
+      "RelativeMoniker": "D:0:0:{511397AE-D3AA-C293-AD1F-7F0314A4111B}|UTB.Minute.WebApi\\UTB.Minute.WebApi.csproj|solutionrelative:utb.minute.webapi\\utb.minute.webapi.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F0D3CA16-E083-CD9E-AB30-575DD500C512}|UTB.Minute.Db\\UTB.Minute.Db.csproj|c:\\users\\xs8x\\documents\\ap_project\\utb.minute\\utb.minute.db\\entities\\orderstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F0D3CA16-E083-CD9E-AB30-575DD500C512}|UTB.Minute.Db\\UTB.Minute.Db.csproj|solutionrelative:utb.minute.db\\entities\\orderstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F0D3CA16-E083-CD9E-AB30-575DD500C512}|UTB.Minute.Db\\UTB.Minute.Db.csproj|c:\\users\\xs8x\\documents\\ap_project\\utb.minute\\utb.minute.db\\entities\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F0D3CA16-E083-CD9E-AB30-575DD500C512}|UTB.Minute.Db\\UTB.Minute.Db.csproj|solutionrelative:utb.minute.db\\entities\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{511397AE-D3AA-C293-AD1F-7F0314A4111B}|UTB.Minute.WebApi\\UTB.Minute.WebApi.csproj|c:\\users\\xs8x\\documents\\ap_project\\utb.minute\\utb.minute.webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{511397AE-D3AA-C293-AD1F-7F0314A4111B}|UTB.Minute.WebApi\\UTB.Minute.WebApi.csproj|solutionrelative:utb.minute.webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F0D3CA16-E083-CD9E-AB30-575DD500C512}|UTB.Minute.Db\\UTB.Minute.Db.csproj|c:\\users\\xs8x\\documents\\ap_project\\utb.minute\\utb.minute.db\\entities\\menuitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F0D3CA16-E083-CD9E-AB30-575DD500C512}|UTB.Minute.Db\\UTB.Minute.Db.csproj|solutionrelative:utb.minute.db\\entities\\menuitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\xs8x\\AppData\\Local\\Temp\\CopilotBaseline\\Deleted\\-1774377934\\UnitTest1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,7 +49,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -30,42 +57,127 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\xsile\\Documents\\_FAI_SWI\\AF\\semestralni_projekt_v2\\UTB.Minute\\UTB.Minute.WebApi\\Program.cs",
-              "RelativeDocumentMoniker": "UTB.Minute.WebApi\\Program.cs",
-              "ToolTip": "C:\\Users\\xsile\\Documents\\_FAI_SWI\\AF\\semestralni_projekt_v2\\UTB.Minute\\UTB.Minute.WebApi\\Program.cs",
-              "RelativeToolTip": "UTB.Minute.WebApi\\Program.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 9,
+              "Title": "UnitTest1.cs",
+              "DocumentMoniker": "C:\\Users\\xs8x\\AppData\\Local\\Temp\\CopilotBaseline\\Deleted\\-1774377934\\UnitTest1.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\AppData\\Local\\Temp\\CopilotBaseline\\Deleted\\-1774377934\\UnitTest1.cs",
+              "ToolTip": "C:\\Users\\xs8x\\AppData\\Local\\Temp\\CopilotBaseline\\Deleted\\-1774377934\\UnitTest1.cs",
+              "RelativeToolTip": "..\\..\\..\\AppData\\Local\\Temp\\CopilotBaseline\\Deleted\\-1774377934\\UnitTest1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-20T13:26:39.099Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "AppHost.cs",
-              "DocumentMoniker": "C:\\Users\\xsile\\Documents\\_FAI_SWI\\AF\\semestralni_projekt_v2\\UTB.Minute\\UTB.Minute.AppHost\\AppHost.cs",
-              "RelativeDocumentMoniker": "UTB.Minute.AppHost\\AppHost.cs",
-              "ToolTip": "C:\\Users\\xsile\\Documents\\_FAI_SWI\\AF\\semestralni_projekt_v2\\UTB.Minute\\UTB.Minute.AppHost\\AppHost.cs",
-              "RelativeToolTip": "UTB.Minute.AppHost\\AppHost.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAABFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-20T12:41:17.656Z",
+              "WhenOpened": "2026-04-20T17:09:15.057Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "AppHost.cs",
+              "DocumentMoniker": "C:\\Users\\xs8x\\Documents\\AP_project\\UTB.Minute\\UTB.Minute.AppHost\\AppHost.cs",
+              "RelativeDocumentMoniker": "UTB.Minute.AppHost\\AppHost.cs",
+              "ToolTip": "C:\\Users\\xs8x\\Documents\\AP_project\\UTB.Minute\\UTB.Minute.AppHost\\AppHost.cs",
+              "RelativeToolTip": "UTB.Minute.AppHost\\AppHost.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACMAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-20T17:04:06.515Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "run-tests.ps1",
+              "DocumentMoniker": "C:\\Users\\xs8x\\Documents\\AP_project\\UTB.Minute\\run-tests.ps1",
+              "RelativeDocumentMoniker": "run-tests.ps1",
+              "ToolTip": "C:\\Users\\xs8x\\Documents\\AP_project\\UTB.Minute\\run-tests.ps1",
+              "RelativeToolTip": "run-tests.ps1",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-04-20T16:40:30.599Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
               "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\xsile\\Documents\\_FAI_SWI\\AF\\semestralni_projekt_v2\\UTB.Minute\\UTB.Minute.DbManager\\Program.cs",
+              "DocumentMoniker": "C:\\Users\\xs8x\\Documents\\AP_project\\UTB.Minute\\UTB.Minute.DbManager\\Program.cs",
               "RelativeDocumentMoniker": "UTB.Minute.DbManager\\Program.cs",
-              "ToolTip": "C:\\Users\\xsile\\Documents\\_FAI_SWI\\AF\\semestralni_projekt_v2\\UTB.Minute\\UTB.Minute.DbManager\\Program.cs",
+              "ToolTip": "C:\\Users\\xs8x\\Documents\\AP_project\\UTB.Minute\\UTB.Minute.DbManager\\Program.cs",
               "RelativeToolTip": "UTB.Minute.DbManager\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAA4AAAAAAAAAA==",
+              "ViewState": "AgIAAB0AAAAAAAAAAAAAwA8AAABQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-19T13:37:51.716Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Meal.cs",
+              "DocumentMoniker": "C:\\Users\\xs8x\\Documents\\AP_project\\UTB.Minute\\UTB.Minute.Db\\Entities\\Meal.cs",
+              "RelativeDocumentMoniker": "UTB.Minute.Db\\Entities\\Meal.cs",
+              "ToolTip": "C:\\Users\\xs8x\\Documents\\AP_project\\UTB.Minute\\UTB.Minute.Db\\Entities\\Meal.cs",
+              "RelativeToolTip": "UTB.Minute.Db\\Entities\\Meal.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAYwAsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-20T15:14:14.587Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "OrderState.cs",
+              "DocumentMoniker": "C:\\Users\\xs8x\\Documents\\AP_project\\UTB.Minute\\UTB.Minute.Db\\Entities\\OrderState.cs",
+              "RelativeDocumentMoniker": "UTB.Minute.Db\\Entities\\OrderState.cs",
+              "ToolTip": "C:\\Users\\xs8x\\Documents\\AP_project\\UTB.Minute\\UTB.Minute.Db\\Entities\\OrderState.cs",
+              "RelativeToolTip": "UTB.Minute.Db\\Entities\\OrderState.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-20T15:33:08.908Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Order.cs",
+              "DocumentMoniker": "C:\\Users\\xs8x\\Documents\\AP_project\\UTB.Minute\\UTB.Minute.Db\\Entities\\Order.cs",
+              "RelativeDocumentMoniker": "UTB.Minute.Db\\Entities\\Order.cs",
+              "ToolTip": "C:\\Users\\xs8x\\Documents\\AP_project\\UTB.Minute\\UTB.Minute.Db\\Entities\\Order.cs",
+              "RelativeToolTip": "UTB.Minute.Db\\Entities\\Order.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAABBAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-20T15:32:48.928Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "UTB.Minute.WebApi.http",
+              "DocumentMoniker": "C:\\Users\\xs8x\\Documents\\AP_project\\UTB.Minute\\UTB.Minute.WebApi\\UTB.Minute.WebApi.http",
+              "RelativeDocumentMoniker": "UTB.Minute.WebApi\\UTB.Minute.WebApi.http",
+              "ToolTip": "C:\\Users\\xs8x\\Documents\\AP_project\\UTB.Minute\\UTB.Minute.WebApi\\UTB.Minute.WebApi.http",
+              "RelativeToolTip": "UTB.Minute.WebApi\\UTB.Minute.WebApi.http",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAQwBcAAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
+              "WhenOpened": "2026-04-20T15:10:03.494Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "MenuItem.cs",
+              "DocumentMoniker": "C:\\Users\\xs8x\\Documents\\AP_project\\UTB.Minute\\UTB.Minute.Db\\Entities\\MenuItem.cs",
+              "RelativeDocumentMoniker": "UTB.Minute.Db\\Entities\\MenuItem.cs",
+              "ToolTip": "C:\\Users\\xs8x\\Documents\\AP_project\\UTB.Minute\\UTB.Minute.Db\\Entities\\MenuItem.cs",
+              "RelativeToolTip": "UTB.Minute.Db\\Entities\\MenuItem.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-20T15:25:07.31Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\xs8x\\Documents\\AP_project\\UTB.Minute\\UTB.Minute.WebApi\\Program.cs",
+              "RelativeDocumentMoniker": "UTB.Minute.WebApi\\Program.cs",
+              "ToolTip": "C:\\Users\\xs8x\\Documents\\AP_project\\UTB.Minute\\UTB.Minute.WebApi\\Program.cs",
+              "RelativeToolTip": "UTB.Minute.WebApi\\Program.cs",
+              "ViewState": "AgIAAEgAAAAAAAAAAAAswBwAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-20T13:26:39.099Z"
             }
           ]
         }

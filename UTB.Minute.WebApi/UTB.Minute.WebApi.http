@@ -8,3 +8,20 @@ Accept: application/json
 GET {{UTB.Minute.WebApi_HostAddress}}/meals
 
 ###
+
+GET {{UTB.Minute.WebApi_HostAddress}}/menu-items
+
+###
+
+GET {{UTB.Minute.WebApi_HostAddress}}/orders
+
+###
+
+POST {{UTB.Minute.WebApi_HostAddress}}/orders
+Content-Type: application/json
+
+{
+  //CreateOrderDto
+}
+
+###

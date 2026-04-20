@@ -1,0 +1,38 @@
+﻿namespace UTB.Minute.WebApi.Tests;
+
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
+using UTB.Minute.Db;
+
+public class WebApiFactory : WebApplicationFactory<Program>
+{
+    protected override void ConfigureWebHost(IWebHostBuilder builder)
+    {
+        builder.UseEnvironment("Test");
+
+        builder.ConfigureServices(services =>
+        {
+            // Remove the default Npgsql DbContext registration
+            var descriptor = services.SingleOrDefault(d =>
+                d.ServiceType == typeof(DbContextOptions<MinuteDbContext>));
+
+            if (descriptor != null)
+            {
+                services.Remove(descriptor);
+            }
+
+            // Add Npgsql DbContext with test connection string
+            var connectionString = "Host=localhost;Port=5432;Database=utb_minute_test;Username=postgres;Password=postgres";
+
+            services.AddDbContext<MinuteDbContext>(options =>
+            {
+                options.UseNpgsql(connectionString);
+            });
+        });
+
+        builder.UseContentRoot(Directory.GetCurrentDirectory());
+    }
+}

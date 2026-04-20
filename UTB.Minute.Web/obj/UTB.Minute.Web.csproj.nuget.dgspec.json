@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\xsile\\Documents\\_FAI_SWI\\AF\\semestralni_projekt_v2\\UTB.Minute\\UTB.Minute.Web\\UTB.Minute.Web.csproj": {}
+    "C:\\Users\\xs8x\\Documents\\AP_project\\UTB.Minute\\UTB.Minute.Web\\UTB.Minute.Web.csproj": {}
   },
   "projects": {
-    "C:\\Users\\xsile\\Documents\\_FAI_SWI\\AF\\semestralni_projekt_v2\\UTB.Minute\\UTB.Minute.ServiceDefaults\\UTB.Minute.ServiceDefaults.csproj": {
+    "C:\\Users\\xs8x\\Documents\\AP_project\\UTB.Minute\\UTB.Minute.ServiceDefaults\\UTB.Minute.ServiceDefaults.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\xsile\\Documents\\_FAI_SWI\\AF\\semestralni_projekt_v2\\UTB.Minute\\UTB.Minute.ServiceDefaults\\UTB.Minute.ServiceDefaults.csproj",
+        "projectUniqueName": "C:\\Users\\xs8x\\Documents\\AP_project\\UTB.Minute\\UTB.Minute.ServiceDefaults\\UTB.Minute.ServiceDefaults.csproj",
         "projectName": "UTB.Minute.ServiceDefaults",
-        "projectPath": "C:\\Users\\xsile\\Documents\\_FAI_SWI\\AF\\semestralni_projekt_v2\\UTB.Minute\\UTB.Minute.ServiceDefaults\\UTB.Minute.ServiceDefaults.csproj",
-        "packagesPath": "C:\\Users\\xsile\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\xsile\\Documents\\_FAI_SWI\\AF\\semestralni_projekt_v2\\UTB.Minute\\UTB.Minute.ServiceDefaults\\obj\\",
+        "projectPath": "C:\\Users\\xs8x\\Documents\\AP_project\\UTB.Minute\\UTB.Minute.ServiceDefaults\\UTB.Minute.ServiceDefaults.csproj",
+        "packagesPath": "C:\\Users\\xs8x\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\xs8x\\Documents\\AP_project\\UTB.Minute\\UTB.Minute.ServiceDefaults\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\xsile\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\xs8x\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,7 +26,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -519,20 +518,20 @@
         }
       }
     },
-    "C:\\Users\\xsile\\Documents\\_FAI_SWI\\AF\\semestralni_projekt_v2\\UTB.Minute\\UTB.Minute.Web\\UTB.Minute.Web.csproj": {
+    "C:\\Users\\xs8x\\Documents\\AP_project\\UTB.Minute\\UTB.Minute.Web\\UTB.Minute.Web.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\xsile\\Documents\\_FAI_SWI\\AF\\semestralni_projekt_v2\\UTB.Minute\\UTB.Minute.Web\\UTB.Minute.Web.csproj",
+        "projectUniqueName": "C:\\Users\\xs8x\\Documents\\AP_project\\UTB.Minute\\UTB.Minute.Web\\UTB.Minute.Web.csproj",
         "projectName": "UTB.Minute.Web",
-        "projectPath": "C:\\Users\\xsile\\Documents\\_FAI_SWI\\AF\\semestralni_projekt_v2\\UTB.Minute\\UTB.Minute.Web\\UTB.Minute.Web.csproj",
-        "packagesPath": "C:\\Users\\xsile\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\xsile\\Documents\\_FAI_SWI\\AF\\semestralni_projekt_v2\\UTB.Minute\\UTB.Minute.Web\\obj\\",
+        "projectPath": "C:\\Users\\xs8x\\Documents\\AP_project\\UTB.Minute\\UTB.Minute.Web\\UTB.Minute.Web.csproj",
+        "packagesPath": "C:\\Users\\xs8x\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\xs8x\\Documents\\AP_project\\UTB.Minute\\UTB.Minute.Web\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\xsile\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\xs8x\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -541,7 +540,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -549,8 +547,8 @@
             "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "C:\\Users\\xsile\\Documents\\_FAI_SWI\\AF\\semestralni_projekt_v2\\UTB.Minute\\UTB.Minute.ServiceDefaults\\UTB.Minute.ServiceDefaults.csproj": {
-                "projectPath": "C:\\Users\\xsile\\Documents\\_FAI_SWI\\AF\\semestralni_projekt_v2\\UTB.Minute\\UTB.Minute.ServiceDefaults\\UTB.Minute.ServiceDefaults.csproj"
+              "C:\\Users\\xs8x\\Documents\\AP_project\\UTB.Minute\\UTB.Minute.ServiceDefaults\\UTB.Minute.ServiceDefaults.csproj": {
+                "projectPath": "C:\\Users\\xs8x\\Documents\\AP_project\\UTB.Minute\\UTB.Minute.ServiceDefaults\\UTB.Minute.ServiceDefaults.csproj"
               }
             }
           }

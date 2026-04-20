@@ -1,0 +1,42 @@
+﻿namespace UTB.Minute.WebApi.Tests;
+
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using UTB.Minute.Db;
+
+/// <summary>
+/// Web API factory for integration tests.
+/// This factory configures the WebAPI to use PostgreSQL database for testing.
+/// Requires PostgreSQL to be running at localhost:5432 with credentials postgres:postgres
+/// and a database named utb_minute_test to exist.
+/// </summary>
+public class WebApiFactory : WebApplicationFactory<Program>
+{
+    private const string TestDatabaseName = "utb_minute_test";
+    private const string TestConnectionString = $"Host=localhost;Port=5432;Database={TestDatabaseName};Username=postgres;Password=postgres";
+
+    protected override void ConfigureWebHost(IWebHostBuilder builder)
+    {
+        builder.UseEnvironment("Testing");
+
+        builder.ConfigureServices(services =>
+        {
+            // Remove the default Npgsql DbContext registration from Aspire
+            var descriptor = services.SingleOrDefault(d =>
+                d.ServiceType == typeof(DbContextOptions<MinuteDbContext>));
+
+            if (descriptor != null)
+            {
+                services.Remove(descriptor);
+            }
+
+            // Add Npgsql DbContext with test connection string
+            services.AddDbContext<MinuteDbContext>(options =>
+            {
+                options.UseNpgsql(TestConnectionString);
+            });
+        });
+    }
+}

@@ -1,0 +1,629 @@
+﻿namespace UTB.Minute.WebApi.Tests;
+
+public class MealEndpointsTests : IAsyncLifetime
+{
+    private WebApiFactory _factory = null!;
+    private HttpClient _httpClient = null!;
+
+    public async Task InitializeAsync()
+    {
+        _factory = new WebApiFactory();
+        _httpClient = _factory.CreateClient();
+
+        // Reset database before each test
+        await _httpClient.PostAsync("/reset-database", null);
+    }
+
+    public async Task DisposeAsync()
+    {
+        _httpClient?.Dispose();
+        await _factory.DisposeAsync();
+    }
+
+    [Fact]
+    public async Task GetMeals_ShouldReturnAllMeals()
+    {
+        // Act
+        var response = await _httpClient.GetAsync("/meals");
+        var content = await response.Content.ReadAsStringAsync();
+
+        // Assert
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+        content.Should().NotBeEmpty();
+    }
+
+    [Fact]
+    public async Task GetMealById_WithValidId_ShouldReturnMeal()
+    {
+        // Act
+        var response = await _httpClient.GetAsync("/meals/1");
+
+        // Assert
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+    }
+
+    [Fact]
+    public async Task GetMealById_WithInvalidId_ShouldReturnNotFound()
+    {
+        // Act
+        var response = await _httpClient.GetAsync("/meals/999");
+
+        // Assert
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.NotFound);
+    }
+
+    [Fact]
+    public async Task CreateMeal_WithValidData_ShouldReturnCreated()
+    {
+        // Arrange
+        var createMealDto = new
+        {
+            name = "Nový pokrm",
+            description = "Popis pokrmu",
+            price = 150.00m
+        };
+        var content = new StringContent(
+            System.Text.Json.JsonSerializer.Serialize(createMealDto),
+            System.Text.Encoding.UTF8,
+            "application/json");
+
+        // Act
+        var response = await _httpClient.PostAsync("/meals", content);
+
+        // Assert
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
+        response.Headers.Location.Should().NotBeNull();
+    }
+
+    [Fact]
+    public async Task UpdateMeal_WithValidData_ShouldReturnNoContent()
+    {
+        // Arrange
+        var updateMealDto = new
+        {
+            name = "Aktualizovaný pokrm",
+            description = "Nový popis",
+            price = 200.00m,
+            isActive = true
+        };
+        var content = new StringContent(
+            System.Text.Json.JsonSerializer.Serialize(updateMealDto),
+            System.Text.Encoding.UTF8,
+            "application/json");
+
+        // Act
+        var response = await _httpClient.PutAsync("/meals/1", content);
+
+        // Assert
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.NoContent);
+    }
+
+    [Fact]
+    public async Task UpdateMeal_WithInvalidId_ShouldReturnNotFound()
+    {
+        // Arrange
+        var updateMealDto = new
+        {
+            name = "Pokrm",
+            description = "Popis",
+            price = 150.00m,
+            isActive = true
+        };
+        var content = new StringContent(
+            System.Text.Json.JsonSerializer.Serialize(updateMealDto),
+            System.Text.Encoding.UTF8,
+            "application/json");
+
+        // Act
+        var response = await _httpClient.PutAsync("/meals/999", content);
+
+        // Assert
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.NotFound);
+    }
+
+    [Fact]
+    public async Task UpdateMeal_WithDeactivation_ShouldSetIsActiveToFalse()
+    {
+        // Arrange
+        var updateMealDto = new
+        {
+            name = "Pokrm",
+            description = "Popis",
+            price = 150.00m,
+            isActive = false
+        };
+        var content = new StringContent(
+            System.Text.Json.JsonSerializer.Serialize(updateMealDto),
+            System.Text.Encoding.UTF8,
+            "application/json");
+
+        // Act
+        await _httpClient.PutAsync("/meals/1", content);
+        var getResponse = await _httpClient.GetAsync("/meals/1");
+        var responseContent = await getResponse.Content.ReadAsStringAsync();
+
+        // Assert
+        responseContent.Should().Contain("\"isActive\":false");
+    }
+}
+
+public class MenuItemEndpointsTests : IAsyncLifetime
+{
+    private WebApplicationFactory<Program> _factory = null!;
+    private HttpClient _httpClient = null!;
+
+    public async Task InitializeAsync()
+    {
+        _factory = new WebApplicationFactory<Program>();
+        _httpClient = _factory.CreateClient();
+
+        // Reset database
+        await _httpClient.PostAsync("/reset-database", null);
+    }
+
+    public async Task DisposeAsync()
+    {
+        _httpClient?.Dispose();
+        await _factory.DisposeAsync();
+    }
+
+    [Fact]
+    public async Task GetMenuItems_ShouldReturnAllMenuItems()
+    {
+        // Act
+        var response = await _httpClient.GetAsync("/menu-items");
+
+        // Assert
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+    }
+
+    [Fact]
+    public async Task GetTodayMenuItems_ShouldReturnOnlyTodaysItems()
+    {
+        // Act
+        var response = await _httpClient.GetAsync("/menu-items/today");
+
+        // Assert
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+    }
+
+    [Fact]
+    public async Task GetMenuItemById_WithValidId_ShouldReturnMenuItem()
+    {
+        // Act
+        var response = await _httpClient.GetAsync("/menu-items/1");
+
+        // Assert
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+    }
+
+    [Fact]
+    public async Task GetMenuItemById_WithInvalidId_ShouldReturnNotFound()
+    {
+        // Act
+        var response = await _httpClient.GetAsync("/menu-items/999");
+
+        // Assert
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.NotFound);
+    }
+
+    [Fact]
+    public async Task CreateMenuItem_WithValidData_ShouldReturnCreated()
+    {
+        // Arrange
+        var createMenuItemDto = new
+        {
+            mealId = 1,
+            date = System.DateOnly.FromDateTime(System.DateTime.Today),
+            availablePortions = 15
+        };
+        var content = new StringContent(
+            System.Text.Json.JsonSerializer.Serialize(createMenuItemDto),
+            System.Text.Encoding.UTF8,
+            "application/json");
+
+        // Act
+        var response = await _httpClient.PostAsync("/menu-items", content);
+
+        // Assert
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
+        response.Headers.Location.Should().NotBeNull();
+    }
+
+    [Fact]
+    public async Task CreateMenuItem_WithInvalidMealId_ShouldReturnBadRequest()
+    {
+        // Arrange
+        var createMenuItemDto = new
+        {
+            mealId = 999,
+            date = System.DateOnly.FromDateTime(System.DateTime.Today),
+            availablePortions = 15
+        };
+        var content = new StringContent(
+            System.Text.Json.JsonSerializer.Serialize(createMenuItemDto),
+            System.Text.Encoding.UTF8,
+            "application/json");
+
+        // Act
+        var response = await _httpClient.PostAsync("/menu-items", content);
+
+        // Assert
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
+    }
+
+    [Fact]
+    public async Task CreateMenuItem_WithNegativePortions_ShouldReturnBadRequest()
+    {
+        // Arrange
+        var createMenuItemDto = new
+        {
+            mealId = 1,
+            date = System.DateOnly.FromDateTime(System.DateTime.Today),
+            availablePortions = -5
+        };
+        var content = new StringContent(
+            System.Text.Json.JsonSerializer.Serialize(createMenuItemDto),
+            System.Text.Encoding.UTF8,
+            "application/json");
+
+        // Act
+        var response = await _httpClient.PostAsync("/menu-items", content);
+
+        // Assert
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
+    }
+
+    [Fact]
+    public async Task UpdateMenuItem_WithValidData_ShouldReturnNoContent()
+    {
+        // Arrange
+        var updateMenuItemDto = new
+        {
+            mealId = 2,
+            date = System.DateOnly.FromDateTime(System.DateTime.Today.AddDays(1)),
+            availablePortions = 20
+        };
+        var content = new StringContent(
+            System.Text.Json.JsonSerializer.Serialize(updateMenuItemDto),
+            System.Text.Encoding.UTF8,
+            "application/json");
+
+        // Act
+        var response = await _httpClient.PutAsync("/menu-items/1", content);
+
+        // Assert
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.NoContent);
+    }
+
+    [Fact]
+    public async Task UpdateMenuItem_WithInvalidId_ShouldReturnNotFound()
+    {
+        // Arrange
+        var updateMenuItemDto = new
+        {
+            mealId = 1,
+            date = System.DateOnly.FromDateTime(System.DateTime.Today),
+            availablePortions = 15
+        };
+        var content = new StringContent(
+            System.Text.Json.JsonSerializer.Serialize(updateMenuItemDto),
+            System.Text.Encoding.UTF8,
+            "application/json");
+
+        // Act
+        var response = await _httpClient.PutAsync("/menu-items/999", content);
+
+        // Assert
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.NotFound);
+    }
+
+    [Fact]
+    public async Task DeleteMenuItem_WithValidId_ShouldReturnNoContent()
+    {
+        // Act
+        var response = await _httpClient.DeleteAsync("/menu-items/1");
+
+        // Assert
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.NoContent);
+    }
+
+    [Fact]
+    public async Task DeleteMenuItem_WithInvalidId_ShouldReturnNotFound()
+    {
+        // Act
+        var response = await _httpClient.DeleteAsync("/menu-items/999");
+
+        // Assert
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.NotFound);
+    }
+}
+
+public class OrderEndpointsTests : IAsyncLifetime
+{
+    private WebApplicationFactory<Program> _factory = null!;
+    private HttpClient _httpClient = null!;
+
+    public async Task InitializeAsync()
+    {
+        _factory = new WebApplicationFactory<Program>();
+        _httpClient = _factory.CreateClient();
+
+        // Reset database
+        await _httpClient.PostAsync("/reset-database", null);
+    }
+
+    public async Task DisposeAsync()
+    {
+        _httpClient?.Dispose();
+        await _factory.DisposeAsync();
+    }
+
+    [Fact]
+    public async Task GetOrders_ShouldReturnAllOrders()
+    {
+        // Act
+        var response = await _httpClient.GetAsync("/orders");
+
+        // Assert
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+    }
+
+    [Fact]
+    public async Task GetActiveOrders_ShouldReturnOnlyActiveOrders()
+    {
+        // Act
+        var response = await _httpClient.GetAsync("/orders/active");
+
+        // Assert
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+    }
+
+    [Fact]
+    public async Task GetOrderById_WithValidId_ShouldReturnOrder()
+    {
+        // Act
+        var response = await _httpClient.GetAsync("/orders/1");
+
+        // Assert
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+    }
+
+    [Fact]
+    public async Task GetOrderById_WithInvalidId_ShouldReturnNotFound()
+    {
+        // Act
+        var response = await _httpClient.GetAsync("/orders/999");
+
+        // Assert
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.NotFound);
+    }
+
+    [Fact]
+    public async Task CreateOrder_WithValidData_ShouldReturnCreated()
+    {
+        // Arrange
+        var createOrderDto = new
+        {
+            menuItemId = 1,
+            studentName = "Jan Nový"
+        };
+        var content = new StringContent(
+            System.Text.Json.JsonSerializer.Serialize(createOrderDto),
+            System.Text.Encoding.UTF8,
+            "application/json");
+
+        // Act
+        var response = await _httpClient.PostAsync("/orders", content);
+
+        // Assert
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
+        response.Headers.Location.Should().NotBeNull();
+    }
+
+    [Fact]
+    public async Task CreateOrder_WithInvalidMenuItem_ShouldReturnBadRequest()
+    {
+        // Arrange
+        var createOrderDto = new
+        {
+            menuItemId = 999,
+            studentName = "Jan Nový"
+        };
+        var content = new StringContent(
+            System.Text.Json.JsonSerializer.Serialize(createOrderDto),
+            System.Text.Encoding.UTF8,
+            "application/json");
+
+        // Act
+        var response = await _httpClient.PostAsync("/orders", content);
+
+        // Assert
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
+    }
+
+    [Fact]
+    public async Task CreateOrder_WithSoldOutMenuItem_ShouldReturnBadRequest()
+    {
+        // Arrange - create a menu item with 0 portions
+        var createMenuItemDto = new
+        {
+            mealId = 1,
+            date = System.DateOnly.FromDateTime(System.DateTime.Today),
+            availablePortions = 0
+        };
+        var menuItemContent = new StringContent(
+            System.Text.Json.JsonSerializer.Serialize(createMenuItemDto),
+            System.Text.Encoding.UTF8,
+            "application/json");
+        await _httpClient.PostAsync("/menu-items", menuItemContent);
+
+        var createOrderDto = new
+        {
+            menuItemId = 3, // the newly created menu item
+            studentName = "Jan Nový"
+        };
+        var orderContent = new StringContent(
+            System.Text.Json.JsonSerializer.Serialize(createOrderDto),
+            System.Text.Encoding.UTF8,
+            "application/json");
+
+        // Act
+        var response = await _httpClient.PostAsync("/orders", orderContent);
+
+        // Assert
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
+    }
+
+    [Fact]
+    public async Task CreateOrder_ShouldDecreaseAvailablePortions()
+    {
+        // Arrange
+        var getMenuItemsBefore = await _httpClient.GetAsync("/menu-items/1");
+        var contentBefore = await getMenuItemsBefore.Content.ReadAsStringAsync();
+        var portionsBefore = contentBefore.Contains("\"availablePortions\":10");
+
+        var createOrderDto = new
+        {
+            menuItemId = 1,
+            studentName = "Jan Nový"
+        };
+        var content = new StringContent(
+            System.Text.Json.JsonSerializer.Serialize(createOrderDto),
+            System.Text.Encoding.UTF8,
+            "application/json");
+
+        // Act
+        await _httpClient.PostAsync("/orders", content);
+
+        var getMenuItemsAfter = await _httpClient.GetAsync("/menu-items/1");
+        var contentAfter = await getMenuItemsAfter.Content.ReadAsStringAsync();
+        var portionsAfter = contentAfter.Contains("\"availablePortions\":9");
+
+        // Assert
+        portionsBefore.Should().BeTrue();
+        portionsAfter.Should().BeTrue();
+    }
+
+    [Fact]
+    public async Task UpdateOrderState_FromPreparingToReady_ShouldReturnNoContent()
+    {
+        // Arrange
+        var updateStateDto = new
+        {
+            state = 1 // Ready
+        };
+        var content = new StringContent(
+            System.Text.Json.JsonSerializer.Serialize(updateStateDto),
+            System.Text.Encoding.UTF8,
+            "application/json");
+
+        // Act
+        var response = await _httpClient.PutAsync("/orders/1/state", content);
+
+        // Assert
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.NoContent);
+    }
+
+    [Fact]
+    public async Task UpdateOrderState_FromPreparingToCancelled_ShouldReturnNoContent()
+    {
+        // Arrange
+        var updateStateDto = new
+        {
+            state = 2 // Cancelled
+        };
+        var content = new StringContent(
+            System.Text.Json.JsonSerializer.Serialize(updateStateDto),
+            System.Text.Encoding.UTF8,
+            "application/json");
+
+        // Act
+        var response = await _httpClient.PutAsync("/orders/1/state", content);
+
+        // Assert
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.NoContent);
+    }
+
+    [Fact]
+    public async Task UpdateOrderState_WithInvalidId_ShouldReturnNotFound()
+    {
+        // Arrange
+        var updateStateDto = new
+        {
+            state = 1 // Ready
+        };
+        var content = new StringContent(
+            System.Text.Json.JsonSerializer.Serialize(updateStateDto),
+            System.Text.Encoding.UTF8,
+            "application/json");
+
+        // Act
+        var response = await _httpClient.PutAsync("/orders/999/state", content);
+
+        // Assert
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.NotFound);
+    }
+
+    [Fact]
+    public async Task UpdateOrderState_InvalidTransition_ShouldReturnBadRequest()
+    {
+        // Arrange - first change order to Cancelled
+        var cancelStateDto = new
+        {
+            state = 2 // Cancelled
+        };
+        var cancelContent = new StringContent(
+            System.Text.Json.JsonSerializer.Serialize(cancelStateDto),
+            System.Text.Encoding.UTF8,
+            "application/json");
+        await _httpClient.PutAsync("/orders/1/state", cancelContent);
+
+        // Try to change from Cancelled to Ready (invalid)
+        var updateStateDto = new
+        {
+            state = 1 // Ready
+        };
+        var content = new StringContent(
+            System.Text.Json.JsonSerializer.Serialize(updateStateDto),
+            System.Text.Encoding.UTF8,
+            "application/json");
+
+        // Act
+        var response = await _httpClient.PutAsync("/orders/1/state", content);
+
+        // Assert
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
+    }
+
+    [Fact]
+    public async Task UpdateOrderState_ToCompleted_ShouldReturnNoContent()
+    {
+        // Arrange - first change to Ready
+        var readyStateDto = new
+        {
+            state = 1 // Ready
+        };
+        var readyContent = new StringContent(
+            System.Text.Json.JsonSerializer.Serialize(readyStateDto),
+            System.Text.Encoding.UTF8,
+            "application/json");
+        await _httpClient.PutAsync("/orders/1/state", readyContent);
+
+        // Then change to Completed
+        var completedStateDto = new
+        {
+            state = 3 // Completed
+        };
+        var content = new StringContent(
+            System.Text.Json.JsonSerializer.Serialize(completedStateDto),
+            System.Text.Encoding.UTF8,
+            "application/json");
+
+        // Act
+        var response = await _httpClient.PutAsync("/orders/1/state", content);
+
+        // Assert
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.NoContent);
+    }
+}

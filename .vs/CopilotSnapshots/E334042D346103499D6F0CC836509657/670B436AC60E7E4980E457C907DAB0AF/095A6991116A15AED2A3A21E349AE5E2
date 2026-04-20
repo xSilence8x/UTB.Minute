@@ -1,0 +1,151 @@
+﻿namespace UTB.Minute.WebApi.Tests;
+
+using Aspire.Hosting;
+using Aspire.Hosting.Testing;
+using Microsoft.EntityFrameworkCore;
+using UTB.Minute.Db;
+using UTB.Minute.Db.Entities;
+
+/// <summary>
+/// Test fixture that sets up Aspire infrastructure for testing.
+/// Starts PostgreSQL database and Web API, then seeds initial test data.
+/// Based on the pattern from the Erik Král study material.
+/// </summary>
+public class TestFixture : IAsyncLifetime
+{
+    private DistributedApplication app = null!;
+    private string? connectionString;
+
+    /// <summary>
+    /// HttpClient for calling Web API endpoints
+    /// </summary>
+    public HttpClient HttpClient { get; private set; } = null!;
+
+    /// <summary>
+    /// Initialize Aspire, start services, and seed test data
+    /// </summary>
+    public async Task InitializeAsync()
+    {
+        // Build Aspire AppHost with Testing environment
+        var builder = await DistributedApplicationTestingBuilder
+            .CreateAsync<Projects.UTB_Minute_AppHost>(["--environment=Testing"]);
+
+        app = await builder.BuildAsync();
+
+        // Start all services (PostgreSQL, WebAPI, etc.)
+        await app.StartAsync();
+
+        // Wait for database to be ready
+        await app.ResourceNotifications.WaitForResourceHealthyAsync("database");
+
+        // Wait for WebAPI to be ready
+        await app.ResourceNotifications.WaitForResourceHealthyAsync("webapi");
+
+        // Get connection string to database
+        connectionString = await app.GetConnectionStringAsync("database");
+
+        // Create HttpClient for API calls
+        HttpClient = app.CreateHttpClient("webapi", "https");
+
+        // Prepare database: delete old data and create fresh schema
+        using var context = CreateContext();
+        await context.Database.EnsureDeletedAsync();
+        await context.Database.EnsureCreatedAsync();
+
+        // Seed test data
+        await SeedTestDataAsync(context);
+    }
+
+    /// <summary>
+    /// Create a fresh DbContext with connection string to test database
+    /// </summary>
+    public MinuteDbContext CreateContext()
+    {
+        var options = new DbContextOptionsBuilder<MinuteDbContext>()
+            .UseNpgsql(connectionString)
+            .Options;
+
+        return new MinuteDbContext(options);
+    }
+
+    /// <summary>
+    /// Seed initial test data for all tests
+    /// </summary>
+    private async Task SeedTestDataAsync(MinuteDbContext context)
+    {
+        // Create test meals
+        var meal1 = new Meal
+        {
+            Name = "Kuřecí řízek s bramborem",
+            Description = "Klasický český oběd s kuřecím řízkem, bramborem a tatarkou.",
+            Price = 85.00m,
+            IsActive = true,
+        };
+
+        var meal2 = new Meal
+        {
+            Name = "Svíčková na smetaně",
+            Description = "Hovězí pečeně na smetaně s houskovým knedlíkem a brusinkami.",
+            Price = 110.00m,
+            IsActive = true,
+        };
+
+        context.Meals.AddRange(meal1, meal2);
+        await context.SaveChangesAsync();
+
+        // Create test menu items for today
+        var today = DateOnly.FromDateTime(DateTime.Today);
+
+        var menuItem1 = new MenuItem
+        {
+            Meal = meal1,
+            Date = today,
+            AvailablePortions = 10
+        };
+
+        var menuItem2 = new MenuItem
+        {
+            Meal = meal2,
+            Date = today,
+            AvailablePortions = 5
+        };
+
+        context.MenuItems.AddRange(menuItem1, menuItem2);
+        await context.SaveChangesAsync();
+
+        // Create test orders
+        var order1 = new Order
+        {
+            MenuItem = menuItem1,
+            StudentName = "Jan Novák",
+            CreatedAtUtc = DateTime.UtcNow,
+            State = OrderState.Preparing
+        };
+
+        var order2 = new Order
+        {
+            MenuItem = menuItem2,
+            StudentName = "Eva Dvořáková",
+            CreatedAtUtc = DateTime.UtcNow.AddMinutes(-10),
+            State = OrderState.Ready
+        };
+
+        context.Orders.AddRange(order1, order2);
+        await context.SaveChangesAsync();
+    }
+
+    /// <summary>
+    /// Cleanup: stop all services and dispose resources
+    /// </summary>
+    public async Task DisposeAsync()
+    {
+        HttpClient?.Dispose();
+
+        if (app != null)
+        {
+            await app.DisposeAsync();
+        }
+
+        GC.SuppressFinalize(this);
+    }
+}

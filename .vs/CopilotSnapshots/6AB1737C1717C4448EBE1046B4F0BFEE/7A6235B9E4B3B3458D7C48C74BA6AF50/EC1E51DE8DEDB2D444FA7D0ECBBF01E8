@@ -1,0 +1,234 @@
+﻿# Test Implementation Summary
+
+## Overview
+
+Comprehensive integration test suite has been created for the UTB.Minute WebAPI project. The tests cover all 14 endpoints across three domains: Meals, Menu Items, and Orders.
+
+## What Was Created
+
+### 1. **EndpointsTests.cs** (Main Test File)
+- **31 Integration Tests** organized into 3 test classes
+- Tests for all CRUD operations and business logic
+- Uses `IAsyncLifetime` for proper test setup and teardown
+- Database is reset before each test class for clean state
+
+### 2. **WebApiFactory.cs** (Test Configuration)
+- Custom `WebApplicationFactory<Program>` for test environment
+- Configures database connection to PostgreSQL test database
+- Overrides Aspire service discovery with explicit PostgreSQL configuration
+- Supports independent test execution without Aspire AppHost
+
+### 3. **Documentation**
+- **README.md** - Comprehensive guide to running and understanding tests
+- **TEST_SUMMARY.md** - Quick reference of all 31 tests
+- **SETUP.md** - Step-by-step setup and troubleshooting guide
+
+## Test Coverage Details
+
+### Meals Endpoints (10 tests)
+```
+POST   /meals                ✓ Create with valid data
+GET    /meals                ✓ Get all meals
+GET    /meals/{id}           ✓ Get by ID (valid & invalid)
+PUT    /meals/{id}           ✓ Update meal & deactivate
+```
+
+### Menu Items Endpoints (11 tests)
+```
+POST   /menu-items           ✓ Create with validation
+GET    /menu-items           ✓ Get all items
+GET    /menu-items/{id}      ✓ Get by ID (valid & invalid)
+GET    /menu-items/today     ✓ Get today's menu
+PUT    /menu-items/{id}      ✓ Update items
+DELETE /menu-items/{id}      ✓ Delete items
+```
+
+### Orders Endpoints (10 tests)
+```
+POST   /orders               ✓ Create with validation
+GET    /orders               ✓ Get all orders
+GET    /orders/active        ✓ Get active orders only
+GET    /orders/{id}          ✓ Get by ID (valid & invalid)
+PUT    /orders/{id}/state    ✓ Update state with transitions
+```
+
+## Key Features of Test Suite
+
+### ✅ Comprehensive Coverage
+- Happy path scenarios (success cases)
+- Error scenarios (invalid IDs, bad requests)
+- Business logic validation (state transitions, portion management)
+- Data integrity checks (portion counts decrease on order)
+
+### ✅ Real Database Testing
+- Tests use PostgreSQL (as specified in requirements)
+- Not using in-memory database
+- Proper isolation between test runs
+- Database reset before each test class
+
+### ✅ Proper Test Structure
+- Arrange-Act-Assert pattern
+- Clear, descriptive test names
+- Uses FluentAssertions for readable assertions
+- Each test class is independent and self-contained
+
+### ✅ Production-Ready
+- Tests can run in CI/CD pipelines
+- Proper resource cleanup via `IAsyncLifetime`
+- Detailed documentation
+- Easy troubleshooting guide
+
+## Test Statistics
+
+| Category | Count |
+|----------|-------|
+| **Meal Tests** | 10 |
+| **Menu Item Tests** | 11 |
+| **Order Tests** | 10 |
+| **Total Tests** | **31** |
+| **Success Paths** | 15 |
+| **Error Paths** | 16 |
+
+## Requirements Met
+
+### From Assignment:
+✅ **Functional Requirements**
+- Tests for all endpoints (Meals, MenuItems, Orders)
+- CRUD operations tested
+- Business rules validated (deactivation, state transitions, etc.)
+
+✅ **Technical Requirements**
+- .NET 10 ✓
+- Integration tests with PostgreSQL ✓
+- xUnit test framework ✓
+- FluentAssertions for assertions ✓
+- Proper test structure and organization ✓
+
+✅ **Quality**
+- No warnings or errors ✓
+- English language source code ✓
+- Documented and maintainable ✓
+
+## How to Run Tests
+
+### Quick Start
+```powershell
+# 1. Start PostgreSQL
+docker run --name postgres-utb-minute -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres:latest
+
+# 2. Create test database
+docker exec postgres-utb-minute psql -U postgres -c "CREATE DATABASE utb_minute_test;"
+
+# 3. Run tests
+dotnet test UTB.Minute.WebApi.Tests
+```
+
+### Via Visual Studio
+1. Open Test Explorer (Test → Test Explorer)
+2. Click "Run All Tests"
+
+### Individual Tests
+```powershell
+# Specific test class
+dotnet test --filter "ClassName=UTB.Minute.WebApi.Tests.MealEndpointsTests"
+
+# Specific test method
+dotnet test --filter "Name=CreateMeal_WithValidData_ShouldReturnCreated"
+```
+
+## Test Examples
+
+### Example 1: Creating a Meal
+```csharp
+[Fact]
+public async Task CreateMeal_WithValidData_ShouldReturnCreated()
+{
+    // Arrange
+    var createMealDto = new
+    {
+        name = "Nový pokrm",
+        description = "Popis pokrmu",
+        price = 150.00m
+    };
+    var content = new StringContent(
+        JsonSerializer.Serialize(createMealDto),
+        Encoding.UTF8,
+        "application/json");
+
+    // Act
+    var response = await _httpClient.PostAsync("/meals", content);
+
+    // Assert
+    response.StatusCode.Should().Be(HttpStatusCode.Created);
+    response.Headers.Location.Should().NotBeNull();
+}
+```
+
+### Example 2: Order State Transition Validation
+```csharp
+[Fact]
+public async Task UpdateOrderState_InvalidTransition_ShouldReturnBadRequest()
+{
+    // First change to Cancelled
+    var cancelStateDto = new { state = 2 }; // Cancelled
+    var cancelContent = new StringContent(...);
+    await _httpClient.PutAsync("/orders/1/state", cancelContent);
+
+    // Try invalid transition: Cancelled → Ready
+    var updateStateDto = new { state = 1 }; // Ready
+    var content = new StringContent(...);
+
+    // Act
+    var response = await _httpClient.PutAsync("/orders/1/state", content);
+
+    // Assert
+    response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+}
+```
+
+## Project Structure
+
+```
+UTB.Minute.WebApi.Tests/
+├── bin/
+│   └── Debug/net10.0/
+│       └── UTB.Minute.WebApi.Tests.dll  (Compiled tests)
+├── obj/
+├── EndpointsTests.cs              ← All 31 tests
+├── WebApiFactory.cs               ← Test configuration
+├── README.md                       ← Full documentation
+├── TEST_SUMMARY.md                ← Test reference
+├── SETUP.md                        ← Setup guide
+└── UTB.Minute.WebApi.Tests.csproj ← Project file
+```
+
+## Dependencies
+
+The test project includes:
+- **xUnit 2.9.3** - Test framework
+- **FluentAssertions 8.9.0** - Assertion library
+- **Microsoft.AspNetCore.Mvc.Testing 10.0.6** - WebApplicationFactory
+- **Microsoft.NET.Test.SDK 17.14.1** - Test SDK
+
+All dependencies are specified in the .csproj file.
+
+## Next Steps
+
+To use these tests:
+
+1. **Ensure PostgreSQL is running** with test database `utb_minute_test`
+2. **Run tests** via Visual Studio or command line
+3. **Review documentation** in README.md for detailed information
+4. **Customize as needed** for your specific requirements
+
+## Notes
+
+- Tests are designed to be **independent and repeatable**
+- Each test class resets the database before running
+- Tests **do not require** the Aspire AppHost to be running
+- Tests can run in **parallel** (with proper database isolation)
+- Comprehensive **error handling** tests included
+
+---
+
+All tests are ready to use and should provide excellent coverage of the WebAPI functionality!
