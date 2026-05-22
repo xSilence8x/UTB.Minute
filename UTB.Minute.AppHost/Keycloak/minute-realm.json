@@ -1,0 +1,66 @@
+{
+  "realm": "minute",
+  "enabled": true,
+  "displayName": "UTB Minute",
+  "roles": {
+    "realm": [
+      { "name": "Manager" },
+      { "name": "Kitchen" }
+    ]
+  },
+  "clients": [
+    {
+      "clientId": "minute-api",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "bearerOnly": true
+    },
+    {
+      "clientId": "minute-client",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": true,
+      "directAccessGrantsEnabled": true,
+      "redirectUris": [ "*" ],
+      "webOrigins": [ "*" ],
+      "protocolMappers": [
+        {
+          "name": "minute-api-audience",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "consentRequired": false,
+          "config": {
+            "included.client.audience": "minute-api",
+            "id.token.claim": "false",
+            "access.token.claim": "true"
+          }
+        }
+      ]
+    }
+  ],
+  "users": [
+    {
+      "username": "manager",
+      "enabled": true,
+      "firstName": "Minute",
+      "lastName": "Manager",
+      "email": "manager@example.test",
+      "emailVerified": true,
+      "requiredActions": [],
+      "credentials": [{ "type": "password", "value": "manager", "temporary": false }],
+      "realmRoles": [ "Manager" ]
+    },
+    {
+      "username": "kitchen",
+      "enabled": true,
+      "firstName": "Minute",
+      "lastName": "Kitchen",
+      "email": "kitchen@example.test",
+      "emailVerified": true,
+      "requiredActions": [],
+      "credentials": [{ "type": "password", "value": "kitchen", "temporary": false }],
+      "realmRoles": [ "Kitchen" ]
+    }
+  ]
+}

@@ -1,0 +1,313 @@
+@page "/"
+@rendermode InteractiveServer
+@implements IAsyncDisposable
+@using UTB.Minute.CanteenClient.Services
+@using UTB.Minute.Contracts
+@inject CanteenApiClient Api
+@inject RoleState RoleState
+@inject KeycloakTokenProvider TokenProvider
+@inject IConfiguration Configuration
+
+<PageTitle>Canteen panel</PageTitle>
+
+<h1>Canteen panel</h1>
+
+<div class="mode-tabs">
+    <button class="btn @(mode == "student" ? "btn-primary" : "btn-outline-primary")" @onclick='() => SetModeAsync("student")'>Student</button>
+    <button class="btn @(mode == "kitchen" ? "btn-primary" : "btn-outline-primary")" @onclick='() => SetModeAsync("kitchen")'>Kitchen</button>
+    @if (RoleState.IsSignedIn)
+    {
+        <button class="btn btn-outline-secondary" @onclick="SignOutAsync">Sign out</button>
+    }
+</div>
+
+@if (!string.IsNullOrWhiteSpace(error))
+{
+    <div class="alert alert-danger">@error</div>
+}
+
+@if (mode == "kitchen" && !RoleState.IsSignedIn && HasKeycloakAuthority())
+{
+    <section class="section-band">
+        <h2>Kitchen sign in</h2>
+        <EditForm Model="loginForm" OnValidSubmit="SignInAsync" FormName="canteen-login-form">
+            <div class="grid-form">
+                <InputText class="form-control" @bind-Value="loginForm.Username" placeholder="Username" />
+                <InputText class="form-control" type="password" @bind-Value="loginForm.Password" placeholder="Password" />
+                <button class="btn btn-primary" type="submit">Sign in</button>
+            </div>
+        </EditForm>
+    </section>
+}
+else if (mode == "kitchen")
+{
+    <section class="section-band">
+        <h2>Active orders</h2>
+        <table class="table table-striped align-middle">
+            <thead>
+                <tr>
+                    <th>Order</th>
+                    <th>Created</th>
+                    <th>Meal</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in orders)
+                {
+                    <tr>
+                        <td><strong>@order.OrderNumber</strong></td>
+                        <td>@order.CreatedAt.ToLocalTime().ToString("HH:mm")</td>
+                        <td>@order.DishName</td>
+                        <td><span class="status-pill">@order.Status</span></td>
+                        <td class="text-end">
+                            <button class="btn btn-sm btn-outline-success" disabled="@(!CanMoveTo(order.Status, OrderStatusDto.Ready))" @onclick="() => ChangeStatusAsync(order.Id, OrderStatusDto.Ready)">Ready</button>
+                            <button class="btn btn-sm btn-outline-danger" disabled="@(!CanMoveTo(order.Status, OrderStatusDto.Cancelled))" @onclick="() => ChangeStatusAsync(order.Id, OrderStatusDto.Cancelled)">Cancel</button>
+                            <button class="btn btn-sm btn-outline-primary" disabled="@(!CanMoveTo(order.Status, OrderStatusDto.Completed))" @onclick="() => ChangeStatusAsync(order.Id, OrderStatusDto.Completed)">Complete</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </section>
+}
+else
+{
+    @if (!string.IsNullOrWhiteSpace(lastOrderNumber))
+    {
+        <div class="alert alert-success">Order number: <strong>@lastOrderNumber</strong></div>
+    }
+
+    <section class="menu-grid">
+        @foreach (var item in menuItems)
+        {
+            var soldOut = item.AvailablePortions <= 0;
+            <article class="meal-card @(soldOut ? "sold-out" : null)">
+                <div>
+                    <h2>@item.DishName</h2>
+                    <p>@item.DishDescription</p>
+                </div>
+                <div class="meal-footer">
+                    <strong>@item.DishPrice.ToString("C0")</strong>
+                    <span>@item.AvailablePortions portions</span>
+                    <button class="btn btn-success" disabled="@soldOut" @onclick="() => OrderAsync(item.Id)">Order</button>
+                </div>
+            </article>
+        }
+    </section>
+
+    <section class="section-band">
+        <h2>Order board</h2>
+        <table class="table table-striped align-middle">
+            <thead>
+                <tr>
+                    <th>Order</th>
+                    <th>Created</th>
+                    <th>Meal</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in studentOrders)
+                {
+                    <tr>
+                        <td><strong>@order.OrderNumber</strong></td>
+                        <td>@order.CreatedAt.ToLocalTime().ToString("HH:mm")</td>
+                        <td>@order.DishName</td>
+                        <td><span class="status-pill">@order.Status</span></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </section>
+}
+
+@code {
+    private readonly CancellationTokenSource eventStreamToken = new();
+    private readonly LoginForm loginForm = new();
+    private List<MenuItemDto> menuItems = [];
+    private List<OrderDto> studentOrders = [];
+    private List<OrderDto> orders = [];
+    private string mode = "student";
+    private string? lastOrderNumber;
+    private string? error;
+
+    protected override async Task OnInitializedAsync()
+    {
+        mode = "student";
+        RoleState.SignOut();
+        await LoadAsync();
+        _ = ListenForEventsAsync();
+    }
+
+    private async Task LoadAsync()
+    {
+        try
+        {
+            if (mode == "student")
+            {
+                menuItems = await Api.GetTodayMenuAsync();
+                studentOrders = await Api.GetStudentOrdersAsync();
+            }
+            else
+            {
+                if (!CanCallKitchenApi())
+                {
+                    orders = [];
+                    return;
+                }
+
+                orders = await Api.GetActiveOrdersAsync();
+            }
+        }
+        catch (HttpRequestException ex) when (ex.StatusCode is System.Net.HttpStatusCode.Forbidden or System.Net.HttpStatusCode.Unauthorized)
+        {
+            RoleState.SignOut();
+            orders = [];
+            error = "Kitchen sign in is required.";
+        }
+        catch (Exception ex)
+        {
+            if (mode == "student")
+            {
+                menuItems = [];
+                studentOrders = [];
+            }
+            else
+            {
+                orders = [];
+            }
+
+            error = $"Data could not be loaded. Try again after the database reset finishes. {ex.Message}";
+        }
+    }
+
+    private async Task SetModeAsync(string selectedMode)
+    {
+        mode = selectedMode;
+        error = null;
+
+        if (mode == "student")
+        {
+            RoleState.SignOut();
+        }
+        else
+        {
+            RoleState.CurrentRole = "Kitchen";
+            if (!HasKeycloakAuthority() && !RoleState.IsSignedIn)
+            {
+                RoleState.SignIn("Kitchen", "development-kitchen", string.Empty, null);
+            }
+        }
+
+        await LoadAsync();
+    }
+
+    private async Task OrderAsync(Guid menuItemId) =>
+        await RunAsync(async () =>
+        {
+            var order = await Api.CreateOrderAsync(menuItemId);
+            lastOrderNumber = order.OrderNumber;
+            await LoadAsync();
+        });
+
+    private async Task ChangeStatusAsync(Guid orderId, OrderStatusDto status) =>
+        await RunAsync(async () =>
+        {
+            await Api.ChangeStatusAsync(orderId, status);
+            await LoadAsync();
+        });
+
+    private static bool CanMoveTo(OrderStatusDto current, OrderStatusDto next) => current switch
+    {
+        OrderStatusDto.Preparing => next is OrderStatusDto.Ready or OrderStatusDto.Cancelled or OrderStatusDto.Completed,
+        OrderStatusDto.Ready => next is OrderStatusDto.Completed,
+        OrderStatusDto.Cancelled => next is OrderStatusDto.Completed,
+        OrderStatusDto.Completed => false,
+        _ => false
+    };
+
+    private async Task ListenForEventsAsync()
+    {
+        try
+        {
+            using var stream = await Api.OpenOrderEventsAsync(eventStreamToken.Token);
+            using var reader = new StreamReader(stream);
+            while (!eventStreamToken.IsCancellationRequested && await reader.ReadLineAsync(eventStreamToken.Token) is not null)
+            {
+                await InvokeAsync(async () =>
+                {
+                    await LoadAsync();
+                    StateHasChanged();
+                });
+            }
+        }
+        catch when (eventStreamToken.IsCancellationRequested)
+        {
+        }
+        catch
+        {
+        }
+    }
+
+    private async Task RunAsync(Func<Task> action)
+    {
+        try
+        {
+            error = null;
+            await action();
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+    }
+
+    private async Task SignInAsync()
+    {
+        await RunAsync(async () =>
+        {
+            var token = await TokenProvider.SignInAsync(loginForm.Username, loginForm.Password);
+            if (string.IsNullOrWhiteSpace(token))
+            {
+                throw new InvalidOperationException(TokenProvider.LastError ?? "Invalid sign-in credentials.");
+            }
+
+            RoleState.SignIn("Kitchen", loginForm.Username, loginForm.Password, token);
+            mode = "kitchen";
+            await LoadAsync();
+        });
+    }
+
+    private async Task SignOutAsync()
+    {
+        RoleState.SignOut();
+        mode = "student";
+        menuItems = [];
+        studentOrders = [];
+        orders = [];
+        await LoadAsync();
+    }
+
+    private bool HasKeycloakAuthority() =>
+        !string.IsNullOrWhiteSpace(Configuration["Keycloak:Authority"]) ||
+        !string.IsNullOrWhiteSpace(Configuration["services:keycloak:http:0"]) ||
+        !string.IsNullOrWhiteSpace(Configuration["Services:keycloak:http:0"]);
+
+    private bool CanCallKitchenApi() =>
+        RoleState.IsSignedIn || !HasKeycloakAuthority();
+
+    public ValueTask DisposeAsync()
+    {
+        eventStreamToken.Cancel();
+        eventStreamToken.Dispose();
+        return ValueTask.CompletedTask;
+    }
+
+    private sealed class LoginForm
+    {
+        public string Username { get; set; } = "kitchen";
+        public string Password { get; set; } = "kitchen";
+    }
+}

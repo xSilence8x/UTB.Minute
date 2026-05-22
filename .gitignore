@@ -1,0 +1,19 @@
+# Build output
+bin/
+obj/
+
+# IDE and local user files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Logs and local runtime files
+*.log
+minute-dev.db
+minute-dev.db-*
+
+# Aspire and local environment artifacts
+.aspire/
+AppHost/

@@ -1,0 +1,286 @@
+@page "/"
+@rendermode InteractiveServer
+@using UTB.Minute.AdminClient.Services
+@using UTB.Minute.Contracts
+@inject CanteenApiClient Api
+@inject KeycloakTokenProvider TokenProvider
+@inject IConfiguration Configuration
+
+<PageTitle>Canteen administration</PageTitle>
+
+<h1>Canteen administration</h1>
+
+@if (!string.IsNullOrWhiteSpace(error))
+{
+    <div class="alert alert-danger">@error</div>
+}
+
+@if (!TokenProvider.IsSignedIn && HasKeycloakAuthority())
+{
+    <section class="section-band">
+        <h2>Manager sign in</h2>
+        <EditForm Model="loginForm" OnValidSubmit="SignInAsync" FormName="admin-login-form">
+            <div class="grid-form">
+                <InputText class="form-control" @bind-Value="loginForm.Username" placeholder="Username" />
+                <InputText class="form-control" type="password" @bind-Value="loginForm.Password" placeholder="Password" />
+                <button class="btn btn-primary" type="submit">Sign in</button>
+            </div>
+        </EditForm>
+    </section>
+}
+else
+{
+<section class="section-band">
+    <h2>Dishes</h2>
+    <EditForm Model="dishForm" OnValidSubmit="SaveDishAsync" FormName="dish-form">
+        <div class="grid-form">
+            <InputText class="form-control" @bind-Value="dishForm.Name" placeholder="Name" />
+            <InputText class="form-control" @bind-Value="dishForm.Description" placeholder="Description" />
+            <InputNumber class="form-control" @bind-Value="dishForm.Price" placeholder="Price" />
+            <label class="form-check">
+                <InputCheckbox class="form-check-input" @bind-Value="dishForm.IsActive" />
+                <span>Active</span>
+            </label>
+            <button class="btn btn-primary" type="submit">@(editingDishId is null ? "Create dish" : "Save dish")</button>
+            <button class="btn btn-outline-secondary" type="button" @onclick="ClearDishForm">Clear</button>
+        </div>
+    </EditForm>
+
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Active</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var dish in dishes)
+            {
+                <tr class="@(!dish.IsActive ? "muted-row" : null)">
+                    <td>@dish.Name</td>
+                    <td>@dish.Description</td>
+                    <td>@dish.Price.ToString("C0")</td>
+                    <td>@(dish.IsActive ? "yes" : "no")</td>
+                    <td class="text-end">
+                        <button class="btn btn-sm btn-outline-primary" @onclick="() => EditDish(dish)">Edit</button>
+                        @if (dish.IsActive)
+                        {
+                            <button class="btn btn-sm btn-outline-danger" @onclick="() => DeactivateDishAsync(dish)">Deactivate</button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</section>
+
+<section class="section-band">
+    <h2>Menu</h2>
+    <EditForm Model="menuForm" OnValidSubmit="SaveMenuAsync" FormName="menu-form">
+        <div class="grid-form">
+            <InputDate class="form-control" @bind-Value="menuForm.Date" />
+            <InputSelect class="form-select" @bind-Value="menuForm.DishId">
+                <option value="@Guid.Empty">Select dish</option>
+                @foreach (var dish in dishes.Where(dish => dish.IsActive))
+                {
+                    <option value="@dish.Id">@dish.Name</option>
+                }
+            </InputSelect>
+            <InputNumber class="form-control" @bind-Value="menuForm.AvailablePortions" />
+            <button class="btn btn-primary" type="submit">@(editingMenuId is null ? "Create menu item" : "Save menu item")</button>
+            <button class="btn btn-outline-secondary" type="button" @onclick="ClearMenuForm">Clear</button>
+        </div>
+    </EditForm>
+
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Dish</th>
+                <th>Portions</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in menuItems)
+            {
+                <tr>
+                    <td>@item.Date</td>
+                    <td>@item.DishName</td>
+                    <td>@item.AvailablePortions</td>
+                    <td class="text-end">
+                        <button class="btn btn-sm btn-outline-primary" @onclick="() => EditMenu(item)">Edit</button>
+                        <button class="btn btn-sm btn-outline-danger" @onclick="() => DeleteMenuAsync(item.Id)">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</section>
+}
+
+@code {
+    private readonly LoginForm loginForm = new();
+    private readonly DishForm dishForm = new();
+    private readonly MenuForm menuForm = new() { Date = DateTime.Today };
+    private List<DishDto> dishes = [];
+    private List<MenuItemDto> menuItems = [];
+    private Guid? editingDishId;
+    private Guid? editingMenuId;
+    private string? error;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!HasKeycloakAuthority())
+        {
+            await LoadAsync();
+        }
+    }
+
+    private async Task LoadAsync()
+    {
+        dishes = await Api.GetDishesAsync();
+        menuItems = await Api.GetMenuAsync();
+    }
+
+    private async Task SaveDishAsync()
+    {
+        await RunAsync(async () =>
+        {
+            if (editingDishId is Guid id)
+            {
+                await Api.UpdateDishAsync(id, new UpdateDishRequest(dishForm.Name, dishForm.Description, dishForm.Price, dishForm.IsActive));
+            }
+            else
+            {
+                await Api.CreateDishAsync(new CreateDishRequest(dishForm.Name, dishForm.Description, dishForm.Price));
+            }
+
+            ClearDishForm();
+            await LoadAsync();
+        });
+    }
+
+    private async Task DeactivateDishAsync(DishDto dish) =>
+        await RunAsync(async () =>
+        {
+            await Api.UpdateDishAsync(dish.Id, new UpdateDishRequest(dish.Name, dish.Description, dish.Price, false));
+            await LoadAsync();
+        });
+
+    private void EditDish(DishDto dish)
+    {
+        editingDishId = dish.Id;
+        dishForm.Name = dish.Name;
+        dishForm.Description = dish.Description;
+        dishForm.Price = dish.Price;
+        dishForm.IsActive = dish.IsActive;
+    }
+
+    private void ClearDishForm()
+    {
+        editingDishId = null;
+        dishForm.Name = string.Empty;
+        dishForm.Description = string.Empty;
+        dishForm.Price = 0;
+        dishForm.IsActive = true;
+    }
+
+    private async Task SaveMenuAsync()
+    {
+        await RunAsync(async () =>
+        {
+            var date = DateOnly.FromDateTime(menuForm.Date);
+            if (editingMenuId is Guid id)
+            {
+                await Api.UpdateMenuItemAsync(id, new UpdateMenuItemRequest(date, menuForm.DishId, menuForm.AvailablePortions));
+            }
+            else
+            {
+                await Api.CreateMenuItemAsync(new CreateMenuItemRequest(date, menuForm.DishId, menuForm.AvailablePortions));
+            }
+
+            ClearMenuForm();
+            await LoadAsync();
+        });
+    }
+
+    private void EditMenu(MenuItemDto item)
+    {
+        editingMenuId = item.Id;
+        menuForm.Date = item.Date.ToDateTime(TimeOnly.MinValue);
+        menuForm.DishId = item.DishId;
+        menuForm.AvailablePortions = item.AvailablePortions;
+    }
+
+    private async Task DeleteMenuAsync(Guid id) =>
+        await RunAsync(async () =>
+        {
+            await Api.DeleteMenuItemAsync(id);
+            await LoadAsync();
+        });
+
+    private void ClearMenuForm()
+    {
+        editingMenuId = null;
+        menuForm.Date = DateTime.Today;
+        menuForm.DishId = Guid.Empty;
+        menuForm.AvailablePortions = 0;
+    }
+
+    private async Task RunAsync(Func<Task> action)
+    {
+        try
+        {
+            error = null;
+            await action();
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+    }
+
+    private async Task SignInAsync()
+    {
+        await RunAsync(async () =>
+        {
+            var token = await TokenProvider.SignInAsync(loginForm.Username, loginForm.Password);
+            if (string.IsNullOrWhiteSpace(token))
+            {
+                throw new InvalidOperationException(TokenProvider.LastError ?? "Invalid manager credentials.");
+            }
+
+            await LoadAsync();
+        });
+    }
+
+    private bool HasKeycloakAuthority() =>
+        !string.IsNullOrWhiteSpace(Configuration["Keycloak:Authority"]) ||
+        !string.IsNullOrWhiteSpace(Configuration["services:keycloak:http:0"]) ||
+        !string.IsNullOrWhiteSpace(Configuration["Services:keycloak:http:0"]);
+
+    private sealed class LoginForm
+    {
+        public string Username { get; set; } = "manager";
+        public string Password { get; set; } = "manager";
+    }
+
+    private sealed class DishForm
+    {
+        public string Name { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public decimal Price { get; set; }
+        public bool IsActive { get; set; } = true;
+    }
+
+    private sealed class MenuForm
+    {
+        public DateTime Date { get; set; }
+        public Guid DishId { get; set; }
+        public int AvailablePortions { get; set; }
+    }
+}
